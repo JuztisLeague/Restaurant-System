@@ -138,7 +138,10 @@ public class ChefPage extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+        
+        ProfilePage chefPage = new ProfilePage();
+         chefPage.setVisible(true);
+        this.dispose();
     }                                        
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
