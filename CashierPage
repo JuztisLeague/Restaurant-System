@@ -147,7 +147,10 @@ public class CashierPage extends javax.swing.JFrame {
     }                                        
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+        
+        ProfilePage cashierPage = new ProfilePage();
+         cashierPage.setVisible(true);
+        this.dispose();
     }                                        
 
     /**
