@@ -1,0 +1,197 @@
+package BonAppetit;
+import java.awt.Dimension;
+
+
+import java.awt.Toolkit;
+
+import javax.swing.JFrame;
+import java.awt.Frame;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.SystemColor;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.Font;
+import java.awt.Point;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.UIManager;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class SignInPage extends javax.swing.JFrame {
+
+    public SignInPage() {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Mar\\Documents\\College\\2nd Year\\CPE Lab (OOP)\\Java Codes\\BonAppetit\\resources\\mainBG.jpg"));
+    	setExtendedState(Frame.MAXIMIZED_BOTH);
+    	setUndecorated(true);
+       
+    	 
+    	
+    	initComponents();
+         
+         centerFrame();
+    }
+    
+    private void centerFrame() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2);
+    }
+    
+    
+    
+
+    
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jPanel1.setBounds(0, 0, 1920, 1080);
+        jPanel3 = new javax.swing.JPanel();
+        jPanel3.setBackground(new Color(31, 34, 50));
+        jPanel3.setLocation(new Point(960, 100));
+        jPanel3.setBounds(620, 350, 680, 386);
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        /*setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
+        
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()/2));*/
+        setPreferredSize(new Dimension(1920, 1080));
+        //setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //setUndecorated(true);
+
+        jPanel1.setPreferredSize(new Dimension(1920, 1080));
+        jPanel1.setLayout(null);
+
+        jPanel3.setPreferredSize(new java.awt.Dimension(435, 130));
+        jLabelWelcome = new javax.swing.JLabel();
+        jLabelWelcome.setBounds(0, 11, 680, 99);
+        jLabelWelcome.setHorizontalAlignment(SwingConstants.CENTER);
+        jLabelWelcome.setBackground(new Color(0, 0, 0));
+        jLabelWelcome.setForeground(new Color(255, 255, 255));
+        
+                jLabelWelcome.setFont(new Font("Century Gothic", Font.BOLD, 80)); // NOI18N
+                jLabelWelcome.setText("Bon Appetit");
+        
+        lblBonjourTo = new JLabel();
+        lblBonjourTo.setHorizontalAlignment(SwingConstants.CENTER);
+        lblBonjourTo.setBounds(10, 116, 670, 99);
+        lblBonjourTo.setText("Bonjour, to which royalty is keen to have my service?");
+        lblBonjourTo.setForeground(Color.WHITE);
+        lblBonjourTo.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        lblBonjourTo.setBackground(Color.BLACK);
+
+        jPanel1.add(jPanel3);
+        jPanel3.setLayout(null);
+        jPanel3.add(jLabelWelcome);
+        jPanel3.add(lblBonjourTo);
+        
+        jButtonDiner = new JButton();
+        jButtonDiner.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		jButtonDinerActionPerformed(e);
+        	}
+        });
+        jButtonDiner.setBackground(new Color(141, 134, 201));
+        jButtonDiner.setText("Diner");
+        jButtonDiner.setForeground(Color.WHITE);
+        jButtonDiner.setFont(new Font("Century Gothic", Font.BOLD | Font.ITALIC, 20));
+        jButtonDiner.setBounds(379, 267, 138, 47);
+        jPanel3.add(jButtonDiner);
+        
+        jButtonPersonnel = new JButton();
+        jButtonPersonnel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                jButtonPersonnelActionPerformed(e);
+            }
+        });
+        jButtonPersonnel.setBackground(new Color(141, 134, 201));
+        jButtonPersonnel.setText("Personnel");
+        jButtonPersonnel.setForeground(Color.WHITE);
+        jButtonPersonnel.setFont(new Font("Century Gothic", Font.BOLD | Font.ITALIC, 20));
+        jButtonPersonnel.setBounds(169, 267, 134, 47);
+        jPanel3.add(jButtonPersonnel);
+        getContentPane().setLayout(null);
+        getContentPane().add(jPanel1);
+        
+        lblNewLabel = new JLabel("New label");
+        lblNewLabel.setBackground(new Color(12, 24, 33));
+        lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Mar\\Documents\\College\\2nd Year\\CPE Lab (OOP)\\Java Codes\\BonAppetit\\resources\\mainBG.jpg"));
+        lblNewLabel.setBounds(0, 0, 1920, 1080);
+        jPanel1.add(lblNewLabel);
+
+        pack();
+    }// </editor-fold>                        
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(SignInPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(SignInPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(SignInPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(SignInPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new SignInPage().setVisible(true);
+            }
+        });
+        
+        
+        
+         
+    }
+    
+    private void jButtonPersonnelActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        
+        PersonnelLogin frame = new PersonnelLogin();
+        frame.setVisible(true);
+        this.dispose();
+       
+   }  
+    
+    
+    private void jButtonDinerActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        
+        CustomerPage frame = new CustomerPage();
+        frame.setVisible(true);
+        this.dispose();
+       
+   }  
+    private javax.swing.JLabel jLabelWelcome;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private JLabel lblNewLabel;
+    private JLabel lblBonjourTo;
+    private JButton jButtonDiner;
+    private JButton jButtonPersonnel;
+    // End of variables declaration                   
+}
