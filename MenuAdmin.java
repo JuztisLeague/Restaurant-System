@@ -2,10 +2,9 @@ package BonAppetit;
 
 import java.awt.EventQueue;
 
-//import java.awt.Toolkit;
+
 import javax.swing.JFrame;
 import java.awt.Frame;
-//import java.awt.FlowLayout;
 import javax.swing.JPanel;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -23,27 +22,18 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.Color;
-import java.awt.Insets;
-import javax.swing.UIManager;
-import javax.swing.JScrollBar;
 import javax.swing.JRadioButton;
-import javax.swing.JRadioButtonMenuItem;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class MenuAdmin extends javax.swing.JFrame{
 
-	//private JFrame frame;
+	private static final long serialVersionUID = 1L;
 	private JTextField textDishName;
 	private JTextField textDescription;
 	private JTextField textPrice;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -59,20 +49,12 @@ public class MenuAdmin extends javax.swing.JFrame{
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public MenuAdmin() {
 		setUndecorated(true);
 		getContentPane().setFocusable(false);
 		initialize();
 		connect();
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	
 	
 	Connection con;
 	PreparedStatement pst;
@@ -86,10 +68,10 @@ public class MenuAdmin extends javax.swing.JFrame{
 		}
 		
 		catch (ClassNotFoundException ex) {
-	        ex.printStackTrace(); // Handle or log the ClassNotFoundException
+	        ex.printStackTrace();
 	        JOptionPane.showMessageDialog(null, "Failed to connect to database. ClassNotFoundException: " + ex.getMessage());
 	    } catch (SQLException ex) {
-	        ex.printStackTrace(); // Handle or log the SQLException
+	        ex.printStackTrace();
 	        JOptionPane.showMessageDialog(null, "Failed to connect to database. SQLException: " + ex.getMessage());
 	    }
 	}
@@ -98,8 +80,6 @@ public class MenuAdmin extends javax.swing.JFrame{
 	EntreePage entreePage = new EntreePage();
 	DessertPage dessertPage = new DessertPage();
 	DrinksPage drinksPage = new DrinksPage();
-	//int refreshKey = 0;
-	
 	
 	private void initialize() {
 		
@@ -289,7 +269,6 @@ public class MenuAdmin extends javax.swing.JFrame{
 					textDishName.setText("");
                     textDescription.setText("");
                     textPrice.setText("");
-					//rdbtnGrp2.clearSelection();
 			    }
 				
 			}
@@ -315,28 +294,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String dishID = textDishID.getText();
-			    String option = tableSelected(rdbtnAppetizer2,rdbtnEntree2, rdbtnDessert2, rdbtnDrinks2);
-
-	            try {
-
-			        // Delete the dish
-	            	PreparedStatement deleteStatement = con.prepareStatement("DELETE FROM " + option + " where id = ?");
-	            	deleteStatement.setString(1, dishID); // Use deleteStatement here instead of pst
-	            	deleteStatement.executeUpdate();
-	            	JOptionPane.showMessageDialog(null, "Record deleted successfully.");
-
-	            	textDishName.setText("");
-	            	textDescription.setText("");
-	            	textPrice.setText("");
-	            	textDishID.setText(""); // Clear the dish ID field as well
-	            	textDishName.requestFocus();
-	            	 
-	               }
-	               catch (SQLException e1) {
-	                   
-	                   e1.printStackTrace();
-	               }
+				deleteDish(e, rdbtnAppetizer2,rdbtnEntree2, rdbtnDessert2, rdbtnDrinks2, rdbtnGrp2);
 				
 			}
 		});
@@ -382,37 +340,9 @@ public class MenuAdmin extends javax.swing.JFrame{
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String dishName,description,price,dishID;
-                
-                
-                dishName = textDishName.getText();
-                description = textDescription.getText();
-                price = textPrice.getText();
-                dishID  = textDishID.getText();
-                
-                String option = tableSelected(rdbtnAppetizer2,rdbtnEntree2, rdbtnDessert2, rdbtnDrinks2);
 				
-				try {
-					
-			        pst = con.prepareStatement("update " +  option + " set dish_name = ?,description =?,price=? where id =?");
-                        pst.setString(1, dishName);
-                        pst.setString(2, description);
-                        pst.setString(3, price);
-                        pst.setString(4, dishID);
-                        pst.executeUpdate();
-                        JOptionPane.showMessageDialog(null, "Record Update!!!!!");
-                        //table_load();
-                       
-                        textDishName.setText("");
-                        textDescription.setText("");
-                        textPrice.setText("");
-                        textDishName.requestFocus();
-                        rdbtnGrp2.clearSelection();
-                    }
-                    catch (SQLException e1) {
-                        
-                        e1.printStackTrace();
-                    }
+				updateDish(e, rdbtnAppetizer2,rdbtnEntree2, rdbtnDessert2, rdbtnDrinks2, rdbtnGrp2);
+				
 			}
 		});
 		btnUpdate.setFocusable(false);
@@ -526,7 +456,6 @@ public class MenuAdmin extends javax.swing.JFrame{
 		price = textPrice.getText();
 		
 		String option = tableSelected(rb1, rb2, rb3, rb4);
-		//int refreshKey = Integer.parseInt(option);
 		
 		try {
 			
@@ -537,17 +466,11 @@ public class MenuAdmin extends javax.swing.JFrame{
 	        pst.executeUpdate();
 	        JOptionPane.showMessageDialog(null, "Record Addedddd!!!!!");
 	        
-	        //menuRefresh(refreshKey);
-	        
-	        
-	        
 	        appetizerPage.setVisible(true);
 			entreePage.dispose();
 			dessertPage.dispose();
 			drinksPage.dispose();
 	        
-	        
-	        //menubtnGrp1.clearSelection();
 	        textDishName.setText("");
 	        textDescription.setText("");
 	        textPrice.setText("");
@@ -558,6 +481,65 @@ public class MenuAdmin extends javax.swing.JFrame{
 	        {            
 	    		e1.printStackTrace();
 	        }
+	}
+	
+	public void deleteDish(ActionEvent e, JRadioButton rb1, JRadioButton  rb2, JRadioButton rb3, JRadioButton rb4, ButtonGroup buttonGroup) {
+		
+		String dishID = textDishID.getText();
+	    String option = tableSelected(rb1,rb2, rb3, rb4);
+
+        try {
+
+        	PreparedStatement deleteStatement = con.prepareStatement("DELETE FROM " + option + " where id = ?");
+        	deleteStatement.setString(1, dishID);
+        	deleteStatement.executeUpdate();
+        	JOptionPane.showMessageDialog(null, "Record deleted successfully.");
+
+        	textDishName.setText("");
+        	textDescription.setText("");
+        	textPrice.setText("");
+        	textDishID.setText("");
+        	textDishName.requestFocus();
+        	 
+           }
+           catch (SQLException e1) {
+               
+               e1.printStackTrace();
+           }
+	}
+	
+	public void updateDish(ActionEvent e, JRadioButton rb1, JRadioButton  rb2, JRadioButton rb3, JRadioButton rb4, ButtonGroup buttonGroup) {
+		
+		String dishName,description,price,dishID;
+        
+        
+        dishName = textDishName.getText();
+        description = textDescription.getText();
+        price = textPrice.getText();
+        dishID  = textDishID.getText();
+        
+        String option = tableSelected(rb1,rb2, rb3, rb4);
+		
+		try {
+			
+	        pst = con.prepareStatement("update " +  option + " set dish_name = ?,description =?,price=? where id =?");
+                pst.setString(1, dishName);
+                pst.setString(2, description);
+                pst.setString(3, price);
+                pst.setString(4, dishID);
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Record Update!!!!!");
+               
+                textDishName.setText("");
+                textDescription.setText("");
+                textPrice.setText("");
+                textDishName.requestFocus();
+                buttonGroup.clearSelection();
+            }
+            catch (SQLException e1) {
+                
+                e1.printStackTrace();
+            }
 	}
 	
 	public void actionBackPerformed(ActionEvent e){
