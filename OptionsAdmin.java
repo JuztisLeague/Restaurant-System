@@ -1,6 +1,7 @@
 package BonAppetit;
 
 import java.awt.Frame;
+
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,12 +11,15 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JButton;
 
 public class OptionsAdmin extends javax.swing.JFrame {
 
 	
-    public OptionsAdmin() {
+	private static final long serialVersionUID = 1L;
+
+
+	public OptionsAdmin() {
         
     	setExtendedState(Frame.MAXIMIZED_BOTH);
     	setUndecorated(true);
@@ -46,31 +50,37 @@ public class OptionsAdmin extends javax.swing.JFrame {
 			
 		}
 	}
-
     
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel1.setBounds(23, 478, 157, 38);
         jButtonMenu = new javax.swing.JButton();
+        jButtonMenu.setFocusable(false);
+        jButtonMenu.setBounds(0, 149, 1306, 23);
         jButton4 = new javax.swing.JButton();
+        jButton4.setFocusable(false);
+        jButton4.setBounds(0, 231, 1306, 23);
         jLabel2 = new javax.swing.JLabel();
+        jLabel2.setBounds(10, 11, 1286, 62);
         jButton3 = new javax.swing.JButton();
+        jButton3.setFocusable(false);
+        jButton3.setBounds(0, 108, 1306, 23);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //jButtonMenuActionPerformed(evt);
             }
         });
         jButton2 = new javax.swing.JButton();
+        jButton2.setFocusable(false);
+        jButton2.setBounds(0, 190, 1306, 23);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1920, 1080));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(207, 501));
 
-        jLabel1.setFont(new java.awt.Font("Monotype Corsiva", 0, 33)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Monotype Corsiva", 0, 33));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Bon Appettit");
 
@@ -83,48 +93,13 @@ public class OptionsAdmin extends javax.swing.JFrame {
 
         jButton4.setText("Log Out");
 
-        jLabel2.setFont(new java.awt.Font("Blackadder ITC", 0, 30)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Blackadder ITC", 0, 30)); 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Administrator");
 
         jButton3.setText("Profile");
 
         jButton2.setText("Order Numbers");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel1)
-                .addContainerGap(27, Short.MAX_VALUE))
-            .addComponent(jButtonMenu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(jButton3)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonMenu)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(25, 25, 25))
-        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
@@ -141,12 +116,28 @@ public class OptionsAdmin extends javax.swing.JFrame {
         			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
         			.addContainerGap(388, Short.MAX_VALUE))
         );
+        jPanel1.setLayout(null);
+        jPanel1.add(jButton4);
+        jPanel1.add(jLabel1);
+        jPanel1.add(jButtonMenu);
+        jPanel1.add(jLabel2);
+        jPanel1.add(jButton2);
+        jPanel1.add(jButton3);
+        
+        JButton btnBack = new JButton("Back");
+        btnBack.setFocusable(false);
+        btnBack.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		jButtonBackActionPerformed(e);
+        	}
+        });
+        btnBack.setBounds(536, 320, 89, 23);
+        jPanel1.add(btnBack);
         getContentPane().setLayout(layout);
 
         pack();
-    }// </editor-fold>                        
-
-                
+    }            
     
     private void jButtonMenuActionPerformed(java.awt.event.ActionEvent evt) {                                         
         
@@ -155,16 +146,16 @@ public class OptionsAdmin extends javax.swing.JFrame {
         this.dispose();
        
    }   
+    
+    private void jButtonBackActionPerformed(ActionEvent e) {                                         
+        
+        PersonnelLogin personnelLogin = new PersonnelLogin();
+        personnelLogin.setVisible(true);
+        this.dispose();
+       
+   }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -181,9 +172,7 @@ public class OptionsAdmin extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(OptionsAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new OptionsAdmin().setVisible(true);
@@ -191,10 +180,6 @@ public class OptionsAdmin extends javax.swing.JFrame {
         });
     }
     
-    
-    
-
-    // Variables declaration - do not modify                     
     private javax.swing.JButton jButtonMenu;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -202,5 +187,4 @@ public class OptionsAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    // End of variables declaration                   
 }
