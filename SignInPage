@@ -2,31 +2,26 @@ package BonAppetit;
 import java.awt.Dimension;
 
 
+
 import java.awt.Toolkit;
 
-import javax.swing.JFrame;
 import java.awt.Frame;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Color;
-import java.awt.SystemColor;
-import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import java.awt.Point;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.UIManager;
-import javax.swing.border.SoftBevelBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class SignInPage extends javax.swing.JFrame {
 
-    public SignInPage() {
+    
+	private static final long serialVersionUID = 1L;
+	
+	public SignInPage() {
     	setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Mar\\Documents\\College\\2nd Year\\CPE Lab (OOP)\\Java Codes\\BonAppetit\\resources\\mainBG.jpg"));
     	setExtendedState(Frame.MAXIMIZED_BOTH);
     	setUndecorated(true);
@@ -43,45 +38,36 @@ public class SignInPage extends javax.swing.JFrame {
         setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2);
     }
     
-    
-    
-
-    
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel1.setBounds(0, 0, 1920, 1080);
         jPanel3 = new javax.swing.JPanel();
+        jPanel3.setFocusable(false);
         jPanel3.setBackground(new Color(31, 34, 50));
         jPanel3.setLocation(new Point(960, 100));
         jPanel3.setBounds(620, 350, 680, 386);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        /*setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setUndecorated(true);
         
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()/2));*/
         setPreferredSize(new Dimension(1920, 1080));
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //setUndecorated(true);
 
         jPanel1.setPreferredSize(new Dimension(1920, 1080));
         jPanel1.setLayout(null);
 
         jPanel3.setPreferredSize(new java.awt.Dimension(435, 130));
         jLabelWelcome = new javax.swing.JLabel();
+        jLabelWelcome.setFocusable(false);
         jLabelWelcome.setBounds(0, 11, 680, 99);
         jLabelWelcome.setHorizontalAlignment(SwingConstants.CENTER);
         jLabelWelcome.setBackground(new Color(0, 0, 0));
         jLabelWelcome.setForeground(new Color(255, 255, 255));
         
-                jLabelWelcome.setFont(new Font("Century Gothic", Font.BOLD, 80)); // NOI18N
+                jLabelWelcome.setFont(new Font("Century Gothic", Font.BOLD, 80)); 
                 jLabelWelcome.setText("Bon Appetit");
         
         lblBonjourTo = new JLabel();
+        lblBonjourTo.setFocusable(false);
         lblBonjourTo.setHorizontalAlignment(SwingConstants.CENTER);
         lblBonjourTo.setBounds(10, 116, 670, 99);
         lblBonjourTo.setText("Bonjour, to which royalty is keen to have my service?");
@@ -95,6 +81,7 @@ public class SignInPage extends javax.swing.JFrame {
         jPanel3.add(lblBonjourTo);
         
         jButtonDiner = new JButton();
+        jButtonDiner.setFocusable(false);
         jButtonDiner.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		jButtonDinerActionPerformed(e);
@@ -108,8 +95,9 @@ public class SignInPage extends javax.swing.JFrame {
         jPanel3.add(jButtonDiner);
         
         jButtonPersonnel = new JButton();
-        jButtonPersonnel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
+        jButtonPersonnel.setFocusable(false);
+        jButtonPersonnel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 jButtonPersonnelActionPerformed(e);
             }
         });
@@ -129,17 +117,12 @@ public class SignInPage extends javax.swing.JFrame {
         jPanel1.add(lblNewLabel);
 
         pack();
-    }// </editor-fold>                        
+    }
 
-    /**
-     * @param args the command line arguments
-     */
+    
+    
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -156,18 +139,12 @@ public class SignInPage extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(SignInPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new SignInPage().setVisible(true);
             }
         });
-        
-        
-        
-         
     }
     
     private void jButtonPersonnelActionPerformed(java.awt.event.ActionEvent evt) {                                         
@@ -193,5 +170,4 @@ public class SignInPage extends javax.swing.JFrame {
     private JLabel lblBonjourTo;
     private JButton jButtonDiner;
     private JButton jButtonPersonnel;
-    // End of variables declaration                   
 }
