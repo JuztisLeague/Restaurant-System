@@ -19,6 +19,8 @@ import javax.swing.JButton;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import java.awt.Component;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CustomerPage extends javax.swing.JFrame {
 
@@ -82,6 +84,12 @@ public class CustomerPage extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
+    
+    AppetizerPage appetizerPage = new AppetizerPage();
+	EntreePage entreePage = new EntreePage();
+	DessertPage dessertPage = new DessertPage();
+	DrinksPage drinksPage = new DrinksPage();
+    
     private void initComponents() {
 
         jLabel4 = new javax.swing.JLabel();
@@ -171,6 +179,12 @@ public class CustomerPage extends javax.swing.JFrame {
         SidePanel1.add(lblNewLabel);
 
         jButtonAppetizers = new JButton("");
+        jButtonAppetizers.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		menuRefresh(1);
+        	}
+        });
         jButtonAppetizers.setBackground(new Color(0, 0, 0));
         jButtonAppetizers.setIcon(new ImageIcon(CustomerPage.class.getResource("/images/nachos.png")));
         jButtonAppetizers.setPreferredSize(new Dimension(64, 64));
@@ -178,6 +192,12 @@ public class CustomerPage extends javax.swing.JFrame {
         SidePanel1.add(jButtonAppetizers);
 
         jButtonEntree = new JButton("");
+        jButtonEntree.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		menuRefresh(2);
+        	}
+        });
         jButtonEntree.setBackground(new Color(0, 0, 0));
         jButtonEntree.setIcon(new ImageIcon(CustomerPage.class.getResource("/images/Entree.png")));
         jButtonEntree.setPreferredSize(new Dimension(64, 64));
@@ -185,6 +205,12 @@ public class CustomerPage extends javax.swing.JFrame {
         SidePanel1.add(jButtonEntree);
 
         jButtonDesserts = new JButton("");
+        jButtonDesserts.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		menuRefresh(3);
+        	}
+        });
         jButtonDesserts.setBackground(new Color(0, 0, 0));
         jButtonDesserts.setIcon(new ImageIcon(CustomerPage.class.getResource("/images/dessert.png")));
         jButtonDesserts.setPreferredSize(new Dimension(64, 64));
@@ -192,6 +218,12 @@ public class CustomerPage extends javax.swing.JFrame {
         SidePanel1.add(jButtonDesserts);
 
         jButtonDrinks = new JButton("");
+        jButtonDrinks.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		menuRefresh(4);
+        	}
+        });
         jButtonDrinks.setBackground(new Color(0, 0, 0));
         jButtonDrinks.setIcon(new ImageIcon(CustomerPage.class.getResource("/images/drinks.png")));
         jButtonDrinks.setPreferredSize(new Dimension(64, 64));
@@ -213,6 +245,44 @@ public class CustomerPage extends javax.swing.JFrame {
 
     }
 
+    
+public void menuRefresh(int value) {
+		
+		switch(value) {
+		case 1:{
+			appetizerPage.setVisible(true);
+			entreePage.dispose();
+			dessertPage.dispose();
+			drinksPage.dispose();
+			break;
+		}
+		
+		case 2:{
+			entreePage.setVisible(true);
+			dessertPage.dispose();
+			drinksPage.dispose();
+			appetizerPage.dispose();
+			break;
+		}
+		
+		case 3:{
+			dessertPage.setVisible(true);
+			appetizerPage.dispose();
+			entreePage.dispose();
+			drinksPage.dispose();
+			break;
+		}
+		
+		case 4:{
+			drinksPage.setVisible(true);
+			appetizerPage.dispose();
+			entreePage.dispose();
+			dessertPage.dispose();
+			break;
+		}
+		}
+	}
+    
     private int generateRandomCode() {
         Random random = new Random();
         return random.nextInt(90000) + 10000; // Generates a random 5-digit number
