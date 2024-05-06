@@ -26,6 +26,11 @@ import javax.swing.JRadioButton;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.FlowLayout;
+import java.awt.Rectangle;
+import java.awt.Dimension;
+import javax.swing.ImageIcon;
+import java.awt.Component;
 
 public class MenuAdmin extends javax.swing.JFrame{
 
@@ -50,6 +55,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 	}
 
 	public MenuAdmin() {
+		getContentPane().setBackground(new Color(21, 25, 28));
 		setUndecorated(true);
 		getContentPane().setFocusable(false);
 		initialize();
@@ -86,9 +92,9 @@ public class MenuAdmin extends javax.swing.JFrame{
 		JPanel panel_3 = new JPanel();
 		panel_3.setFocusable(false);
 		panel_3.setBorder(null);
-		panel_3.setBackground(new Color(255, 255, 255));
-		panel_3.setForeground(new Color(0, 0, 0));
-		panel_3.setBounds(328, 12, 1216, 1055);
+		panel_3.setBackground(new Color(0, 0, 0));
+		panel_3.setForeground(new Color(255, 255, 255));
+		panel_3.setBounds(150, 12, 1394, 1055);
 		getContentPane().add(panel_3);
 		panel_3.setLayout(null);
 		
@@ -98,14 +104,18 @@ public class MenuAdmin extends javax.swing.JFrame{
 		getContentPane().setLayout(null);
 		
 		JPanel panelCategories = new JPanel();
+		panelCategories.setBackground(new Color(0, 0, 0));
 		panelCategories.setFocusable(false);
-		panelCategories.setBounds(10, 11, 308, 1058);
+		panelCategories.setBounds(10, 11, 130, 1058);
 		getContentPane().add(panelCategories);
-		panelCategories.setLayout(null);
 		
 		
 		
-		JButton btnAppetizers = new JButton("Appetizers");
+		JButton btnAppetizers = new JButton("");
+		btnAppetizers.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnAppetizers.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/nachos.png")));
+		btnAppetizers.setPreferredSize(new Dimension(64, 64));
+		btnAppetizers.setBounds(new Rectangle(0, 0, 64, 64));
 		btnAppetizers.setFocusable(false);
 		btnAppetizers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -113,10 +123,13 @@ public class MenuAdmin extends javax.swing.JFrame{
 				menuRefresh(1);
 			}
 		});
-		btnAppetizers.setBounds(20, 111, 254, 23);
+		panelCategories.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 30));
 		panelCategories.add(btnAppetizers);
 		
-		JButton btnEntree = new JButton("Entree");
+		JButton btnEntree = new JButton("");
+		btnEntree.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/Entree.png")));
+		btnEntree.setPreferredSize(new Dimension(64, 64));
+		btnEntree.setBounds(new Rectangle(0, 0, 64, 64));
 		btnEntree.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -125,10 +138,12 @@ public class MenuAdmin extends javax.swing.JFrame{
 			}
 		});
 		btnEntree.setFocusable(false);
-		btnEntree.setBounds(20, 164, 254, 23);
 		panelCategories.add(btnEntree);
 		
-		JButton btnDessert = new JButton("Desert");
+		JButton btnDessert = new JButton("");
+		btnDessert.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/dessert.png")));
+		btnDessert.setBounds(new Rectangle(0, 0, 64, 64));
+		btnDessert.setPreferredSize(new Dimension(64, 64));
 		btnDessert.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -137,10 +152,12 @@ public class MenuAdmin extends javax.swing.JFrame{
 			}
 		});
 		btnDessert.setFocusable(false);
-		btnDessert.setBounds(20, 215, 254, 23);
 		panelCategories.add(btnDessert);
 		
-		JButton btnDrinks = new JButton("Drinks");
+		JButton btnDrinks = new JButton("");
+		btnDrinks.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/drinks.png")));
+		btnDrinks.setPreferredSize(new Dimension(64, 64));
+		btnDrinks.setBounds(new Rectangle(0, 0, 64, 64));
 		btnDrinks.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -149,18 +166,21 @@ public class MenuAdmin extends javax.swing.JFrame{
 			}
 		});
 		btnDrinks.setFocusable(false);
-		btnDrinks.setBounds(20, 274, 254, 23);
 		panelCategories.add(btnDrinks);
 		
 		JPanel panelEditables = new JPanel();
+		panelEditables.setBackground(new Color(0, 0, 0));
 		panelEditables.setFocusable(false);
 		panelEditables.setLayout(null);
 		panelEditables.setBounds(1557, 11, 353, 1058);
 		getContentPane().add(panelEditables);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		panel_2.setForeground(new Color(255, 255, 255));
+		panel_2.setBackground(new Color(0, 0, 0));
 		panel_2.setFocusable(false);
-		panel_2.setBorder(new TitledBorder(null, "Add Dishes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Add Dishes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
 		panel_2.setBounds(20, 43, 323, 256);
 		panelEditables.add(panel_2);
 		panel_2.setLayout(null);
@@ -199,7 +219,10 @@ public class MenuAdmin extends javax.swing.JFrame{
 			menubtnGrp1.add(btnDessert);
 			menubtnGrp1.add(btnDrinks);
 		}
-		JButton btnBack = new JButton("Back");
+		JButton btnBack = new JButton("");
+		btnBack.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/left-arrow.png")));
+		btnBack.setBounds(new Rectangle(0, 0, 64, 64));
+		btnBack.setPreferredSize(new Dimension(64, 64));
 		btnBack.setFocusable(false);
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -207,7 +230,6 @@ public class MenuAdmin extends javax.swing.JFrame{
 				actionBackPerformed(e);
 			}
 		});
-		btnBack.setBounds(140, 405, 89, 23);
 		panelCategories.add(btnBack);
 		
 		JPanel panel = new JPanel();
@@ -303,6 +325,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 		
 		
 		JLabel lblNewLabel = new JLabel("Name");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFocusable(false);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setBounds(10, 28, 48, 27);
@@ -314,6 +337,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 		textDishName.setColumns(10);
 		
 		JLabel lblDescription = new JLabel("Description");
+		lblDescription.setForeground(new Color(255, 255, 255));
 		lblDescription.setFocusable(false);
 		lblDescription.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblDescription.setBounds(10, 79, 88, 27);
@@ -325,6 +349,8 @@ public class MenuAdmin extends javax.swing.JFrame{
 		panel_2.add(textDescription);
 		
 		JLabel lblPrice = new JLabel("Price");
+		lblPrice.setForeground(new Color(255, 255, 255));
+		lblPrice.setBackground(new Color(21, 25, 28));
 		lblPrice.setFocusable(false);
 		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblPrice.setBounds(10, 136, 88, 27);
