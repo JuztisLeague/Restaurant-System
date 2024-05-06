@@ -24,8 +24,22 @@ public class AppetizerPage extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	
+	
     
-    
+	int update = 0;
+	
+	AppetizerPage(int newUpdate) {
+		update = newUpdate;
+	}
+	
+	public void setUpdate(int newUpdate) {
+		update = newUpdate;
+	}
+	
+	public int getUpdate() {
+		return update;
+	}
 	
 	Connection con;
 	PreparedStatement pst;
@@ -65,13 +79,14 @@ public class AppetizerPage extends JFrame {
 	 */
 	public AppetizerPage() {
 		
+		
 		connect();
 		
 		setFocusable(false);
 		setFocusableWindowState(false);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(326, 11, 1221, 1058);
+		setBounds(110, 12, 1330, 1055);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -284,15 +299,22 @@ public class AppetizerPage extends JFrame {
 		lblPrice9.setBounds(29, 178, 81, 28);
 		panelData9.add(lblPrice9);
 		
+		JLabel lblNumber = new JLabel("");
+		lblNumber.setBounds(155, 27, 172, 31);
+		panel.add(lblNumber);
+		
 		String dishName,description,price;
 	    try {
 	    	pst = con.prepareStatement("SELECT COUNT(*) FROM appetizer");
 	        ResultSet countResult = pst.executeQuery();
 	        countResult.next();
 	        int totalRows = countResult.getInt(1); // Total number of rows in the ResultSet
-
+	        String total  = Integer.toString(totalRows);
 	        // Set the limit to the total number of rows
-	        int limit = totalRows;
+	        int limit = totalRows + update;
+	        
+	        
+	        lblNumber.setText(total);
 	    	
 	        pst = con.prepareStatement("select dish_name,description,price from appetizer");
 	        ResultSet rs = pst.executeQuery();
@@ -368,6 +390,5 @@ public class AppetizerPage extends JFrame {
 		
 	}
 	
-	
-	
+
 }
