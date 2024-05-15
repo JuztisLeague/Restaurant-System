@@ -13,10 +13,12 @@ import java.awt.Font;
 import java.awt.Point;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class SignInPage extends javax.swing.JFrame {
+public class SignInPage extends JFrame {
 
     
 	private static final long serialVersionUID = 1L;
@@ -110,9 +112,20 @@ public class SignInPage extends javax.swing.JFrame {
         getContentPane().setLayout(null);
         getContentPane().add(jPanel1);
         
-        lblNewLabel = new JLabel("New label");
-        lblNewLabel.setBackground(new Color(12, 24, 33));
-        lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Mar\\Documents\\College\\2nd Year\\CPE Lab (OOP)\\Java Codes\\BonAppetit\\resources\\mainBG.jpg"));
+        jButtonClose = new JButton("Close");
+        jButtonClose.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		System.exit(0);
+        	}
+        });
+        jButtonClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        jButtonClose.setBounds(1776, 11, 112, 46);
+        jButtonClose.setFocusable(false);
+        jPanel1.add(jButtonClose);
+        
+        lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon(SignInPage.class.getResource("/images/mainBG.png")));
         lblNewLabel.setBounds(0, 0, 1920, 1080);
         jPanel1.add(lblNewLabel);
 
@@ -158,7 +171,7 @@ public class SignInPage extends javax.swing.JFrame {
     
     private void jButtonDinerActionPerformed(java.awt.event.ActionEvent evt) {                                         
         
-        CustomerPage frame = new CustomerPage();
+        DinerPage frame = new DinerPage();
         frame.setVisible(true);
         this.dispose();
        
@@ -166,8 +179,9 @@ public class SignInPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelWelcome;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private JLabel lblNewLabel;
     private JLabel lblBonjourTo;
     private JButton jButtonDiner;
     private JButton jButtonPersonnel;
+    private JButton jButtonClose;
+    private JLabel lblNewLabel;
 }
