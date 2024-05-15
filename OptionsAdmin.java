@@ -1,5 +1,6 @@
 package BonAppetit;
 
+import java.awt.Font;
 import java.awt.Frame;
 
 import java.awt.event.ActionListener;
@@ -12,6 +13,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class OptionsAdmin extends javax.swing.JFrame {
 
@@ -69,6 +72,8 @@ public class OptionsAdmin extends javax.swing.JFrame {
         jButton3.setBounds(0, 108, 1306, 23);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	
+            	//jProfileButtonActionPerformed
             }
         });
         jButton2 = new javax.swing.JButton();
@@ -100,19 +105,35 @@ public class OptionsAdmin extends javax.swing.JFrame {
         jButton3.setText("Profile");
 
         jButton2.setText("Order Numbers");
+        
+        JButton btnBack = new JButton("Back");
+        btnBack.setFocusable(false);
+        btnBack.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		jButtonBackActionPerformed(e);
+        	}
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addGap(191)
-        			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE)
+        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(191)
+        					.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE))
+        				.addGroup(layout.createSequentialGroup()
+        					.addContainerGap()
+        					.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
         			.addContainerGap(423, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addGap(151)
+        			.addContainerGap()
+        			.addComponent(btnBack)
+        			.addGap(117)
         			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
         			.addContainerGap(388, Short.MAX_VALUE))
         );
@@ -123,18 +144,18 @@ public class OptionsAdmin extends javax.swing.JFrame {
         jPanel1.add(jLabel2);
         jPanel1.add(jButton2);
         jPanel1.add(jButton3);
+        getContentPane().setLayout(layout);
         
-        JButton btnBack = new JButton("Back");
-        btnBack.setFocusable(false);
-        btnBack.addActionListener(new ActionListener() {
+        btnClose = new JButton("Close");
+        btnClose.setFocusable(false);
+        btnClose.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		
-        		jButtonBackActionPerformed(e);
+        		System.exit(0);
         	}
         });
-        btnBack.setBounds(536, 320, 89, 23);
-        jPanel1.add(btnBack);
-        getContentPane().setLayout(layout);
+        btnClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        btnClose.setBounds(1776, 11, 112, 46);
+        getContentPane().add(btnClose);
 
         pack();
     }            
@@ -180,11 +201,12 @@ public class OptionsAdmin extends javax.swing.JFrame {
         });
     }
     
-    private javax.swing.JButton jButtonMenu;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
+    private JButton jButtonMenu;
+    private JButton jButton2;
+    private JButton jButton3;
+    private JButton jButton4;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JPanel jPanel1;
+    private JButton btnClose;
 }
