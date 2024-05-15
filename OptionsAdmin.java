@@ -63,6 +63,12 @@ public class OptionsAdmin extends javax.swing.JFrame {
         jButtonMenu.setFocusable(false);
         jButtonMenu.setBounds(0, 149, 1306, 23);
         jButton4 = new javax.swing.JButton();
+        jButton4.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		jButtonLogOutActionPerformed(e);
+        	}
+        });
         jButton4.setFocusable(false);
         jButton4.setBounds(0, 231, 1306, 23);
         jLabel2 = new javax.swing.JLabel();
@@ -105,35 +111,19 @@ public class OptionsAdmin extends javax.swing.JFrame {
         jButton3.setText("Profile");
 
         jButton2.setText("Order Numbers");
-        
-        JButton btnBack = new JButton("Back");
-        btnBack.setFocusable(false);
-        btnBack.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		
-        		jButtonBackActionPerformed(e);
-        	}
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(191)
-        					.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE))
-        				.addGroup(layout.createSequentialGroup()
-        					.addContainerGap()
-        					.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
+        			.addGap(191)
+        			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE)
         			.addContainerGap(423, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addContainerGap()
-        			.addComponent(btnBack)
-        			.addGap(117)
+        			.addGap(151)
         			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
         			.addContainerGap(388, Short.MAX_VALUE))
         );
@@ -168,7 +158,7 @@ public class OptionsAdmin extends javax.swing.JFrame {
        
    }   
     
-    private void jButtonBackActionPerformed(ActionEvent e) {                                         
+    private void jButtonLogOutActionPerformed(ActionEvent e) {                                         
         
         PersonnelLogin personnelLogin = new PersonnelLogin();
         personnelLogin.setVisible(true);
