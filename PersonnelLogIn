@@ -3,11 +3,11 @@ import java.awt.Frame;
 
 
 
+
 import javax.swing.JButton;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import java.awt.event.ActionListener;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -34,6 +34,7 @@ public class PersonnelLogin extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
+	
 	SignInPage signInPage = new SignInPage();
     public PersonnelLogin(){
     	
@@ -47,6 +48,9 @@ public class PersonnelLogin extends javax.swing.JFrame {
     Connection con;
 	PreparedStatement pst;
 	ResultSet rs;
+
+
+	
 	//private JTextField textDishID;
 	
 	public void connect() {
@@ -255,7 +259,7 @@ public class PersonnelLogin extends javax.swing.JFrame {
             String password = passwordField.getText();
             
            try {
-        	   pst = con.prepareStatement("SELECT * FROM password WHERE role = ?");
+        	   pst = con.prepareStatement("SELECT * FROM accounts WHERE role = ?");
                pst.setString(1, role);
                ResultSet rs = pst.executeQuery();
                
@@ -263,6 +267,7 @@ public class PersonnelLogin extends javax.swing.JFrame {
                	if (rs.next()) {
             	   String storedRole = rs.getString("role");
             	   String storedPassword = rs.getString("password");
+            	   storedID = rs.getString("id");
             
             	if (password.equals(storedPassword)) {
                 // Passwords match, login successful
@@ -272,14 +277,20 @@ public class PersonnelLogin extends javax.swing.JFrame {
                     case "Chef":
                         OptionsChef optionsChef = new OptionsChef();
                         optionsChef.setVisible(true);
+                        
+                        
                         break;
                     case "Admin":
                         OptionsAdmin optionsAdmin = new OptionsAdmin();
                         optionsAdmin.setVisible(true);
+                        
+                        
                         break;
                     case "Cashier":
                     	OptionsCashier optionsCashier = new OptionsCashier();
                         optionsCashier.setVisible(true);
+                        
+                        
                         break;
                     default:
                         JOptionPane.showMessageDialog(this, "Invalid user role.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -307,13 +318,17 @@ public class PersonnelLogin extends javax.swing.JFrame {
     	
     }
     
+    public static String storedPersonnelID() {
+    	return storedID;
+    }
+    
     
     private void jLoginButtonActionPerformed(ActionEvent e) {                                         
         String role =  textRole.getText();
         String password = passwordField.getText();
         
        try {
-    	   pst = con.prepareStatement("SELECT * FROM password WHERE role = ?");
+    	   pst = con.prepareStatement("SELECT * FROM accounts WHERE role = ?");
            pst.setString(1, role);
            ResultSet rs = pst.executeQuery();
            
@@ -361,7 +376,9 @@ public class PersonnelLogin extends javax.swing.JFrame {
     	JOptionPane.showMessageDialog(this, "Error connecting to database: " + el.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     	el.printStackTrace();
     	}
-    }               
+    }
+    
+    
     
     public void jClearButtonActionPerformed(ActionEvent e) {
     	
@@ -384,4 +401,5 @@ public class PersonnelLogin extends javax.swing.JFrame {
     private JButton btnClose;
     private JButton btnNewButton;
     private JPasswordField passwordField;
+    private static String storedID;
 }
