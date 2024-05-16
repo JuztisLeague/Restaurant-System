@@ -5,9 +5,13 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.Frame;
+import java.awt.Image;
+
 import javax.swing.JPanel;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,6 +20,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -26,11 +32,15 @@ import javax.swing.JRadioButton;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
 import java.awt.FlowLayout;
 import java.awt.Rectangle;
 import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import java.awt.Component;
+import javax.swing.border.BevelBorder;
 
 public class MenuAdmin extends javax.swing.JFrame{
 
@@ -38,7 +48,16 @@ public class MenuAdmin extends javax.swing.JFrame{
 	private JTextField textDishName;
 	private JTextField textDescription;
 	private JTextField textPrice;
-
+	
+	//kani ako gi usab
+	 File f = null;
+	    String path = null;
+	    private ImageIcon format = null;
+	    String fname = null;
+	    int s = 0;
+	    byte[] pimage = null;
+//hangtod ari
+	    
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -55,7 +74,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 	}
 
 	public MenuAdmin() {
-		getContentPane().setBackground(new Color(21, 25, 28));
+		getContentPane().setBackground(new Color(0, 0, 0));
 		setUndecorated(true);
 		getContentPane().setFocusable(false);
 		initialize();
@@ -92,7 +111,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 		JPanel panel_3 = new JPanel();
 		panel_3.setFocusable(false);
 		panel_3.setBorder(null);
-		panel_3.setBackground(new Color(0, 0, 0));
+		panel_3.setBackground(new Color(21, 25, 28));
 		panel_3.setForeground(new Color(255, 255, 255));
 		panel_3.setBounds(150, 12, 1394, 1055);
 		getContentPane().add(panel_3);
@@ -104,72 +123,76 @@ public class MenuAdmin extends javax.swing.JFrame{
 		getContentPane().setLayout(null);
 		
 		JPanel panelCategories = new JPanel();
-		panelCategories.setBackground(new Color(0, 0, 0));
+		panelCategories.setBackground(new Color(27, 32, 33));
 		panelCategories.setFocusable(false);
 		panelCategories.setBounds(10, 11, 130, 1058);
 		getContentPane().add(panelCategories);
 		
 		
 		
-		JButton btnAppetizers = new JButton("");
-		btnAppetizers.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnAppetizers.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/nachos.png")));
-		btnAppetizers.setPreferredSize(new Dimension(64, 64));
-		btnAppetizers.setBounds(new Rectangle(0, 0, 64, 64));
-		btnAppetizers.setFocusable(false);
-		btnAppetizers.addActionListener(new ActionListener() {
+		JButton jButtonAppetizers = new JButton("");
+		jButtonAppetizers.setBackground(new Color(27, 32, 33));
+		jButtonAppetizers.setAlignmentX(Component.CENTER_ALIGNMENT);
+		jButtonAppetizers.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/nachos.png")));
+		jButtonAppetizers.setPreferredSize(new Dimension(64, 64));
+		jButtonAppetizers.setBounds(new Rectangle(0, 0, 64, 64));
+		jButtonAppetizers.setFocusable(false);
+		jButtonAppetizers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				menuRefresh(1);
 			}
 		});
 		panelCategories.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 30));
-		panelCategories.add(btnAppetizers);
+		panelCategories.add(jButtonAppetizers);
 		
-		JButton btnEntree = new JButton("");
-		btnEntree.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/Entree.png")));
-		btnEntree.setPreferredSize(new Dimension(64, 64));
-		btnEntree.setBounds(new Rectangle(0, 0, 64, 64));
-		btnEntree.addActionListener(new ActionListener() {
+		JButton jButtonEntree = new JButton("");
+		jButtonEntree.setBackground(new Color(27, 32, 33));
+		jButtonEntree.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/Entree.png")));
+		jButtonEntree.setPreferredSize(new Dimension(64, 64));
+		jButtonEntree.setBounds(new Rectangle(0, 0, 64, 64));
+		jButtonEntree.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				menuRefresh(2);
 				
 			}
 		});
-		btnEntree.setFocusable(false);
-		panelCategories.add(btnEntree);
+		jButtonEntree.setFocusable(false);
+		panelCategories.add(jButtonEntree);
 		
-		JButton btnDessert = new JButton("");
-		btnDessert.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/dessert.png")));
-		btnDessert.setBounds(new Rectangle(0, 0, 64, 64));
-		btnDessert.setPreferredSize(new Dimension(64, 64));
-		btnDessert.addActionListener(new ActionListener() {
+		JButton jButtonDessert = new JButton("");
+		jButtonDessert.setBackground(new Color(27, 32, 33));
+		jButtonDessert.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/dessert.png")));
+		jButtonDessert.setBounds(new Rectangle(0, 0, 64, 64));
+		jButtonDessert.setPreferredSize(new Dimension(64, 64));
+		jButtonDessert.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				menuRefresh(3);
 				
 			}
 		});
-		btnDessert.setFocusable(false);
-		panelCategories.add(btnDessert);
+		jButtonDessert.setFocusable(false);
+		panelCategories.add(jButtonDessert);
 		
-		JButton btnDrinks = new JButton("");
-		btnDrinks.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/drinks.png")));
-		btnDrinks.setPreferredSize(new Dimension(64, 64));
-		btnDrinks.setBounds(new Rectangle(0, 0, 64, 64));
-		btnDrinks.addActionListener(new ActionListener() {
+		JButton jButtonDrinks = new JButton("");
+		jButtonDrinks.setBackground(new Color(27, 32, 33));
+		jButtonDrinks.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/drinks.png")));
+		jButtonDrinks.setPreferredSize(new Dimension(64, 64));
+		jButtonDrinks.setBounds(new Rectangle(0, 0, 64, 64));
+		jButtonDrinks.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				menuRefresh(4);
 				
 			}
 		});
-		btnDrinks.setFocusable(false);
-		panelCategories.add(btnDrinks);
+		jButtonDrinks.setFocusable(false);
+		panelCategories.add(jButtonDrinks);
 		
 		JPanel panelEditables = new JPanel();
-		panelEditables.setBackground(new Color(0, 0, 0));
+		panelEditables.setBackground(new Color(27, 32, 33));
 		panelEditables.setFocusable(false);
 		panelEditables.setLayout(null);
 		panelEditables.setBounds(1557, 11, 353, 1058);
@@ -177,30 +200,38 @@ public class MenuAdmin extends javax.swing.JFrame{
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		panel_2.setForeground(new Color(255, 255, 255));
-		panel_2.setBackground(new Color(0, 0, 0));
+		panel_2.setForeground(new Color(21, 25, 28));
+		panel_2.setBackground(new Color(27, 32, 33));
 		panel_2.setFocusable(false);
-		panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Add Dishes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
-		panel_2.setBounds(20, 43, 323, 256);
+		panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(0, 0, 0), new Color(0, 0, 0)), "Add Dishes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
+		panel_2.setBounds(20, 43, 323, 499);
 		panelEditables.add(panel_2);
 		panel_2.setLayout(null);
 		
 		JRadioButton rdbtnAppetizer1 = new JRadioButton("Appetizer");
+		rdbtnAppetizer1.setForeground(new Color(255, 255, 255));
+		rdbtnAppetizer1.setBackground(new Color(27, 32, 33));
 		rdbtnAppetizer1.setFocusable(false);
 		rdbtnAppetizer1.setBounds(47, 185, 88, 23);
 		panel_2.add(rdbtnAppetizer1);
 		
 		JRadioButton rdbtnEntree1 = new JRadioButton("Entree");
+		rdbtnEntree1.setForeground(new Color(255, 255, 255));
+		rdbtnEntree1.setBackground(new Color(27, 32, 33));
 		rdbtnEntree1.setFocusable(false);
 		rdbtnEntree1.setBounds(186, 185, 71, 23);
 		panel_2.add(rdbtnEntree1);
 		
 		JRadioButton rdbtnDessert1 = new JRadioButton("Dessert");
+		rdbtnDessert1.setBackground(new Color(27, 32, 33));
+		rdbtnDessert1.setForeground(new Color(255, 255, 255));
 		rdbtnDessert1.setFocusable(false);
 		rdbtnDessert1.setBounds(47, 211, 71, 23);
 		panel_2.add(rdbtnDessert1);
 		
 		JRadioButton rdbtnDrinks1 = new JRadioButton("Drinks");
+		rdbtnDrinks1.setForeground(new Color(255, 255, 255));
+		rdbtnDrinks1.setBackground(new Color(27, 32, 33));
 		rdbtnDrinks1.setFocusTraversalPolicyProvider(true);
 		rdbtnDrinks1.setFocusable(false);
 		rdbtnDrinks1.setBounds(186, 211, 71, 23);
@@ -214,47 +245,57 @@ public class MenuAdmin extends javax.swing.JFrame{
 		}
 		
 		ButtonGroup menubtnGrp1 = new ButtonGroup();{
-			menubtnGrp1.add(btnAppetizers);
-			menubtnGrp1.add(btnEntree);
-			menubtnGrp1.add(btnDessert);
-			menubtnGrp1.add(btnDrinks);
+			menubtnGrp1.add(jButtonAppetizers);
+			menubtnGrp1.add(jButtonEntree);
+			menubtnGrp1.add(jButtonDessert);
+			menubtnGrp1.add(jButtonDrinks);
 		}
-		JButton btnBack = new JButton("");
-		btnBack.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/left-arrow.png")));
-		btnBack.setBounds(new Rectangle(0, 0, 64, 64));
-		btnBack.setPreferredSize(new Dimension(64, 64));
-		btnBack.setFocusable(false);
-		btnBack.addActionListener(new ActionListener() {
+		JButton jButtonBack = new JButton("");
+		jButtonBack.setBackground(new Color(27, 32, 33));
+		jButtonBack.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/left-arrow.png")));
+		jButtonBack.setBounds(new Rectangle(0, 0, 64, 64));
+		jButtonBack.setPreferredSize(new Dimension(64, 64));
+		jButtonBack.setFocusable(false);
+		jButtonBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				actionBackPerformed(e);
 			}
 		});
-		panelCategories.add(btnBack);
+		panelCategories.add(jButtonBack);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(27, 32, 33));
 		panel.setFocusable(false);
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Search Dish", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(20, 406, 312, 118);
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(0, 0, 0), new Color(0, 0, 0)), "Search Dish", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
+		panel.setBounds(32, 622, 312, 118);
 		panelEditables.add(panel);
 		panel.setLayout(null);
 		
 		JRadioButton rdbtnAppetizer2 = new JRadioButton("Appetizer");
+		rdbtnAppetizer2.setForeground(new Color(255, 255, 255));
+		rdbtnAppetizer2.setBackground(new Color(27, 32, 33));
 		rdbtnAppetizer2.setFocusable(false);
 		rdbtnAppetizer2.setBounds(47, 20, 88, 23);
 		panel.add(rdbtnAppetizer2);
 		
 		JRadioButton rdbtnEntree2 = new JRadioButton("Entree");
+		rdbtnEntree2.setForeground(new Color(255, 255, 255));
+		rdbtnEntree2.setBackground(new Color(27, 32, 33));
 		rdbtnEntree2.setFocusable(false);
 		rdbtnEntree2.setBounds(186, 20, 71, 23);
 		panel.add(rdbtnEntree2);
 		
 		JRadioButton rdbtnDessert2 = new JRadioButton("Dessert");
+		rdbtnDessert2.setBackground(new Color(27, 32, 33));
+		rdbtnDessert2.setForeground(new Color(255, 255, 255));
 		rdbtnDessert2.setFocusable(false);
 		rdbtnDessert2.setBounds(47, 46, 71, 23);
 		panel.add(rdbtnDessert2);
 		
 		JRadioButton rdbtnDrinks2 = new JRadioButton("Drinks");
+		rdbtnDrinks2.setBackground(new Color(27, 32, 33));
+		rdbtnDrinks2.setForeground(new Color(255, 255, 255));
 		rdbtnDrinks2.setFocusable(false);
 		rdbtnDrinks2.setFocusTraversalPolicyProvider(true);
 		rdbtnDrinks2.setBounds(186, 46, 71, 23);
@@ -269,6 +310,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 		
 		
 		JLabel lblDishId = new JLabel("Dish ID");
+		lblDishId.setForeground(new Color(255, 255, 255));
 		lblDishId.setBounds(20, 82, 62, 17);
 		panel.add(lblDishId);
 		lblDishId.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -308,7 +350,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 				
 			}
 		});
-		btnAdd.setBounds(30, 325, 96, 47);
+		btnAdd.setBounds(32, 553, 96, 47);
 		panelEditables.add(btnAdd);
 		
 		JButton btnDelete = new JButton("Delete");
@@ -320,7 +362,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 				
 			}
 		});
-		btnDelete.setBounds(20, 657, 292, 37);
+		btnDelete.setBounds(31, 835, 292, 37);
 		panelEditables.add(btnDelete);
 		
 		
@@ -348,18 +390,61 @@ public class MenuAdmin extends javax.swing.JFrame{
 		textDescription.setBounds(108, 84, 185, 20);
 		panel_2.add(textDescription);
 		
-		JLabel lblPrice = new JLabel("Price");
+		JLabel lblPrice = new JLabel("Upload Image");
 		lblPrice.setForeground(new Color(255, 255, 255));
 		lblPrice.setBackground(new Color(21, 25, 28));
 		lblPrice.setFocusable(false);
 		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblPrice.setBounds(10, 136, 88, 27);
+		lblPrice.setBounds(10, 256, 125, 27);
 		panel_2.add(lblPrice);
 		
 		textPrice = new JTextField();
 		textPrice.setColumns(10);
 		textPrice.setBounds(108, 141, 185, 20);
 		panel_2.add(textPrice);
+		
+		JLabel lblPrice_1 = new JLabel("Price");
+		lblPrice_1.setForeground(Color.WHITE);
+		lblPrice_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblPrice_1.setFocusable(false);
+		lblPrice_1.setBackground(new Color(21, 25, 28));
+		lblPrice_1.setBounds(10, 136, 88, 27);
+		panel_2.add(lblPrice_1);
+		
+		JLabel labelImage = new JLabel("");
+		labelImage.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0)));
+		labelImage.setForeground(Color.WHITE);
+		labelImage.setFont(new Font("Tahoma", Font.BOLD, 14));
+		labelImage.setFocusable(false);
+		labelImage.setBackground(new Color(255, 255, 255));
+		labelImage.setBounds(10, 282, 303, 147);
+		panel_2.add(labelImage);
+		
+		JButton btnUpload = new JButton("Upload");
+		btnUpload.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//kani
+				JFileChooser fileChooser = new JFileChooser();
+		        FileNameExtensionFilter fnwf = new FileNameExtensionFilter("PNG JPG AND JPEG", "png", "jpeg", "jpg");
+		        fileChooser.addChoosableFileFilter(fnwf);
+		        int load = fileChooser.showOpenDialog(null);
+		        
+		        if(load==fileChooser.APPROVE_OPTION){
+		            f = fileChooser.getSelectedFile();
+		            
+		            path = f.getAbsolutePath();
+		            //imagePath.setText(path);
+		            ImageIcon ii = new ImageIcon(path);
+		            Image img = ii.getImage().getScaledInstance(300, 400, Image.SCALE_SMOOTH);
+		            
+		            labelImage.setIcon(new ImageIcon(img));
+		            //hangtod diri
+		        }
+			}
+		});
+		btnUpload.setFocusable(false);
+		btnUpload.setBounds(10, 440, 303, 37);
+		panel_2.add(btnUpload);
 		
 		
 		JButton btnUpdate = new JButton("Update");
@@ -372,7 +457,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 			}
 		});
 		btnUpdate.setFocusable(false);
-		btnUpdate.setBounds(20, 535, 292, 37);
+		btnUpdate.setBounds(31, 771, 292, 37);
 		panelEditables.add(btnUpdate);
 		
 	}
