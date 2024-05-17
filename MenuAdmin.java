@@ -5,9 +5,13 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.Frame;
+import java.awt.Image;
+
 import javax.swing.JPanel;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -23,14 +28,19 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JRadioButton;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.awt.FlowLayout;
 import java.awt.Rectangle;
 import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import java.awt.Component;
+import javax.swing.SwingConstants;
 
 public class MenuAdmin extends javax.swing.JFrame{
 
@@ -70,6 +80,8 @@ public class MenuAdmin extends javax.swing.JFrame{
 	ResultSet rs;
 	ResultSet countResult;
 	
+	File f = null;
+    String path = null;
 	
 	public void connect() {
 		try {
@@ -92,6 +104,8 @@ public class MenuAdmin extends javax.swing.JFrame{
 	DrinksPage drinksPage = new DrinksPage();
 	
 	int update;
+	private JButton btnUpload;
+	private JLabel labelImage;
 	
 	private void initialize() {
 		
@@ -198,7 +212,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 		panel_2.setBackground(new Color(0, 0, 0));
 		panel_2.setFocusable(false);
 		panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Add Dishes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
-		panel_2.setBounds(20, 43, 323, 256);
+		panel_2.setBounds(20, 43, 323, 513);
 		panelEditables.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -256,7 +270,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 		panel = new JPanel();
 		panel.setFocusable(false);
 		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Search Dish", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(20, 406, 312, 118);
+		panel.setBounds(20, 659, 312, 118);
 		panelEditables.add(panel);
 		panel.setLayout(null);
 		
@@ -287,6 +301,17 @@ public class MenuAdmin extends javax.swing.JFrame{
 			rdbtnGrp2.add(rdbtnDessert2);
 			rdbtnGrp2.add(rdbtnDrinks2);
 		}
+		
+		labelImage = new JLabel("");
+		labelImage.setHorizontalAlignment(SwingConstants.CENTER);
+        labelImage.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        labelImage.setForeground(Color.WHITE);
+        labelImage.setFont(new Font("Tahoma", Font.BOLD, 14));
+        labelImage.setFocusable(false);
+        labelImage.setBackground(new Color(255, 255, 255));
+        labelImage.setBounds(10, 282, 303, 147);
+        panel_2.add(labelImage);
+	        
 		
 		
 		lblDishId = new JLabel("Dish ID");
@@ -329,7 +354,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 				
 			}
 		});
-		btnAdd.setBounds(30, 325, 96, 47);
+		btnAdd.setBounds(20, 580, 96, 47);
 		panelEditables.add(btnAdd);
 		
 		btnDelete = new JButton("Delete");
@@ -341,7 +366,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 				
 			}
 		});
-		btnDelete.setBounds(20, 657, 292, 37);
+		btnDelete.setBounds(20, 860, 292, 37);
 		panelEditables.add(btnDelete);
 		
 		
@@ -382,6 +407,26 @@ public class MenuAdmin extends javax.swing.JFrame{
 		textPrice.setBounds(108, 141, 185, 20);
 		panel_2.add(textPrice);
 		
+		btnUpload = new JButton("Upload");
+		btnUpload.setBounds(108, 440, 107, 47);
+		panel_2.add(btnUpload);
+		btnUpload.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter fnwf = new FileNameExtensionFilter("PNG JPG AND JPEG", "png", "jpeg", "jpg");
+                fileChooser.addChoosableFileFilter(fnwf);
+                int load = fileChooser.showOpenDialog(null);
+
+                if (load == fileChooser.APPROVE_OPTION) {
+                    f = fileChooser.getSelectedFile();
+                    path = f.getAbsolutePath();
+                    ImageIcon ii = new ImageIcon(path);
+                    Image img = ii.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                    labelImage.setIcon(new ImageIcon(img));
+                }
+            }
+        });
+		
 		
 		btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
@@ -393,8 +438,10 @@ public class MenuAdmin extends javax.swing.JFrame{
 			}
 		});
 		btnUpdate.setFocusable(false);
-		btnUpdate.setBounds(20, 535, 292, 37);
+		btnUpdate.setBounds(20, 812, 292, 37);
 		panelEditables.add(btnUpdate);
+		
+		
 		
 		panelData_1 = new JPanel();
         panelData_1.setBounds(47, 79, 327, 251);
@@ -668,7 +715,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 	
 	public void addDish(ActionEvent e, JRadioButton rb1, JRadioButton  rb2, JRadioButton rb3, JRadioButton rb4, ButtonGroup buttonGroup) {
 		
-		String dishName, description, price;
+		String dishName, description, price, type;
 		
 		dishName = textDishName.getText();
 		description = textDescription.getText();
@@ -677,14 +724,14 @@ public class MenuAdmin extends javax.swing.JFrame{
 		String option = tableSelected(rb1, rb2, rb3, rb4);
 		
 		
-		
-		
 		try {
-			
-	        pst = con.prepareStatement("insert into " +  option + " (dish_name,description,price)values(?,?,?)");
+			FileInputStream fis = new FileInputStream(f);
+	        pst = con.prepareStatement("insert into " +  option + " (dish_name,description,price,type,image)values(?,?,?,?,?)");
 	        pst.setString(1, dishName);
 	        pst.setString(2, description);
 	        pst.setString(3, price);
+	        pst.setString(4, path);
+	        pst.setBinaryStream(5, fis, (int) f.length());
 	        pst.executeUpdate();
 	        JOptionPane.showMessageDialog(null, "Record Addedddd!!!!!");
 	        
@@ -692,6 +739,11 @@ public class MenuAdmin extends javax.swing.JFrame{
 	        textDishName.requestFocus();
 	        
 	       }
+		
+		catch (FileNotFoundException ex) 
+        {            
+			JOptionPane.showMessageDialog(null, "File Not Found: " + ex.getMessage());
+        }
 	    catch (SQLException e1) 
 	        {            
 	    		e1.printStackTrace();
