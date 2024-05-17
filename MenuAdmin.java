@@ -287,72 +287,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 			rdbtnGrp2.add(rdbtnDessert2);
 			rdbtnGrp2.add(rdbtnDrinks2);
 		}
-
-		JButton btnUpload = new JButton("Upload");
-        btnUpload.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                FileNameExtensionFilter fnwf = new FileNameExtensionFilter("PNG JPG AND JPEG", "png", "jpeg", "jpg");
-                fileChooser.addChoosableFileFilter(fnwf);
-                int load = fileChooser.showOpenDialog(null);
-
-                if (load == fileChooser.APPROVE_OPTION) {
-                    f = fileChooser.getSelectedFile();
-                    path = f.getAbsolutePath();
-                    ImageIcon ii = new ImageIcon(path);
-                    Image img = ii.getImage().getScaledInstance(300, 400, Image.SCALE_SMOOTH);
-                    labelImage.setIcon(new ImageIcon(img));
-                }
-            }
-        });
-        btnUpload.setBounds(108, 440, 89, 23);
-        panel_2.add(btnUpload);
-
-		 JButton btnSave1 = new JButton("Save");
-        btnSave1.setFocusable(false);
-        btnSave1.setBounds(10, 470, 303, 23);
-        panel_2.add(btnSave1);
-        btnSave1.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnSave1.setBackground(new Color(0, 206, 209));
-
-        btnSave1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String dishName = textDishName.getText();
-                String description = textDescription.getText();
-                String price = textPrice.getText();
-                String type = "";
-
-                if (rdbtnAppetizer1.isSelected()) {
-                    type = "Appetizer";
-                } else if (rdbtnEntree1.isSelected()) {
-                    type = "Entree";
-                } else if (rdbtnDessert1.isSelected()) {
-                    type = "Dessert";
-                } else if (rdbtnDrinks1.isSelected()) {
-                    type = "Drinks";
-                }
-
-                try {
-                    FileInputStream fis = new FileInputStream(f);
-                    pst = con.prepareStatement("INSERT INTO dishes(dish_name, description, price, type, image) VALUES(?,?,?,?,?)");
-                    pst.setString(1, dishName);
-                    pst.setString(2, description);
-                    pst.setString(3, price);
-                    pst.setString(4, type);
-                    pst.setBinaryStream(5, fis, (int) f.length());
-                    int response = pst.executeUpdate();
-                    if (response >= 1) {
-                        JOptionPane.showMessageDialog(null, "Record Added");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Record Failed");
-                    }
-                } catch (FileNotFoundException ex) {
-                    JOptionPane.showMessageDialog(null, "File Not Found: " + ex.getMessage());
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "SQL Error: " + ex.getMessage());
-                }
-            }
-        });
+		
 		
 		lblDishId = new JLabel("Dish ID");
 		lblDishId.setBounds(20, 82, 62, 17);
@@ -708,7 +643,7 @@ public class MenuAdmin extends javax.swing.JFrame{
             {
             	
               
-                String dish_name = rs.getString(1);
+            	String dish_name = rs.getString(1);
                 String description = rs.getString(2);
                 String price = rs.getString(3);
                 
