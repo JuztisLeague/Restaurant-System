@@ -153,6 +153,38 @@ public class OrderNumbers extends JFrame {
 
 
 
+	private JScrollPane scrollPane_1;
+
+
+
+	private ButtonGroup rb3;
+
+
+
+	private ButtonGroup rb4;
+
+
+
+	private JButton btnButtonEditQuantity;
+
+
+
+	private JButton btnDone_2;
+
+
+
+	private JButton btnCancel_2;
+
+
+
+	private JButton btnDeleteOrder;
+
+
+
+	private int selectedRow;
+
+
+
 	
 
 
@@ -643,7 +675,8 @@ public class OrderNumbers extends JFrame {
         table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				dataSelected();
+				
+				dataSelected(PersonnelLogin.storedPersonnelID());
 			}
 			
 		});
@@ -680,7 +713,7 @@ public class OrderNumbers extends JFrame {
 		panel = new JPanel();
 		panel.setBounds(10, 81, 451, 475);
 		panelRight.add(panel);
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Edit Status", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Chef Edit Status", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel.setLayout(null);
 		
 		lblName = new JLabel("Dish Name");
@@ -841,10 +874,62 @@ public class OrderNumbers extends JFrame {
 		btnCancelRemarks.setBounds(275, 398, 89, 23);
 		panel.add(btnCancelRemarks);
 		
-		panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Admin Edit", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(10, 577, 451, 278);
-		panelRight.add(panel_1);
+		panel_AdminEdit = new JPanel();
+		panel_AdminEdit.setVisible(false);
+		panel_AdminEdit.setBorder(new TitledBorder(null, "Admin Edit", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_AdminEdit.setBounds(10, 577, 451, 261);
+		panelRight.add(panel_AdminEdit);
+		panel_AdminEdit.setLayout(null);
+		
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(224, 21, 2, 2);
+		panel_AdminEdit.add(scrollPane_1);
+		
+		rb3 = new ButtonGroup();
+		rb4 = new ButtonGroup();
+		
+		btnDone_2 = new JButton("Done");
+		btnDone_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				jButtonbtnDone_2ActionPerformed(e);
+			}
+		});
+		btnDone_2.setVisible(false);
+		btnDone_2.setBounds(166, 55, 107, 23);
+		panel_AdminEdit.add(btnDone_2);
+		
+		btnButtonEditQuantity = new JButton("Edit Quantity");
+		btnButtonEditQuantity.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jButtonEditQuantityActionPerformed(e);
+				
+			}
+		});
+		btnButtonEditQuantity.setVisible(false);
+		btnButtonEditQuantity.setBounds(23, 55, 107, 23);
+		panel_AdminEdit.add(btnButtonEditQuantity);
+		
+		btnCancel_2 = new JButton("Cancel");
+		btnCancel_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jButtonCancel_2ActionPerformed(e);
+			}
+		});
+		btnCancel_2.setVisible(false);
+		btnCancel_2.setBounds(318, 55, 107, 23);
+		panel_AdminEdit.add(btnCancel_2);
+		
+		btnDeleteOrder = new JButton("Delete Order");
+		btnDeleteOrder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				jButtonDeleteOrderActionPerformed(e);
+			}
+		});
+		btnDeleteOrder.setVisible(false);
+		btnDeleteOrder.setBounds(166, 145, 107, 23);
+		panel_AdminEdit.add(btnDeleteOrder);
 		
 		
 		lblBackground = new JLabel("New label");
@@ -1007,13 +1092,8 @@ public class OrderNumbers extends JFrame {
     	return id;
     }
 	
-	public void globalSetter() {
-		
-	}
-	
 	
 	public void jViewButtonActionPerformed(ActionEvent e, int value) {
-	    System.out.println("View button clicked");
 	    
 	    if (pressedCount()) {
 	        try {
@@ -1023,7 +1103,7 @@ public class OrderNumbers extends JFrame {
 	            countResult.next();
 	            totalRows = countResult.getInt(1); // Total number of rows in the ResultSet
 	            
-	            System.out.println("Total rows: " + totalRows);
+	            //System.out.println("Total rows: " + totalRows);
 
 	            // Retrieve data from the order_cart table
 	            pst = con.prepareStatement("SELECT * FROM order_cart");
@@ -1037,7 +1117,7 @@ public class OrderNumbers extends JFrame {
 	                    selectedCode = searchedCode;
 	                    selectedID = rs.getString("id");
 	                    
-	                    System.out.print(selectedID);
+	                    //System.out.print(selectedID);
 	                    
 	                    // Add retrieved data to the table model
 	                    row[0] = searchedCode;
@@ -1151,29 +1231,44 @@ public class OrderNumbers extends JFrame {
 		System.exit(0);
 	}
 	
-	public void dataSelected() {
-	    int selectedRow = table.getSelectedRow();
-	        btnButtonStatusEdit.setVisible(true);
-	        btnButtonRemarksEdit.setVisible(true);
-
-	        selectCode = table.getModel().getValueAt(selectedRow, 0).toString();
-	        selectID = table.getModel().getValueAt(selectedRow, 1).toString();
-	        selectedName = table.getModel().getValueAt(selectedRow, 2).toString();
-	        selectedPrice = table.getModel().getValueAt(selectedRow, 3).toString();
-	        selectedQuantity = Integer.parseInt(table.getModel().getValueAt(selectedRow, 4).toString());
-	        selectedStatus = table.getModel().getValueAt(selectedRow, 5).toString();
-	        selectedRemarks = table.getModel().getValueAt(selectedRow, 6).toString();
-	        
-	        
-	        
-
-	        txtCode.setText(selectCode);
-	        txtID.setText(selectID);
-	        txtDishName.setText(selectedName);
-	        txtPrice.setText(selectedPrice);
-	        spinnerQuantity.setValue(selectedQuantity);
-	        wordStatusCheck(selectedStatus);
-	        wordRemarksCheck(selectedRemarks);
+	public void dataSelected(int passID) {
+		    selectedRow = table.getSelectedRow();
+		    
+		    btnButtonStatusEdit.setVisible(true);
+		    btnButtonRemarksEdit.setVisible(true);
+		    btnButtonEditQuantity.setVisible(true);
+		    
+		    switch (passID) {
+		        case 1:{
+		            panel_AdminEdit.setVisible(true);
+		            btnButtonEditQuantity.setVisible(true);
+		            btnDeleteOrder.setVisible(true);
+		            break; // Added break statement
+		        }
+		        case 2:{
+		            // Code for case 2
+		            break; // Added break statement
+		        }
+		    }
+		    
+		    // Check if a row is selected
+		    if (selectedRow != -1) {
+		        selectCode = table.getModel().getValueAt(selectedRow, 0).toString();
+		        selectID = table.getModel().getValueAt(selectedRow, 1).toString();
+		        selectedName = table.getModel().getValueAt(selectedRow, 2).toString();
+		        selectedPrice = table.getModel().getValueAt(selectedRow, 3).toString();
+		        selectedQuantity = Integer.parseInt(table.getModel().getValueAt(selectedRow, 4).toString());
+		        selectedStatus = table.getModel().getValueAt(selectedRow, 5).toString();
+		        selectedRemarks = table.getModel().getValueAt(selectedRow, 6).toString();
+		        
+		        txtCode.setText(selectCode);
+		        txtID.setText(selectID);
+		        txtDishName.setText(selectedName);
+		        txtPrice.setText(selectedPrice);
+		        spinnerQuantity.setValue(selectedQuantity);
+		        wordStatusCheck(selectedStatus);
+		        wordRemarksCheck(selectedRemarks);
+		    }
 	}
 	
 	public void wordStatusCheck(String status) {
@@ -1386,46 +1481,50 @@ public class OrderNumbers extends JFrame {
 		btnCancelRemarks.setVisible(true);
 	}
 	
+	public void jButtonEditQuantityActionPerformed(ActionEvent e){
+		spinnerQuantity.setEnabled(true);
+		btnDone_2.setVisible(true);
+		btnCancel_2.setVisible(true);
+	}
+	
 	
 	public void jButtonStatusDoneActionPerformed(ActionEvent e, int value) {
 	    try {
 	        pst = con.prepareStatement("SELECT * FROM order_cart WHERE FIND_IN_SET(?, order_code)");
-	        pst.setInt(1, Integer.parseInt(selectCode.toString()));
+	        pst.setInt(1, Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
 	        rs = pst.executeQuery();
 
-	        System.out.println("Selected Code: " + selectedCode);
-	        //System.out.println("Selected ID: " + selectID);
+	        System.out.println("Selected Code: " + Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
+	        
+	        int limit = 0;
 
-	        //boolean recordFound = false;
-	        while (rs.next()) {
-	            //recordFound = true;
-	            System.out.println("Found record: " + rs.getString("id"));
+	        while (rs.next() && limit < count ) {
+	            String id = rs.getString("id");
+	            String orderNumber = rs.getString("order_number");
+	            String orderCode = rs.getString("order_code");
+	            System.out.println("Found record: " + id);
 	            
-	            	if(rs.getString("id").equals(txtID.getText().toString())) {
-		            	
-		            	System.out.print(selectID);
-	            		pstUpdate = con.prepareStatement("UPDATE order_cart SET status = ? WHERE id = ? ");
-	 	                pstUpdate.setString(1, selectedButton(value));
-	 	                pstUpdate.setString(2, rs.getString("id"));
-	 	                System.out.print(rs.getString("id" ));
-	 	                pstUpdate.executeUpdate();
-	 	                
-	 	                
-	 	                
-	 	                JOptionPane.showMessageDialog(null, "Record Update!!!!!");
-	 	               while(model.getRowCount() > 0)
-	 		            {
-	 		                model.removeRow(0);
-	 		            }
-	 	               break;
-	            } 
+	            if (Integer.valueOf(orderNumber).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 1).toString())) && Integer.valueOf(orderCode).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()))) {
+	                pstUpdate = con.prepareStatement("UPDATE order_cart SET status = ? WHERE id = ? ");
+	                pstUpdate.setString(1, selectedButton(value));
+	                pstUpdate.setString(2, id);
+	                System.out.print("Data Printed: " + id);
+	                pstUpdate.executeUpdate();
+	                
+	                JOptionPane.showMessageDialog(null, "Record Updated!");
+	                while(model.getRowCount() > 0)
+ 		            {
+ 		                model.removeRow(0);
+ 		            }
+	                break;
+	            }limit++;
 	        }
+	        
+	        limit = 0;
+	        count =0;
 
-	        /*if (!recordFound) {
-	            JOptionPane.showMessageDialog(null, "Record not found!");
-	        }*/
 	    } catch (SQLException ex) {
-	        ex.printStackTrace(); // Print the stack trace for debugging
+	        ex.printStackTrace();
 	    } catch (NumberFormatException ex) {
 	        System.err.println("Error parsing selectedCode to integer: " + ex.getMessage());
 	    } finally {
@@ -1434,52 +1533,52 @@ public class OrderNumbers extends JFrame {
 	                pstUpdate.close();
 	            }
 	        } catch (SQLException ex) {
-	            ex.printStackTrace(); // Print the stack trace for debugging
+	            ex.printStackTrace();
 	        }
 	    }
+	    implementStatuses();
 	}
 	
 	public void jButtonRemarksDoneActionPerformed(ActionEvent e, int value) {
-	    try {
+		try {
 	        pst = con.prepareStatement("SELECT * FROM order_cart WHERE FIND_IN_SET(?, order_code)");
-	        pst.setInt(1, Integer.parseInt(selectCode.toString()));
+	        pst.setInt(1, Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
 	        rs = pst.executeQuery();
 
-	        System.out.println("Selected Code: " + selectedCode);
-	        //System.out.println("Selected ID: " + selectID);
+	        System.out.println("Selected Code: " + Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
+	        
+	        int limit = 0;
 
-	        //boolean recordFound = false;
-	        while (rs.next()) {
-	            //recordFound = true;
-	            System.out.println("Found record: " + rs.getString("id"));
+	        while (rs.next() && limit < count ) {
+	            String id = rs.getString("id");
+	            String orderNumber = rs.getString("order_number");
+	            String orderCode = rs.getString("order_code");
+	            System.out.println("Found record: " + id);
 	            
-	            	if(rs.getString("id").equals(txtID.getText().toString())) {
-		            	
-		            	System.out.print(selectID);
-	            		pstUpdate = con.prepareStatement("UPDATE order_cart SET remarks = ? WHERE id = ? ");
-	 	                pstUpdate.setString(1, selectedButton(value));
-	 	                pstUpdate.setString(2, rs.getString("id"));
-	 	                System.out.print(rs.getString("id" ));
-	 	                pstUpdate.executeUpdate();
-	 	                
-	 	                
-	 	                
-	 	                JOptionPane.showMessageDialog(null, "Record Update!!!!!");
-	 	               while(model.getRowCount() > 0)
-	 		            {
-	 		                model.removeRow(0);
-	 		            }
-	 	               break;
-	            } 
-	            
-	            
-
-	            		
+	            if (Integer.valueOf(orderNumber).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 1).toString())) && Integer.valueOf(orderCode).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()))) {
+	                pstUpdate = con.prepareStatement("UPDATE order_cart SET remarks = ? WHERE id = ? ");
+	                pstUpdate.setString(1, selectedButton(value));
+	                pstUpdate.setString(2, id);
+	                System.out.print("Data Printed: " + id);
+	                pstUpdate.executeUpdate();
+	                
+	                JOptionPane.showMessageDialog(null, "Record Updated!");
+	                while(model.getRowCount() > 0)
+ 		            {
+ 		                model.removeRow(0);
+ 		            }
+	                break;
+	            }limit++;
 	        }
 	        
+	        limit = 0;
+	        count =0;
 	        rdbtnComplete.setEnabled(false);
 			rdbtnIncomplete.setEnabled(false);
 			btnRemarksDone.setVisible(false);
+			btnButtonRemarksEdit.setVisible(false);
+			btnButtonStatusEdit.setVisible(false);
+			btnCancelRemarks.setVisible(false);
 
 	        /*if (!recordFound) {
 	            JOptionPane.showMessageDialog(null, "Record not found!");
@@ -1497,6 +1596,70 @@ public class OrderNumbers extends JFrame {
 	            ex.printStackTrace(); // Print the stack trace for debugging
 	        }
 	    }
+	    implementStatuses();
+	}
+	
+	
+	public void jButtonbtnDone_2ActionPerformed(ActionEvent e) {
+		try {
+	        pst = con.prepareStatement("SELECT * FROM order_cart WHERE FIND_IN_SET(?, order_code)");
+	        pst.setInt(1, Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
+	        rs = pst.executeQuery();
+
+	        System.out.println("Selected Code: " + Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
+	        
+	        int limit = 0;
+
+	        while (rs.next() && limit < count ) {
+	            String id = rs.getString("id");
+	            String orderNumber = rs.getString("order_number");
+	            String orderCode = rs.getString("order_code");
+	            System.out.println("Found record: " + id);
+	            
+	            if (Integer.valueOf(orderNumber).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 1).toString())) && Integer.valueOf(orderCode).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()))) {
+	                pstUpdate = con.prepareStatement("UPDATE order_cart SET quantity = ? WHERE id = ? ");
+	                pstUpdate.setString(1, spinnerQuantity.getValue().toString());
+	                pstUpdate.setString(2, id);
+	                System.out.print("Data Printed: " + id);
+	                pstUpdate.executeUpdate();
+	                
+	                JOptionPane.showMessageDialog(null, "Record Updated!");
+	                while(model.getRowCount() > 0)
+ 		            {
+ 		                model.removeRow(0);
+ 		            }
+	                break;
+	            }limit++;
+	        }
+	        
+	        limit = 0;
+	        count =0;
+	        rdbtnComplete.setEnabled(false);
+			rdbtnIncomplete.setEnabled(false);
+			btnRemarksDone.setVisible(false);
+			btnButtonRemarksEdit.setVisible(false);
+			btnButtonStatusEdit.setVisible(false);
+			btnCancelRemarks.setVisible(false);
+
+
+	        /*if (!recordFound) {
+	            JOptionPane.showMessageDialog(null, "Record not found!");
+	        }*/
+	    } catch (SQLException ex) {
+	        ex.printStackTrace(); // Print the stack trace for debugging
+	    } catch (NumberFormatException ex) {
+	        System.err.println("Error parsing selectedCode to integer: " + ex.getMessage());
+	    } finally {
+	        try {
+	            if (pstUpdate != null) {
+	                pstUpdate.close();
+	            }
+	        } catch (SQLException ex) {
+	            ex.printStackTrace(); // Print the stack trace for debugging
+	        }
+	    }
+		implementStatuses();
+		
 	}
 	
 
@@ -1520,9 +1683,11 @@ public class OrderNumbers extends JFrame {
 	        	else {
 	        		string = "Incomplete";
 	        	}
+	        	break;
 	        }
 	    }
 	    return string;
+	    
 	}
 	
 	public void jButtonCancelStatusActionPerformed(ActionEvent e){
@@ -1553,8 +1718,86 @@ public class OrderNumbers extends JFrame {
 		rb1.clearSelection();
 	}
 	
+	public void jButtonCancel_2ActionPerformed(ActionEvent e){
+		btnButtonStatusEdit.setVisible(false);
+		btnButtonRemarksEdit.setVisible(false);
+		btnStatusDone.setVisible(false);
+		btnRemarksDone.setVisible(false);
+		rdbtnComplete.setEnabled(false);
+		rdbtnIncomplete.setEnabled(false);
+		btnCancelStatus.setVisible(false);
+		btnCancelRemarks.setVisible(false);
+		
+		
+		txtCode.setEnabled(false);
+		txtID.setEnabled(false);
+		txtDishName.setEnabled(false);
+		txtPrice.setEnabled(false);
+		spinnerQuantity.setEnabled(false);
+		btnDone_2.setVisible(false);
+		btnCancel_2.setVisible(false);
+		txtCode.setText("");
+		txtID.setText("");
+		txtDishName.setText("");
+		txtPrice.setText("");
+		spinnerQuantity.setValue(1);
+		btnButtonEditQuantity.setVisible(false);
+		btnDeleteOrder.setVisible(false);
+		rb2.clearSelection();
+		rb1.clearSelection();
+	}	
 	
-	private final Object[] row = new Object[7];
+	public void jButtonDeleteOrderActionPerformed(ActionEvent e) {
+		
+		try {
+	        pst = con.prepareStatement("SELECT * FROM order_cart WHERE FIND_IN_SET(?, order_code)");
+	        pst.setInt(1, Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
+	        rs = pst.executeQuery();
+
+	        System.out.println("Selected Code: " + Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
+	        
+	        int limit = 0;
+
+	        while (rs.next() && limit < count ) {
+	            String id = rs.getString("id");
+	            String orderNumber = rs.getString("order_number");
+	            String orderCode = rs.getString("order_code");
+	            System.out.println("Found record: " + id);
+	            
+	            if (Integer.valueOf(orderNumber).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 1).toString())) && Integer.valueOf(orderCode).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()))) {
+	            	PreparedStatement deleteStatement = con.prepareStatement("DELETE FROM order_cart where id = ?");
+	            	deleteStatement.setString(1, id.toString());
+	            	deleteStatement.executeUpdate();
+	            	JOptionPane.showMessageDialog(null, "Record deleted successfully.");
+	                while(model.getRowCount() > 0)
+ 		            {
+ 		                model.removeRow(0);
+ 		            }
+	                break;
+	            }limit++;
+	        }
+	        
+	        limit = 0;
+	        count =0;
+
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    } catch (NumberFormatException ex) {
+	        System.err.println("Error parsing selectedCode to integer: " + ex.getMessage());
+	    } finally {
+	        try {
+	            if (pstUpdate != null) {
+	                pstUpdate.close();
+	            }
+	        } catch (SQLException ex) {
+	            ex.printStackTrace();
+	        }
+	    }
+	}
+	
+	
+	
+	private final Object[] row = new Object[8];
 	private DefaultTableModel model;
 	private JPanel panelLeft;
 	private JLabel lblMenu;
@@ -1633,14 +1876,11 @@ public class OrderNumbers extends JFrame {
 	private JLabel lblRemarks_10;
 	private JButton btnButtonStatusEdit;
 	private JButton btnButtonRemarksEdit;
-	private JPanel panel_1;
+	private JPanel panel_AdminEdit;
 	private JButton btnStatusDone;
 	private JButton btnRemarksDone;
 	private JLabel lblCode;
 	private JTextField txtCode;
 	private JButton btnCancelStatus;
 	private JButton btnCancelRemarks;
-	
-	
-	
 }
