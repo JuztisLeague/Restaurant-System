@@ -61,6 +61,12 @@ public class OptionsCashier extends JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel1.setBounds(23, 478, 157, 38);
         jButtonLogout = new javax.swing.JButton();
+        jButtonLogout.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		jButtonLogOutActionPerformed(e);
+        	}
+        });
         jButtonLogout.setFocusable(false);
         jButtonLogout.setBounds(0, 191, 1316, 23);
         jLabel2 = new javax.swing.JLabel();
@@ -68,8 +74,9 @@ public class OptionsCashier extends JFrame {
         jButtonProfile = new javax.swing.JButton();
         jButtonProfile.setFocusable(false);
         jButtonProfile.setBounds(0, 108, 1306, 23);
-        jButtonProfile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonProfile.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	jButtonProfileActionPerformed(e);
             }
         });
         jButtonPayments = new javax.swing.JButton();
@@ -160,6 +167,20 @@ public class OptionsCashier extends JFrame {
             }
         });
     }
+    
+    public void jButtonProfileActionPerformed(ActionEvent e){
+    	ProfilePage profilePage = new ProfilePage();
+    	profilePage.setVisible(true);
+    	this.dispose();
+    }
+    
+    private void jButtonLogOutActionPerformed(ActionEvent e) {                                         
+        
+        PersonnelLogin personnelLogin = new PersonnelLogin();
+        personnelLogin.setVisible(true);
+        this.dispose();
+       
+   }
     private JButton jButtonPayments;
     private JButton jButtonProfile;
     private JButton jButtonLogout;
