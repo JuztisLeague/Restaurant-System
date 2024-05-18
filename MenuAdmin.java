@@ -79,6 +79,9 @@ public class MenuAdmin extends javax.swing.JFrame{
 	PreparedStatement pst;
 	ResultSet rs;
 	ResultSet countResult;
+
+	 File f = null;
+    String path = null;
 	
 	File f = null;
     String path = null;
@@ -301,6 +304,34 @@ public class MenuAdmin extends javax.swing.JFrame{
 			rdbtnGrp2.add(rdbtnDessert2);
 			rdbtnGrp2.add(rdbtnDrinks2);
 		}
+
+  JLabel labelImage = new JLabel("");
+        labelImage.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        labelImage.setForeground(Color.WHITE);
+        labelImage.setFont(new Font("Tahoma", Font.BOLD, 14));
+        labelImage.setFocusable(false);
+        labelImage.setBackground(new Color(255, 255, 255));
+        labelImage.setBounds(10, 282, 303, 147);
+        panel_2.add(labelImage);
+		
+		JButton btnUpload = new JButton("Upload");
+        btnUpload.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter fnwf = new FileNameExtensionFilter("PNG JPG AND JPEG", "png", "jpeg", "jpg");
+                fileChooser.addChoosableFileFilter(fnwf);
+                int load = fileChooser.showOpenDialog(null);
+
+                if (load == fileChooser.APPROVE_OPTION) {
+                    f = fileChooser.getSelectedFile();
+                    path = f.getAbsolutePath();
+                    ImageIcon ii = new ImageIcon(path);
+                    Image img = ii.getImage().getScaledInstance(300, 400, Image.SCALE_SMOOTH);
+                    labelImage.setIcon(new ImageIcon(img));
+                }
+            }
+        });
+
 		
 		labelImage = new JLabel("");
 		labelImage.setHorizontalAlignment(SwingConstants.CENTER);
