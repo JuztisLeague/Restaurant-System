@@ -852,66 +852,80 @@ public class MenuAdmin extends javax.swing.JFrame{
 	        lblNumber.setText(total);
 	        pst = con.prepareStatement("select dish_name,description,price from " + option);
 	        rs = pst.executeQuery();
-	        
+
+		
 	        int count = 0;
 	        while (rs.next() && count < limit) {
 	            dishName = rs.getString("dish_name");
 	            description = rs.getString("description");
 	            price = rs.getString("price");
+			Blob imageBlob = rs.getBlob("image");
+			byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
+   	 		ImageIcon imageIcon = new ImageIcon(imageBytes);
+   		 	Image img = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 	            switch (count) {
 	                case 0:
 	                    lblDishName_1.setText(dishName);
 	                    lblDescription_1.setText(description);
 	                    lblPrice_1.setText(price);
 	                    panelData_1.setVisible(true);
+			lblDishPhoto_1.setIcon(new ImageIcon(img));
 	                    break;
 	                case 1:
 	                	lblDishName_2.setText(dishName);
 	                    lblDescription_2.setText(description);
 	                    lblPrice_2.setText(price);
 	                    panelData_2.setVisible(true);
+				    lblDishPhoto_2.setIcon(new ImageIcon(img));
 	                    break;
 	                case 2:
 	                	lblDishName_3.setText(dishName);
 	                    lblDescription_3.setText(description);
 	                    lblPrice_3.setText(price);
 	                    panelData_3.setVisible(true);
+				lblDishPhoto_3.setIcon(new ImageIcon(img));
 	                    break;
 	                case 3:
 	                	lblDishName_4.setText(dishName);
 	                    lblDescription_4.setText(description);
 	                    lblPrice_4.setText(price);
 	                    panelData_4.setVisible(true);
+				    lblDishPhoto_4.setIcon(new ImageIcon(img));
 	                    break;
 	                case 4:
 	                	lblDishName_5.setText(dishName);
 	                    lblDescription_5.setText(description);
 	                    lblPrice_5.setText(price);
 	                    panelData_5.setVisible(true);
+				    lblDishPhoto_ 5.setIcon(new ImageIcon(img));
 	                    break;
 	                case 5:
 	                	lblDishName_6.setText(dishName);
 	                    lblDescription_6.setText(description);
 	                    lblPrice_6.setText(price);
 	                    panelData_6.setVisible(true);
+				    lblDishPhoto_6.setIcon(new ImageIcon(img));
 	                    break;
 	                case 6:
 	                	lblDishName_7.setText(dishName);
 	                    lblDescription_7.setText(description);
 	                    lblPrice_7.setText(price);
 	                    panelData_7.setVisible(true);
+				    lblDishPhoto_7.setIcon(new ImageIcon(img));
 	                    break;
 	                case 7:
 	                	lblDishName_8.setText(dishName);
 	                    lblDescription_8.setText(description);
 	                    lblPrice_8.setText(price);
 	                    panelData_8.setVisible(true);
+				    lblDishPhoto_8.setIcon(new ImageIcon(img));
 	                    break;
 	                case 8:
 	                	lblDishName_9.setText(dishName);
 	                    lblDescription_9.setText(description);
 	                    lblPrice_9.setText(price);
 	                    panelData_9.setVisible(true);
+				    lblDishPhoto_9.setIcon(new ImageIcon(img));
 	                    break;
 	            }
 	            count++;
