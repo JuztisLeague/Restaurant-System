@@ -105,11 +105,6 @@ public class DinerPage extends javax.swing.JFrame {
     //@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     
-    AppetizerPage appetizerPage = new AppetizerPage();
-	EntreePage entreePage = new EntreePage();
-	DessertPage dessertPage = new DessertPage();
-	DrinksPage drinksPage = new DrinksPage();
-	
 	Connection con;
 	PreparedStatement pst;
 	ResultSet rs;
@@ -570,6 +565,13 @@ public class DinerPage extends javax.swing.JFrame {
         table.setModel(model);
         scrollPane.setViewportView(table);
         
+        lblTotalPrice = new JLabel();
+        lblTotalPrice.setText("Total Price:");
+        lblTotalPrice.setForeground(Color.WHITE);
+        lblTotalPrice.setFont(new Font("Century Gothic", Font.PLAIN, 24));
+        lblTotalPrice.setBounds(134, 796, 317, 35);
+        SidePanel2.add(lblTotalPrice);
+        
         JLabel lblBackground = new JLabel("");
         lblBackground.setIcon(new ImageIcon(DinerPage.class.getResource("/images/mainBG.png")));
         lblBackground.setBounds(0, 0, 1920, 1080);
@@ -584,6 +586,7 @@ public class DinerPage extends javax.swing.JFrame {
     }// </editor-fold>
 
     private int generatedcode;
+	private float totalPrice;
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {
 
@@ -792,29 +795,35 @@ public class DinerPage extends javax.swing.JFrame {
     public void jAddButtonActionPerformed(ActionEvent e, JLabel dishName, JLabel dishPrice, String amount) {
     	
     	System.out.println("Add button clicked");
-    	String name, price, numberID, numberAmount, orderNumber;
-    	
-    	
+    	String name, price, orderNumber, numberAmount, orderCode;
+    	float priceCurrent;
     	
     	name = dishName.getText();
     	price = dishPrice.getText();
-    	numberID = numberIDChecker();
+    	priceCurrent = Float.parseFloat(dishPrice.getText());
+    	totalPrice += priceCurrent;
+    	orderNumber = numberIDChecker();
     	numberAmount = amount;
-    	orderNumber = String.valueOf(generateRandomCode());
+    	orderCode = String.valueOf(generateRandomCode());
     			
 		try {
 			
-			row[0] = numberID;
+			lblTotalPrice.setText("Total Price: " + String.valueOf(totalPrice));
+			
+			row[0] = orderNumber;
 	    	row[1] = name;
 	    	row[2] = price;
 	    	row[3] = numberAmount;
 			
-	        pst = con.prepareStatement("insert into order_cart (id, dish_name, price, quantity, order_number)values(?,?,?,?,?)");
-	        pst.setString(1, numberID);
+	        pst = con.prepareStatement("insert into order_cart (order_number, dish_name, price, quantity, order_code, status, remarks, total_price)values(?,?,?,?,?,?,?,?)");
+	        pst.setString(1, orderNumber);
 	        pst.setString(2, name);
 	        pst.setString(3, price);
 	        pst.setString(4, numberAmount);
-	        pst.setString(5, orderNumber);
+	        pst.setString(5, orderCode);
+	        pst.setString(6, "pending");
+	        pst.setString(7, "incomplete");
+	        pst.setString(8, String.valueOf(totalPrice));
 	        pst.executeUpdate();
 	        //JOptionPane.showMessageDialog(null, "Record Addedddd!!!!!");
 	    	model.addRow(row);
@@ -828,6 +837,8 @@ public class DinerPage extends javax.swing.JFrame {
 		
 		pressedCount++;
     	
+		
+		
     }
 
     private JButton jButtonConfirm;
@@ -906,5 +917,5 @@ public class DinerPage extends javax.swing.JFrame {
 	private JButton btnOrderAdd_2;
 	private int pressedCount = 0;
 	private int code;
-	
+	private JLabel lblTotalPrice;
 }
