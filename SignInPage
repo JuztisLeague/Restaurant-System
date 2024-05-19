@@ -3,15 +3,20 @@ import java.awt.Dimension;
 
 
 
+
 import java.awt.Toolkit;
 
 import java.awt.Frame;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,7 +28,6 @@ import java.awt.event.ActionEvent;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import net.miginfocom.swing.MigLayout;
 import java.awt.Rectangle;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
@@ -32,15 +36,21 @@ public class SignInPage extends JFrame {
 
     
 	private static final long serialVersionUID = 1L;
+	private JPanel ButtonHolder;
+	private JButton jButtonPersonnel;
+	private JButton jButtonDiner;
 	
 	public SignInPage() {
     	setExtendedState(Frame.MAXIMIZED_BOTH);
     	setUndecorated(true);
-       
-    	 
     	
+
+        
     	initComponents();
          centerFrame();
+         
+         
+         
     }
     
     private void centerFrame() {
@@ -49,6 +59,8 @@ public class SignInPage extends JFrame {
     }
     
     private void initComponents() {
+    	
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/AppLogo.png")));
 
         jPanel1 = new javax.swing.JPanel();
         jPanel1.setBounds(0, 0, 1920, 1080);
@@ -92,21 +104,23 @@ public class SignInPage extends JFrame {
         
         lblNewLabel_1 = new JLabel("");
         lblNewLabel_1.setIcon(new ImageIcon(SignInPage.class.getResource("/images/Logo.png")));
-        lblNewLabel_1.setBounds(250, 123, 300, 300);
+        lblNewLabel_1.setBounds(250, 122, 300, 256);
         ContentHolder.add(lblNewLabel_1);
         
-        JPanel ButtonHolder = new JPanel();
+        ButtonHolder = new JPanel();
         ButtonHolder.setBackground(new Color(31, 34, 50));
         ButtonHolder.setBounds(0, 437, 800, 189);
         ContentHolder.add(ButtonHolder);
         ButtonHolder.setLayout(new FlowLayout(FlowLayout.CENTER, 100, 50));
         
-        JButton jButtonPersonnel = new JButton("");
+        jButtonPersonnel = new JButton("");
+        jButtonPersonnel.setFocusable(false);
         jButtonPersonnel.setBackground(new Color(31, 34, 50));
         ButtonHolder.add(jButtonPersonnel);
         jButtonPersonnel.setIcon(new ImageIcon(SignInPage.class.getResource("/images/personnel.png")));
         
-        JButton jButtonDiner = new JButton("");
+        jButtonDiner = new JButton("");
+        jButtonDiner.setFocusable(false);
         jButtonDiner.setBackground(new Color(31, 34, 50));
         ButtonHolder.add(jButtonDiner);
         jButtonDiner.setIcon(new ImageIcon(SignInPage.class.getResource("/images/diner.png")));
@@ -142,6 +156,7 @@ public class SignInPage extends JFrame {
         getContentPane().add(jPanel1);
         
         jButtonClose = new JButton("");
+        jButtonClose.setOpaque(false);
         jButtonClose.setBackground(new Color(0, 0, 0));
         jButtonClose.setPreferredSize(new Dimension(64, 64));
         jButtonClose.setIcon(new ImageIcon(SignInPage.class.getResource("/images/cancel.png")));
@@ -206,6 +221,20 @@ public class SignInPage extends JFrame {
     
     
     public static void main(String args[]) {
+    	
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                personnelLogin = new PersonnelLogin();
+                personnelLogin.setVisible(false); // Hide the frame initially
+            }
+        });
+    	
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                dinerPage = new DinerPage();
+                dinerPage.setVisible(false); // Hide the frame initially
+            }
+        });
         
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -224,29 +253,41 @@ public class SignInPage extends JFrame {
             java.util.logging.Logger.getLogger(SignInPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new SignInPage().setVisible(true);
+                SignInPage signInPage = new SignInPage();
+                signInPage.setVisible(true);
+                
+                
             }
         });
     }
     
     private void jButtonPersonnelActionPerformed(java.awt.event.ActionEvent evt) {                                         
         
-        PersonnelLogin frame = new PersonnelLogin();
-        frame.setVisible(true);
-        this.dispose();
+    	
+        
+        if (personnelLogin == null) {
+            personnelLogin = new PersonnelLogin();
+        }
+        personnelLogin.setVisible(true);
+        dispose(); 
        
    }  
     
     
     private void jButtonDinerActionPerformed(java.awt.event.ActionEvent evt) {                                         
         
-        DinerPage frame = new DinerPage();
-        frame.setVisible(true);
-        this.dispose();
-       
+        if (dinerPage == null) {
+            dinerPage = new DinerPage(); 
+        }
+        personnelLogin.setVisible(true); 
+        dispose();
+        
    }  
+    
+    private static PersonnelLogin personnelLogin;
+    private static DinerPage dinerPage;
     private javax.swing.JLabel WelcomeMsg;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel ContentHolder;
