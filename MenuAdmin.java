@@ -3,6 +3,7 @@ package BonAppetit;
 import java.awt.EventQueue;
 
 
+
 import javax.swing.JFrame;
 import java.awt.Frame;
 import java.awt.Image;
@@ -98,14 +99,10 @@ public class MenuAdmin extends javax.swing.JFrame{
 	    }
 	}
 	
-	AppetizerPage appetizerPage = new AppetizerPage();
-	EntreePage entreePage = new EntreePage();
-	DessertPage dessertPage = new DessertPage();
-	DrinksPage drinksPage = new DrinksPage();
-	
 	int update;
 	private JButton btnUpload;
 	private JLabel labelImage;
+	private java.sql.Blob imageBlob;
 	
 	private void initialize() {
 		
@@ -456,8 +453,9 @@ public class MenuAdmin extends javax.swing.JFrame{
         jMiddlePanel.add(lblNumber);
         jMiddlePanel.add(panelData_1);
         
-        lblDishPhoto_1 = new JLabel("Photo");
-        lblDishPhoto_1.setBounds(10, 22, 134, 86);
+        lblDishPhoto_1 = new JLabel("");
+        lblDishPhoto_1.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDishPhoto_1.setBounds(0, 0, 150, 150);
         panelData_1.add(lblDishPhoto_1);
         
         lblDishName_1 = new JLabel("New label");
@@ -469,7 +467,7 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_1.add(lblPrice_1);
         
         lblDescription_1 = new JLabel("New label");
-        lblDescription_1.setBounds(20, 119, 96, 14);
+        lblDescription_1.setBounds(20, 150, 96, 14);
         panelData_1.add(lblDescription_1);
         
         panelData_2 = new JPanel();
@@ -478,8 +476,9 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_2.setLayout(null);
         panelData_2.setVisible(false);
         
-        lblDishPhoto_2 = new JLabel("Photo");
-        lblDishPhoto_2.setBounds(10, 22, 134, 86);
+        lblDishPhoto_2 = new JLabel("");
+        lblDishPhoto_2.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDishPhoto_2.setBounds(0, 0, 150, 150);
         panelData_2.add(lblDishPhoto_2);
         
         lblDishName_2 = new JLabel("New label");
@@ -491,7 +490,7 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_2.add(lblPrice_2);
         
         lblDescription_2 = new JLabel("New label");
-        lblDescription_2.setBounds(20, 119, 96, 14);
+        lblDescription_2.setBounds(20, 150, 96, 14);
         panelData_2.add(lblDescription_2);
         
         panelData_3 = new JPanel();
@@ -500,8 +499,9 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_3.setLayout(null);
         panelData_3.setVisible(false);
         
-        lblDishPhoto_3 = new JLabel("Photo");
-        lblDishPhoto_3.setBounds(10, 22, 134, 86);
+        lblDishPhoto_3 = new JLabel("");
+        lblDishPhoto_3.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDishPhoto_3.setBounds(0, 0, 150, 150);
         panelData_3.add(lblDishPhoto_3);
         
         lblDishName_3 = new JLabel("New label");
@@ -513,7 +513,7 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_3.add(lblPrice_3);
         
         lblDescription_3 = new JLabel("New label");
-        lblDescription_3.setBounds(20, 119, 96, 14);
+        lblDescription_3.setBounds(20, 150, 96, 14);
         panelData_3.add(lblDescription_3);
         
         panelData_4 = new JPanel();
@@ -522,8 +522,9 @@ public class MenuAdmin extends javax.swing.JFrame{
         jMiddlePanel.add(panelData_4);
         panelData_4.setVisible(false);
         
-        lblDishPhoto_4 = new JLabel("Photo");
-        lblDishPhoto_4.setBounds(10, 22, 134, 86);
+        lblDishPhoto_4 = new JLabel("");
+        lblDishPhoto_4.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDishPhoto_4.setBounds(0, 0, 150, 150);
         panelData_4.add(lblDishPhoto_4);
         
         lblDishName_4 = new JLabel("New label");
@@ -535,7 +536,7 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_4.add(lblPrice_4);
         
         lblDescription_4 = new JLabel("New label");
-        lblDescription_4.setBounds(20, 119, 96, 14);
+        lblDescription_4.setBounds(20, 150, 96, 14);
         panelData_4.add(lblDescription_4);
         
         panelData_5 = new JPanel();
@@ -544,8 +545,9 @@ public class MenuAdmin extends javax.swing.JFrame{
         jMiddlePanel.add(panelData_5);
         panelData_5.setVisible(false);
         
-        lblDishPhoto_5 = new JLabel("Photo");
-        lblDishPhoto_5.setBounds(10, 22, 134, 86);
+        lblDishPhoto_5 = new JLabel("");
+        lblDishPhoto_5.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDishPhoto_5.setBounds(0, 0, 150, 150);
         panelData_5.add(lblDishPhoto_5);
         
         lblDishName_5 = new JLabel("New label");
@@ -557,7 +559,7 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_5.add(lblPrice_5);
         
         lblDescription_5 = new JLabel("New label");
-        lblDescription_5.setBounds(20, 119, 96, 14);
+        lblDescription_5.setBounds(20, 150, 96, 14);
         panelData_5.add(lblDescription_5);
         
         panelData_6 = new JPanel();
@@ -566,8 +568,9 @@ public class MenuAdmin extends javax.swing.JFrame{
         jMiddlePanel.add(panelData_6);
         panelData_6.setVisible(false);
         
-        lblDishPhoto_6 = new JLabel("Photo");
-        lblDishPhoto_6.setBounds(10, 22, 134, 86);
+        lblDishPhoto_6 = new JLabel("");
+        lblDishPhoto_6.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDishPhoto_6.setBounds(0, 0, 150, 150);
         panelData_6.add(lblDishPhoto_6);
         
         lblDishName_6 = new JLabel("New label");
@@ -579,7 +582,7 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_6.add(lblPrice_6);
         
         lblDescription_6 = new JLabel("New label");
-        lblDescription_6.setBounds(20, 119, 96, 14);
+        lblDescription_6.setBounds(20, 150, 96, 14);
         panelData_6.add(lblDescription_6);
         
         panelData_7 = new JPanel();
@@ -588,8 +591,9 @@ public class MenuAdmin extends javax.swing.JFrame{
         jMiddlePanel.add(panelData_7);
         panelData_7.setVisible(false);
         
-        lblDishPhoto_7 = new JLabel("Photo");
-        lblDishPhoto_7.setBounds(10, 22, 134, 86);
+        lblDishPhoto_7 = new JLabel("");
+        lblDishPhoto_7.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDishPhoto_7.setBounds(0, 0, 150, 150);
         panelData_7.add(lblDishPhoto_7);
         
         lblDishName_7 = new JLabel("New label");
@@ -601,7 +605,7 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_7.add(lblPrice_7);
         
         lblDescription_7 = new JLabel("New label");
-        lblDescription_7.setBounds(20, 119, 96, 14);
+        lblDescription_7.setBounds(20, 150, 96, 14);
         panelData_7.add(lblDescription_7);
         
         panelData_8 = new JPanel();
@@ -610,8 +614,9 @@ public class MenuAdmin extends javax.swing.JFrame{
         jMiddlePanel.add(panelData_8);
         panelData_8.setVisible(false);
         
-        lblDishPhoto_8 = new JLabel("Photo");
-        lblDishPhoto_8.setBounds(10, 22, 134, 86);
+        lblDishPhoto_8 = new JLabel("");
+        lblDishPhoto_8.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDishPhoto_8.setBounds(0, 0, 150, 150);
         panelData_8.add(lblDishPhoto_8);
         
         lblDishName_8 = new JLabel("New label");
@@ -623,7 +628,7 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_8.add(lblPrice_8);
         
         lblDescription_8 = new JLabel("New label");
-        lblDescription_8.setBounds(20, 119, 96, 14);
+        lblDescription_8.setBounds(20, 150, 96, 14);
         panelData_8.add(lblDescription_8);
         
         panelData_9 = new JPanel();
@@ -632,8 +637,9 @@ public class MenuAdmin extends javax.swing.JFrame{
         jMiddlePanel.add(panelData_9);
         panelData_9.setVisible(false);
         
-        lblDishPhoto_9 = new JLabel("Photo");
-        lblDishPhoto_9.setBounds(10, 22, 134, 86);
+        lblDishPhoto_9 = new JLabel("");
+        lblDishPhoto_9.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDishPhoto_9.setBounds(0, 0, 150, 150);
         panelData_9.add(lblDishPhoto_9);
         
         lblDishName_9 = new JLabel("New label");
@@ -645,7 +651,7 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_9.add(lblPrice_9);
         
         lblDescription_9 = new JLabel("New label");
-        lblDescription_9.setBounds(20, 119, 96, 14);
+        lblDescription_9.setBounds(20, 150, 96, 14);
         panelData_9.add(lblDescription_9);
 		
 		
@@ -726,7 +732,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 		
 		try {
 			FileInputStream fis = new FileInputStream(f);
-	        pst = con.prepareStatement("insert into " +  option + " (dish_name,description,price,type,image)values(?,?,?,?,?)");
+	        pst = con.prepareStatement("insert into " +  option + " (dish_name,description,price,image, type)values(?,?,?,?,?)");
 	        pst.setString(1, dishName);
 	        pst.setString(2, description);
 	        pst.setString(3, price);
@@ -850,7 +856,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 	        
 	        
 	        lblNumber.setText(total);
-	        pst = con.prepareStatement("select dish_name,description,price from " + option);
+	        pst = con.prepareStatement("select dish_name,description,price,image, type from " + option);
 	        rs = pst.executeQuery();
 	        
 	        int count = 0;
@@ -858,60 +864,76 @@ public class MenuAdmin extends javax.swing.JFrame{
 	            dishName = rs.getString("dish_name");
 	            description = rs.getString("description");
 	            price = rs.getString("price");
+	            
+	            
+	            imageBlob = rs.getBlob("image");
+				byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
+	   	 		ImageIcon imageIcon = new ImageIcon(imageBytes);
+	   		 	Image img = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+	            
 	            switch (count) {
 	                case 0:
 	                    lblDishName_1.setText(dishName);
 	                    lblDescription_1.setText(description);
 	                    lblPrice_1.setText(price);
 	                    panelData_1.setVisible(true);
+	                    lblDishPhoto_1.setIcon(new ImageIcon(img));
 	                    break;
 	                case 1:
 	                	lblDishName_2.setText(dishName);
 	                    lblDescription_2.setText(description);
 	                    lblPrice_2.setText(price);
 	                    panelData_2.setVisible(true);
+	                    lblDishPhoto_2.setIcon(new ImageIcon(img));
 	                    break;
 	                case 2:
 	                	lblDishName_3.setText(dishName);
 	                    lblDescription_3.setText(description);
 	                    lblPrice_3.setText(price);
 	                    panelData_3.setVisible(true);
+	                    lblDishPhoto_3.setIcon(new ImageIcon(img));
 	                    break;
 	                case 3:
 	                	lblDishName_4.setText(dishName);
 	                    lblDescription_4.setText(description);
 	                    lblPrice_4.setText(price);
 	                    panelData_4.setVisible(true);
+	                    lblDishPhoto_4.setIcon(new ImageIcon(img));
 	                    break;
 	                case 4:
 	                	lblDishName_5.setText(dishName);
 	                    lblDescription_5.setText(description);
 	                    lblPrice_5.setText(price);
 	                    panelData_5.setVisible(true);
+	                    lblDishPhoto_5.setIcon(new ImageIcon(img));
 	                    break;
 	                case 5:
 	                	lblDishName_6.setText(dishName);
 	                    lblDescription_6.setText(description);
 	                    lblPrice_6.setText(price);
 	                    panelData_6.setVisible(true);
+	                    lblDishPhoto_6.setIcon(new ImageIcon(img));
 	                    break;
 	                case 6:
 	                	lblDishName_7.setText(dishName);
 	                    lblDescription_7.setText(description);
 	                    lblPrice_7.setText(price);
 	                    panelData_7.setVisible(true);
+	                    lblDishPhoto_7.setIcon(new ImageIcon(img));
 	                    break;
 	                case 7:
 	                	lblDishName_8.setText(dishName);
 	                    lblDescription_8.setText(description);
 	                    lblPrice_8.setText(price);
 	                    panelData_8.setVisible(true);
+	                    lblDishPhoto_8.setIcon(new ImageIcon(img));
 	                    break;
 	                case 8:
 	                	lblDishName_9.setText(dishName);
 	                    lblDescription_9.setText(description);
 	                    lblPrice_9.setText(price);
 	                    panelData_9.setVisible(true);
+	                    lblDishPhoto_9.setIcon(new ImageIcon(img));
 	                    break;
 	            }
 	            count++;
