@@ -21,6 +21,8 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.event.KeyAdapter;
@@ -48,6 +50,11 @@ public class PersonnelLogin extends javax.swing.JFrame {
     Connection con;
 	PreparedStatement pst;
 	ResultSet rs;
+
+
+	private static OptionsCashier optionsCashier;
+	private static OptionsAdmin optionsAdmin;
+	private static OptionsChef optionsChef;
 
 
 	
@@ -229,6 +236,27 @@ public class PersonnelLogin extends javax.swing.JFrame {
 
     public static void main(String args[]) {
     	
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                optionsAdmin = new OptionsAdmin();
+                optionsAdmin.setVisible(false); // Hide the frame initially
+            }
+        });
+    	
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                optionsChef = new OptionsChef();
+                optionsChef.setVisible(false); // Hide the frame initially
+            }
+        });
+    	
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                optionsCashier = new OptionsCashier();
+                optionsCashier.setVisible(false); // Hide the frame initially
+            }
+        });
+    	
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -245,9 +273,11 @@ public class PersonnelLogin extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(PersonnelLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PersonnelLogin().setVisible(true);
+        SwingUtilities.invokeLater(new Runnable() {
+
+			public void run() {
+                PersonnelLogin personnelLogin = new PersonnelLogin();
+                personnelLogin.setVisible(false); // Hide the frame initially
             }
         });
     }
@@ -267,7 +297,9 @@ public class PersonnelLogin extends javax.swing.JFrame {
                	if (rs.next()) {
             	   String storedRole = rs.getString("role");
             	   String storedPassword = rs.getString("password");
-            	   storedID = rs.getString("id");
+            	   
+            	   //passID = storedID;
+            	   
             
             	if (password.equals(storedPassword)) {
                 // Passwords match, login successful
@@ -275,21 +307,33 @@ public class PersonnelLogin extends javax.swing.JFrame {
                 // Open respective page based on role
                 switch (storedRole) {
                     case "Chef":
-                        OptionsChef optionsChef = new OptionsChef();
+                        optionsChef = new OptionsChef();
                         optionsChef.setVisible(true);
                         
-                        
+                        if (optionsChef == null) {
+                        	optionsChef = new OptionsChef();
+                        }
+                        optionsChef.setVisible(true);
+                        dispose(); 
+                        passID = 2;
                         break;
                     case "Admin":
-                        OptionsAdmin optionsAdmin = new OptionsAdmin();
+                        if (optionsAdmin == null) {
+                        	optionsAdmin = new OptionsAdmin();
+                        }
                         optionsAdmin.setVisible(true);
-                        
+                        dispose(); 
+                        passID = 1;
                         
                         break;
                     case "Cashier":
-                    	OptionsCashier optionsCashier = new OptionsCashier();
+                    	
+                    	if (optionsCashier == null) {
+                        	optionsCashier = new OptionsCashier();
+                        }
                         optionsCashier.setVisible(true);
-                        
+                        dispose(); 
+                        passID = 3;
                         
                         break;
                     default:
@@ -297,9 +341,7 @@ public class PersonnelLogin extends javax.swing.JFrame {
                 	}
                 	this.dispose(); // Close current login page
                 	
-                	rs.close();
-                   	pst.close();
-                   	con.close();
+                	
             	} else {
             		// Passwords don't match, login failed
             		JOptionPane.showMessageDialog(this, "Incorrect password. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -316,15 +358,18 @@ public class PersonnelLogin extends javax.swing.JFrame {
         	}
     	   }
     	
+    	System.out.print(Integer.toString(storedPersonnelID()));
+    	
     }
     
-    public static String storedPersonnelID() {
-    	return storedID;
+    public static int storedPersonnelID() {
+    	
+    	return passID;
     }
     
     
     private void jLoginButtonActionPerformed(ActionEvent e) {                                         
-        String role =  textRole.getText();
+    	String role =  textRole.getText();
         String password = passwordField.getText();
         
        try {
@@ -336,6 +381,10 @@ public class PersonnelLogin extends javax.swing.JFrame {
            	if (rs.next()) {
         	   String storedRole = rs.getString("role");
         	   String storedPassword = rs.getString("password");
+        	   String storedID = rs.getString("id");
+        	   
+        	   //passID = storedID;
+        	   
         
         	if (password.equals(storedPassword)) {
             // Passwords match, login successful
@@ -345,23 +394,27 @@ public class PersonnelLogin extends javax.swing.JFrame {
                 case "Chef":
                     OptionsChef optionsChef = new OptionsChef();
                     optionsChef.setVisible(true);
+                    passID = 2;
                     break;
                 case "Admin":
                     OptionsAdmin optionsAdmin = new OptionsAdmin();
                     optionsAdmin.setVisible(true);
+                    passID = 1;
+                    
+                    
                     break;
                 case "Cashier":
                 	OptionsCashier optionsCashier = new OptionsCashier();
                     optionsCashier.setVisible(true);
+                    passID = 3;
+                    
                     break;
                 default:
                     JOptionPane.showMessageDialog(this, "Invalid user role.", "Error", JOptionPane.ERROR_MESSAGE);
             	}
             	this.dispose(); // Close current login page
             	
-            	rs.close();
-               	pst.close();
-               	con.close();
+            	
         	} else {
         		// Passwords don't match, login failed
         		JOptionPane.showMessageDialog(this, "Incorrect password. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -372,12 +425,11 @@ public class PersonnelLogin extends javax.swing.JFrame {
            	}
 
            	
-       } catch (SQLException el) {
+    } catch (SQLException el) {
     	JOptionPane.showMessageDialog(this, "Error connecting to database: " + el.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     	el.printStackTrace();
     	}
     }
-    
     
     
     public void jClearButtonActionPerformed(ActionEvent e) {
@@ -401,5 +453,5 @@ public class PersonnelLogin extends javax.swing.JFrame {
     private JButton btnClose;
     private JButton btnNewButton;
     private JPasswordField passwordField;
-    private static String storedID;
+    private static int passID;
 }
