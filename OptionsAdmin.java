@@ -73,16 +73,22 @@ public class OptionsAdmin extends javax.swing.JFrame {
         jButton4.setBounds(0, 231, 1306, 23);
         jLabel2 = new javax.swing.JLabel();
         jLabel2.setBounds(10, 11, 1286, 62);
-        jButton3 = new javax.swing.JButton();
-        jButton3.setFocusable(false);
-        jButton3.setBounds(0, 108, 1306, 23);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonProfile = new javax.swing.JButton();
+        jButtonProfile.setFocusable(false);
+        jButtonProfile.setBounds(0, 108, 1306, 23);
+        jButtonProfile.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
             	
-            	//jProfileButtonActionPerformed
+            	jButtonProfileActionPerformed(e);
             }
         });
         jButton2 = new javax.swing.JButton();
+        jButton2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		jButtonOrderNumbersActionPerformed(e);
+        	}
+        });
         jButton2.setFocusable(false);
         jButton2.setBounds(0, 190, 1306, 23);
 
@@ -108,7 +114,7 @@ public class OptionsAdmin extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Administrator");
 
-        jButton3.setText("Profile");
+        jButtonProfile.setText("Profile");
 
         jButton2.setText("Order Numbers");
 
@@ -133,7 +139,7 @@ public class OptionsAdmin extends javax.swing.JFrame {
         jPanel1.add(jButtonMenu);
         jPanel1.add(jLabel2);
         jPanel1.add(jButton2);
-        jPanel1.add(jButton3);
+        jPanel1.add(jButtonProfile);
         getContentPane().setLayout(layout);
         
         btnClose = new JButton("Close");
@@ -191,9 +197,21 @@ public class OptionsAdmin extends javax.swing.JFrame {
         });
     }
     
+    public void jButtonProfileActionPerformed(ActionEvent e){
+    	ProfilePage profilePage = new ProfilePage();
+    	profilePage.setVisible(true);
+    	this.dispose();
+    }
+    
+    public void jButtonOrderNumbersActionPerformed(ActionEvent e) {
+    	OrderNumbers orderNumbers = new OrderNumbers();
+    	orderNumbers.setVisible(true);
+    	this.dispose();
+    }
+    
     private JButton jButtonMenu;
     private JButton jButton2;
-    private JButton jButton3;
+    private JButton jButtonProfile;
     private JButton jButton4;
     private JLabel jLabel1;
     private JLabel jLabel2;
