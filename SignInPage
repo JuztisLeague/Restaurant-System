@@ -12,11 +12,21 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
 import javax.swing.SwingConstants;
+import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import net.miginfocom.swing.MigLayout;
+import java.awt.Rectangle;
+import javax.swing.JPanel;
+import java.awt.FlowLayout;
 
 public class SignInPage extends JFrame {
 
@@ -24,14 +34,12 @@ public class SignInPage extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	public SignInPage() {
-    	setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Mar\\Documents\\College\\2nd Year\\CPE Lab (OOP)\\Java Codes\\BonAppetit\\resources\\mainBG.jpg"));
     	setExtendedState(Frame.MAXIMIZED_BOTH);
     	setUndecorated(true);
        
     	 
     	
     	initComponents();
-         
          centerFrame();
     }
     
@@ -44,11 +52,11 @@ public class SignInPage extends JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel1.setBounds(0, 0, 1920, 1080);
-        jPanel3 = new javax.swing.JPanel();
-        jPanel3.setFocusable(false);
-        jPanel3.setBackground(new Color(31, 34, 50));
-        jPanel3.setLocation(new Point(960, 100));
-        jPanel3.setBounds(620, 350, 680, 386);
+        ContentHolder = new javax.swing.JPanel();
+        ContentHolder.setFocusable(false);
+        ContentHolder.setBackground(new Color(31, 34, 50));
+        ContentHolder.setLocation(new Point(960, 100));
+        ContentHolder.setBounds(560, 190, 800, 700);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         
@@ -57,62 +65,86 @@ public class SignInPage extends JFrame {
         jPanel1.setPreferredSize(new Dimension(1920, 1080));
         jPanel1.setLayout(null);
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(435, 130));
-        jLabelWelcome = new javax.swing.JLabel();
-        jLabelWelcome.setFocusable(false);
-        jLabelWelcome.setBounds(0, 11, 680, 99);
-        jLabelWelcome.setHorizontalAlignment(SwingConstants.CENTER);
-        jLabelWelcome.setBackground(new Color(0, 0, 0));
-        jLabelWelcome.setForeground(new Color(255, 255, 255));
-        
-                jLabelWelcome.setFont(new Font("Century Gothic", Font.BOLD, 80)); 
-                jLabelWelcome.setText("Bon Appetit");
-        
-        lblBonjourTo = new JLabel();
-        lblBonjourTo.setFocusable(false);
-        lblBonjourTo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblBonjourTo.setBounds(10, 116, 670, 99);
-        lblBonjourTo.setText("Bonjour, to which royalty is keen to have my service?");
-        lblBonjourTo.setForeground(Color.WHITE);
-        lblBonjourTo.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-        lblBonjourTo.setBackground(Color.BLACK);
+        ContentHolder.setPreferredSize(new java.awt.Dimension(435, 130));
 
-        jPanel1.add(jPanel3);
-        jPanel3.setLayout(null);
-        jPanel3.add(jLabelWelcome);
-        jPanel3.add(lblBonjourTo);
+        jPanel1.add(ContentHolder);
+        ContentHolder.setLayout(null);
+        WelcomeMsg = new javax.swing.JLabel();
+        WelcomeMsg.setBounds(222, 38, 355, 99);
+        WelcomeMsg.setFocusable(false);
+        WelcomeMsg.setHorizontalAlignment(SwingConstants.CENTER);
+        WelcomeMsg.setBackground(new Color(0, 0, 0));
+        WelcomeMsg.setForeground(new Color(255, 255, 255));
         
-        jButtonDiner = new JButton();
-        jButtonDiner.setFocusable(false);
+                WelcomeMsg.setFont(new Font("Century Gothic", Font.BOLD, 70)); 
+                WelcomeMsg.setText("Welcome");
+                ContentHolder.add(WelcomeMsg);
+        
+        GreetingMsg = new JLabel();
+        GreetingMsg.setBounds(104, 376, 591, 50);
+        GreetingMsg.setFocusable(false);
+        GreetingMsg.setHorizontalAlignment(SwingConstants.CENTER);
+        GreetingMsg.setText("Bonjour, to which royalty is keen to have my service?");
+        GreetingMsg.setForeground(Color.WHITE);
+        GreetingMsg.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        GreetingMsg.setBackground(Color.BLACK);
+        ContentHolder.add(GreetingMsg);
+        
+        lblNewLabel_1 = new JLabel("");
+        lblNewLabel_1.setIcon(new ImageIcon(SignInPage.class.getResource("/images/Logo.png")));
+        lblNewLabel_1.setBounds(250, 123, 300, 300);
+        ContentHolder.add(lblNewLabel_1);
+        
+        JPanel ButtonHolder = new JPanel();
+        ButtonHolder.setBackground(new Color(31, 34, 50));
+        ButtonHolder.setBounds(0, 437, 800, 189);
+        ContentHolder.add(ButtonHolder);
+        ButtonHolder.setLayout(new FlowLayout(FlowLayout.CENTER, 100, 50));
+        
+        JButton jButtonPersonnel = new JButton("");
+        jButtonPersonnel.setBackground(new Color(31, 34, 50));
+        ButtonHolder.add(jButtonPersonnel);
+        jButtonPersonnel.setIcon(new ImageIcon(SignInPage.class.getResource("/images/personnel.png")));
+        
+        JButton jButtonDiner = new JButton("");
+        jButtonDiner.setBackground(new Color(31, 34, 50));
+        ButtonHolder.add(jButtonDiner);
+        jButtonDiner.setIcon(new ImageIcon(SignInPage.class.getResource("/images/diner.png")));
+        
+        ButtonLabelHolder = new JPanel();
+        ButtonLabelHolder.setBackground(new Color(31, 34, 50));
+        ButtonLabelHolder.setBounds(0, 625, 800, 75);
+        ContentHolder.add(ButtonLabelHolder);
+        ButtonLabelHolder.setLayout(null);
+        
+        Personnel = new JLabel("Personnel");
+        Personnel.setBounds(212, 5, 117, 32);
+        Personnel.setForeground(new Color(255, 255, 255));
+        Personnel.setFont(new Font("Century Gothic", Font.PLAIN, 25));
+        ButtonLabelHolder.add(Personnel);
+        
+        Diner = new JLabel("Diner");
+        Diner.setBounds(501, 5, 64, 32);
+        Diner.setForeground(Color.WHITE);
+        Diner.setFont(new Font("Century Gothic", Font.PLAIN, 25));
+        ButtonLabelHolder.add(Diner);
         jButtonDiner.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		jButtonDinerActionPerformed(e);
         	}
         });
-        jButtonDiner.setBackground(new Color(141, 134, 201));
-        jButtonDiner.setText("Diner");
-        jButtonDiner.setForeground(Color.WHITE);
-        jButtonDiner.setFont(new Font("Century Gothic", Font.BOLD | Font.ITALIC, 20));
-        jButtonDiner.setBounds(379, 267, 138, 47);
-        jPanel3.add(jButtonDiner);
-        
-        jButtonPersonnel = new JButton();
-        jButtonPersonnel.setFocusable(false);
         jButtonPersonnel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 jButtonPersonnelActionPerformed(e);
             }
         });
-        jButtonPersonnel.setBackground(new Color(141, 134, 201));
-        jButtonPersonnel.setText("Personnel");
-        jButtonPersonnel.setForeground(Color.WHITE);
-        jButtonPersonnel.setFont(new Font("Century Gothic", Font.BOLD | Font.ITALIC, 20));
-        jButtonPersonnel.setBounds(169, 267, 134, 47);
-        jPanel3.add(jButtonPersonnel);
         getContentPane().setLayout(null);
         getContentPane().add(jPanel1);
         
-        jButtonClose = new JButton("Close");
+        jButtonClose = new JButton("");
+        jButtonClose.setBackground(new Color(0, 0, 0));
+        jButtonClose.setPreferredSize(new Dimension(64, 64));
+        jButtonClose.setIcon(new ImageIcon(SignInPage.class.getResource("/images/cancel.png")));
         jButtonClose.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -120,15 +152,54 @@ public class SignInPage extends JFrame {
         	}
         });
         jButtonClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        jButtonClose.setBounds(1776, 11, 112, 46);
+        jButtonClose.setBounds(1828, 11, 64, 64);
         jButtonClose.setFocusable(false);
         jPanel1.add(jButtonClose);
         
-        lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(SignInPage.class.getResource("/images/mainBG.png")));
-        lblNewLabel.setBounds(0, 0, 1920, 1080);
-        jPanel1.add(lblNewLabel);
+        Background = new JLabel("");
+        Background.setIcon(new ImageIcon(SignInPage.class.getResource("/images/mainBG.png")));
+        Background.setBounds(0, 0, 1920, 1080);
+        jPanel1.add(Background);
 
+        JButton[] btns = {jButtonClose};
+        for (JButton btn : btns) {
+            btn.setBackground(new Color(0, 0, 0));
+            btn.setUI(new BasicButtonUI());
+            btn.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    btn.setBackground(new Color(30, 40, 44));
+//                    btn.setPreferredSize(new Dimension(100, 100));
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    btn.setBackground(new Color(0, 0, 0));
+//                    btn.setPreferredSize(new Dimension(64, 64));
+
+
+                }
+            });
+        }
         pack();
     }
 
@@ -176,12 +247,14 @@ public class SignInPage extends JFrame {
         this.dispose();
        
    }  
-    private javax.swing.JLabel jLabelWelcome;
+    private javax.swing.JLabel WelcomeMsg;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
-    private JLabel lblBonjourTo;
-    private JButton jButtonDiner;
-    private JButton jButtonPersonnel;
+    private javax.swing.JPanel ContentHolder;
+    private JLabel GreetingMsg;
     private JButton jButtonClose;
-    private JLabel lblNewLabel;
+    private JLabel Background;
+    private JLabel lblNewLabel_1;
+    private JPanel ButtonLabelHolder;
+    private JLabel Personnel;
+    private JLabel Diner;
 }
