@@ -6,9 +6,7 @@ import java.awt.Frame;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Rectangle;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,7 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -32,13 +29,11 @@ import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
-import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JSpinner;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileNotFoundException;
 
 import javax.swing.JRadioButton;
 
@@ -59,128 +54,32 @@ public class OrderNumbers extends JFrame {
 
 	private int totalRows;
 	private int count;
-
-
-
-	private Object previousId;
-
-
-
 	private int trueCount;
-
-
-
 	private String searchedCode;
-
-
-
-	private int tableRows;
-
-
-
 	private JLabel lblCodeNumbers;
-
-
-
 	private JButton btnView_1;
-
-
-
 	private JLabel lblComboStatus;
-
-
-
 	private SpinnerNumberModel model1;
-
-
-
 	private JSpinner spinnerQuantity;
-
-
-
 	private JRadioButton rdbtnComplete;
-
-
-
 	private ButtonGroup rb1;
-
-
-
 	private ButtonGroup rb2;
-	private String selectedCode;
-	private String selectedID;
 	private String selectedName;
-
-
-
 	private String selectedPrice;
-
-
-
 	private int selectedQuantity;
-
-
-
 	private String selectedStatus;
-
-
-
 	private String selectedRemarks;
-
-
-
-	private int globalSelectedID;
-
-
-
 	private String code;
-
-
-
-	private int globalNumber;
-
-
-
 	private String selectID;
-
-
-
 	private String selectCode;
-
-
-
 	private PreparedStatement pstUpdate;
-
-
-
 	private JScrollPane scrollPane_1;
-
-
-
 	private ButtonGroup rb3;
-
-
-
 	private ButtonGroup rb4;
-
-
-
 	private JButton btnButtonEditQuantity;
-
-
-
 	private JButton btnDone_2;
-
-
-
 	private JButton btnCancel_2;
-
-
-
 	private JButton btnDeleteOrder;
-
-
-
 	private int selectedRow;
 
 
@@ -1114,9 +1013,6 @@ public class OrderNumbers extends JFrame {
 	                
 
 	                if (codeCheck1(value)) {
-	                    selectedCode = searchedCode;
-	                    selectedID = rs.getString("id");
-	                    
 	                    //System.out.print(selectedID);
 	                    
 	                    // Add retrieved data to the table model
@@ -1823,11 +1719,9 @@ public class OrderNumbers extends JFrame {
 	private JLabel lblCode_8;
 	private JLabel lblCode_9;
 	private JLabel lblCode_10;
-	private String codeCurrent;
 	private JTable table;
 	private JScrollPane scrollPane;
 	private JLabel lblOrderList;
-	private String orderCode;
 	private JButton btnView_2;
 	private JButton btnView_3;
 	private JButton btnView_4;
