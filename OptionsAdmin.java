@@ -15,14 +15,18 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import java.awt.Color;
 
-public class OptionsAdmin extends javax.swing.JFrame {
+public class OptionAdmin extends javax.swing.JFrame {
 
 	
 	private static final long serialVersionUID = 1L;
 
 
-	public OptionsAdmin() {
+	public OptionAdmin() {
+		getContentPane().setBackground(new Color(0, 64, 64));
         
     	setExtendedState(Frame.MAXIMIZED_BOTH);
     	setUndecorated(true);
@@ -57,12 +61,15 @@ public class OptionsAdmin extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel1.setBounds(23, 478, 157, 38);
+        jPanel1.setBackground(new Color(0, 64, 64));
         jButtonMenu = new javax.swing.JButton();
+        jButtonMenu.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        jButtonMenu.setFont(new Font("Tahoma", Font.BOLD, 20));
         jButtonMenu.setFocusable(false);
-        jButtonMenu.setBounds(0, 149, 1306, 23);
+        jButtonMenu.setBounds(451, 86, 394, 51);
         jButton4 = new javax.swing.JButton();
+        jButton4.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        jButton4.setFont(new Font("Tahoma", Font.BOLD, 20));
         jButton4.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -70,12 +77,12 @@ public class OptionsAdmin extends javax.swing.JFrame {
         	}
         });
         jButton4.setFocusable(false);
-        jButton4.setBounds(0, 231, 1306, 23);
-        jLabel2 = new javax.swing.JLabel();
-        jLabel2.setBounds(10, 11, 1286, 62);
+        jButton4.setBounds(451, 245, 394, 51);
         jButtonProfile = new javax.swing.JButton();
+        jButtonProfile.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        jButtonProfile.setFont(new Font("Tahoma", Font.BOLD, 20));
         jButtonProfile.setFocusable(false);
-        jButtonProfile.setBounds(0, 108, 1306, 23);
+        jButtonProfile.setBounds(451, 11, 394, 51);
         jButtonProfile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	
@@ -83,6 +90,8 @@ public class OptionsAdmin extends javax.swing.JFrame {
             }
         });
         jButton2 = new javax.swing.JButton();
+        jButton2.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        jButton2.setFont(new Font("Tahoma", Font.BOLD, 20));
         jButton2.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -90,16 +99,12 @@ public class OptionsAdmin extends javax.swing.JFrame {
         	}
         });
         jButton2.setFocusable(false);
-        jButton2.setBounds(0, 190, 1306, 23);
+        jButton2.setBounds(451, 162, 394, 51);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1920, 1080));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(207, 501));
-
-        jLabel1.setFont(new java.awt.Font("Monotype Corsiva", 0, 33));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Bon Appettit");
 
         jButtonMenu.setText("Menu");
         jButtonMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -110,39 +115,57 @@ public class OptionsAdmin extends javax.swing.JFrame {
 
         jButton4.setText("Log Out");
 
-        jLabel2.setFont(new java.awt.Font("Blackadder ITC", 0, 30)); 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Administrator");
-
         jButtonProfile.setText("Profile");
 
         jButton2.setText("Order Numbers");
+        jLabel1 = new javax.swing.JLabel();
+        jLabel1.setForeground(new Color(255, 255, 255));
+        
+                jLabel1.setFont(new Font("Century Gothic", Font.BOLD, 43));
+                jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                jLabel1.setText("Bon Appettit");
+        jLabel2 = new javax.swing.JLabel();
+        jLabel2.setForeground(new Color(255, 255, 255));
+        
+                jLabel2.setFont(new Font("Century Gothic", Font.PLAIN, 30)); 
+                jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                jLabel2.setText("Administrator");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addGap(191)
-        			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(423, Short.MAX_VALUE))
+        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(645)
+        					.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 376, GroupLayout.PREFERRED_SIZE))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(192)
+        					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        						.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 1286, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE))))
+        			.addContainerGap(422, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addGap(151)
+        			.addGap(35)
+        			.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
+        			.addGap(35)
+        			.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
+        			.addGap(41)
         			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(388, Short.MAX_VALUE))
+        			.addContainerGap(300, Short.MAX_VALUE))
         );
         jPanel1.setLayout(null);
         jPanel1.add(jButton4);
-        jPanel1.add(jLabel1);
         jPanel1.add(jButtonMenu);
-        jPanel1.add(jLabel2);
         jPanel1.add(jButton2);
         jPanel1.add(jButtonProfile);
         getContentPane().setLayout(layout);
         
         btnClose = new JButton("Close");
+        btnClose.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
         btnClose.setFocusable(false);
         btnClose.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -181,18 +204,18 @@ public class OptionsAdmin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(OptionsAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OptionAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(OptionsAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OptionAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(OptionsAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OptionAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(OptionsAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OptionAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new OptionsAdmin().setVisible(true);
+                new OptionAdmin().setVisible(true);
             }
         });
     }
