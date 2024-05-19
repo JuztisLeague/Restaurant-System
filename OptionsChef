@@ -17,6 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import java.awt.Color;
 
 public class OptionsChef extends JFrame {
 
@@ -25,6 +29,7 @@ public class OptionsChef extends JFrame {
 
 
 	public OptionsChef() {
+		getContentPane().setBackground(new Color(0, 64, 64));
         
     	setExtendedState(Frame.MAXIMIZED_BOTH);
     	setUndecorated(true);
@@ -60,9 +65,10 @@ public class OptionsChef extends JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel1.setBounds(23, 478, 157, 38);
+        jPanel1.setBackground(new Color(0, 64, 64));
         jButtonLogout = new javax.swing.JButton();
+        jButtonLogout.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        jButtonLogout.setFont(new Font("Tahoma", Font.BOLD, 20));
         jButtonLogout.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -70,12 +76,12 @@ public class OptionsChef extends JFrame {
         	}
         });
         jButtonLogout.setFocusable(false);
-        jButtonLogout.setBounds(10, 191, 1306, 23);
-        jLabel2 = new javax.swing.JLabel();
-        jLabel2.setBounds(10, 11, 1286, 62);
+        jButtonLogout.setBounds(491, 211, 358, 59);
         jButtonProfile = new javax.swing.JButton();
+        jButtonProfile.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        jButtonProfile.setFont(new Font("Tahoma", Font.BOLD, 20));
         jButtonProfile.setFocusable(false);
-        jButtonProfile.setBounds(0, 108, 1306, 23);
+        jButtonProfile.setBounds(491, 21, 358, 60);
         jButtonProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	
@@ -83,6 +89,8 @@ public class OptionsChef extends JFrame {
             }
         });
         jButton2 = new javax.swing.JButton();
+        jButton2.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        jButton2.setFont(new Font("Tahoma", Font.BOLD, 20));
         jButton2.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -90,46 +98,59 @@ public class OptionsChef extends JFrame {
         	}
         });
         jButton2.setFocusable(false);
-        jButton2.setBounds(10, 150, 1306, 23);
+        jButton2.setBounds(491, 113, 358, 60);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1920, 1080));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(207, 501));
 
-        jLabel1.setFont(new java.awt.Font("Monotype Corsiva", 0, 33));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Bon Appettit");
-
         jButtonLogout.setText("Log Out");
-
-        jLabel2.setFont(new java.awt.Font("Blackadder ITC", 0, 30)); 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Chef");
 
         jButtonProfile.setText("Profile");
 
         jButton2.setText("Order Numbers");
+        jLabel1 = new javax.swing.JLabel();
+        jLabel1.setForeground(new Color(255, 255, 255));
+        
+                jLabel1.setFont(new Font("Century Gothic", Font.BOLD, 43));
+                jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                jLabel1.setText("Bon Appettit");
+        jLabel2 = new javax.swing.JLabel();
+        jLabel2.setForeground(new Color(255, 255, 255));
+        
+                jLabel2.setFont(new Font("Century Gothic", Font.PLAIN, 30)); 
+                jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                jLabel2.setText("Chef");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addGap(191)
-        			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(423, Short.MAX_VALUE))
+        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(648)
+        					.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 411, GroupLayout.PREFERRED_SIZE))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(190)
+        					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+        						.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 1286, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE))))
+        			.addContainerGap(424, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addGap(151)
+        			.addGap(28)
+        			.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+        			.addGap(18)
+        			.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
+        			.addGap(44)
         			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(388, Short.MAX_VALUE))
+        			.addContainerGap(320, Short.MAX_VALUE))
         );
         jPanel1.setLayout(null);
         jPanel1.add(jButtonLogout);
-        jPanel1.add(jLabel1);
-        jPanel1.add(jLabel2);
         jPanel1.add(jButton2);
         jPanel1.add(jButtonProfile);
         getContentPane().setLayout(layout);
