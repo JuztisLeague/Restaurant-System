@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class OptionsCashier extends JFrame {
 
@@ -82,6 +83,7 @@ public class OptionsCashier extends JFrame {
         jButtonPayments = new javax.swing.JButton();
         jButtonPayments.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		jButtonPaymentsActionPerformed(e);
         	}
         });
         jButtonPayments.setFocusable(false);
@@ -144,6 +146,26 @@ public class OptionsCashier extends JFrame {
     }            
 
     public static void main(String args[]) {
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                personnelLogin = new PersonnelLogin();
+                personnelLogin.setVisible(false); 
+            }
+        });
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                cashierPage = new CashierPage();
+                cashierPage.setVisible(false); 
+            }
+        });
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                profilePage = new ProfilePage();
+                profilePage.setVisible(false); 
+            }
+        });
+    	
+    	
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -169,18 +191,34 @@ public class OptionsCashier extends JFrame {
     }
     
     public void jButtonProfileActionPerformed(ActionEvent e){
-    	ProfilePage profilePage = new ProfilePage();
-    	profilePage.setVisible(true);
-    	this.dispose();
+    	if (profilePage == null) {
+    		profilePage = new ProfilePage(); 
+        }
+    	profilePage.setVisible(true); 
+        dispose();
     }
     
-    private void jButtonLogOutActionPerformed(ActionEvent e) {                                         
+    public void jButtonLogOutActionPerformed(ActionEvent e) {                                         
         
-        PersonnelLogin personnelLogin = new PersonnelLogin();
-        personnelLogin.setVisible(true);
-        this.dispose();
+    	if (personnelLogin == null) {
+    		personnelLogin = new PersonnelLogin(); 
+        }
+    	personnelLogin.setVisible(true); 
+        dispose();
        
    }
+    
+   public void jButtonPaymentsActionPerformed(ActionEvent e) {
+	   if (cashierPage == null) {
+		   cashierPage = new CashierPage(); 
+       }
+	   cashierPage.setVisible(true); 
+       dispose();
+   }
+    
+   private static ProfilePage profilePage;
+   private static PersonnelLogin personnelLogin;
+   private static CashierPage cashierPage;
     private JButton jButtonPayments;
     private JButton jButtonProfile;
     private JButton jButtonLogout;
