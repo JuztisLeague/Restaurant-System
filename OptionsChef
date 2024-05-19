@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class OptionsChef extends JFrame {
 
@@ -38,6 +39,7 @@ public class OptionsChef extends JFrame {
     Connection con;
 	PreparedStatement pst;
 	ResultSet rs;
+	
     
     
     public void connect() {
@@ -147,6 +149,26 @@ public class OptionsChef extends JFrame {
     }            
 
     public static void main(String args[]) {
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                personnelLogin = new PersonnelLogin();
+                personnelLogin.setVisible(false); 
+            }
+        });
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                orderNumbers = new OrderNumbers();
+                orderNumbers.setVisible(false); 
+            }
+        });
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                profilePage = new ProfilePage();
+                profilePage.setVisible(false); 
+            }
+        });
+    	
+    	
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -172,23 +194,33 @@ public class OptionsChef extends JFrame {
     }
     
     public void jButtonProfileActionPerformed(ActionEvent e){
-    	ProfilePage profilePage = new ProfilePage();
-    	profilePage.setVisible(true);
-    	this.dispose();
+    	if (profilePage == null) {
+    		profilePage = new ProfilePage(); 
+        }
+    	profilePage.setVisible(true); 
+        dispose();
     }
     
     
     public void jButtonLogoutActionPerformed(ActionEvent e) {
-    	PersonnelLogin personnelLogin = new PersonnelLogin();
-    	personnelLogin.setVisible(true);
-    	this.dispose();
+    	if (personnelLogin == null) {
+    		personnelLogin = new PersonnelLogin(); 
+        }
+    	personnelLogin.setVisible(true); 
+        dispose();
     }
     
     public void jButtonOrderNumbersActionPerformed(ActionEvent e) {
-    	OrderNumbers orderNumbers = new OrderNumbers();
-    	orderNumbers.setVisible(true);
-    	this.dispose();
+    	if (orderNumbers == null) {
+    		orderNumbers = new OrderNumbers(); 
+        }
+    	orderNumbers.setVisible(true); 
+        dispose();
     }
+    
+    private static ProfilePage profilePage;
+    private static PersonnelLogin personnelLogin;
+    private static OrderNumbers orderNumbers;
     private JButton jButton2;
     private JButton jButtonProfile;
     private JButton jButtonLogout;
