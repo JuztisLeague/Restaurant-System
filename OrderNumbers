@@ -24,7 +24,9 @@ import java.awt.Dimension;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import javax.swing.border.TitledBorder;
@@ -32,6 +34,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.JSpinner;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -43,6 +46,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.border.EmptyBorder;
+import javax.swing.UIManager;
 
 public class OrderNumbers extends JFrame {
 	/**
@@ -58,7 +62,7 @@ public class OrderNumbers extends JFrame {
 	ResultSet countResult;
 
 
-
+	
 	private int totalRows;
 	private int count;
 	private int trueCount;
@@ -88,6 +92,20 @@ public class OrderNumbers extends JFrame {
 	private JButton btnCancel_2;
 	private JButton btnDeleteOrder;
 	private int selectedRow;
+	private JTableHeader tableHeader;
+	private DefaultTableCellRenderer renderer;
+	private DefaultTableCellRenderer centerRenderer;
+	private PersonnelLogin personnelLogin;
+	private MenuAdmin menuAdmin;
+
+
+
+	private JLabel lblBack;
+
+
+
+	private JLabel lblLogout;
+	private static ProfilePage profilePage;
 
 
 
@@ -114,6 +132,7 @@ public class OrderNumbers extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -140,7 +159,7 @@ public class OrderNumbers extends JFrame {
 		
 		connect();
 		initComponents();
-		JButton[] btns = { jButtonAppetizers, jButtonEntree, jButtonDesserts, jButtonDrinks, jButtonClose, jButtonBack};
+		JButton[] btns = { jButtonAppetizers, jButtonMenuAdmin, jButtonDrinks, jButtonClose, jButtonBack};
         for (JButton btn : btns) {
             btn.setBackground(new Color(21,25,28));
             btn.setUI(new BasicButtonUI());
@@ -206,40 +225,45 @@ public class OrderNumbers extends JFrame {
 		
 		lblMenu = new JLabel("MENU");
 		lblMenu.setForeground(Color.LIGHT_GRAY);
-		lblMenu.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		lblMenu.setFont(new Font("Century Gothic", Font.BOLD, 20));
 		panelLeft.add(lblMenu);
 		
 		jButtonAppetizers = new JButton("");
+		jButtonAppetizers.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jButtonProfileActionPerformed(e);
+			}
+		});
 		jButtonAppetizers.setForeground(new Color(29, 33, 34));
 		jButtonAppetizers.setBorder(new EmptyBorder(0, 0, 0, 0));
-		jButtonAppetizers.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/nachos.png")));
+		jButtonAppetizers.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/user.png")));
 		jButtonAppetizers.setPreferredSize(new Dimension(64, 64));
 		jButtonAppetizers.setBackground(Color.BLACK);
 		panelLeft.add(jButtonAppetizers);
 		
-		jButtonEntree = new JButton("");
-		jButtonEntree.setForeground(new Color(29, 33, 34));
-		jButtonEntree.setBorder(new EmptyBorder(0, 0, 0, 0));
-		jButtonEntree.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/Entree.png")));
-		jButtonEntree.setPreferredSize(new Dimension(64, 64));
-		jButtonEntree.setBackground(Color.BLACK);
-		panelLeft.add(jButtonEntree);
-		
-		jButtonDesserts = new JButton("");
-		jButtonDesserts.setForeground(new Color(29, 33, 34));
-		jButtonDesserts.setBorder(new EmptyBorder(0, 0, 0, 0));
-		jButtonDesserts.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/dessert.png")));
-		jButtonDesserts.setPreferredSize(new Dimension(64, 64));
-		jButtonDesserts.setBackground(Color.BLACK);
-		panelLeft.add(jButtonDesserts);
-		
 		jButtonDrinks = new JButton("");
+		jButtonDrinks.setOpaque(false);
+		jButtonDrinks.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jButtonLogOutActionPerformed( e);
+			}
+		});
+		
+		lblProfile = new JLabel("Profile");
+		lblProfile.setForeground(new Color(255, 255, 255));
+		lblProfile.setFont(new Font("Century Gothic", Font.PLAIN, 14));
+		panelLeft.add(lblProfile);
 		jButtonDrinks.setForeground(new Color(29, 33, 34));
 		jButtonDrinks.setBorder(new EmptyBorder(0, 0, 0, 0));
-		jButtonDrinks.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/drinks.png")));
+		jButtonDrinks.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/log-out.png")));
 		jButtonDrinks.setPreferredSize(new Dimension(64, 64));
-		jButtonDrinks.setBackground(Color.BLACK);
+		jButtonDrinks.setBackground(new Color(100, 149, 237));
 		panelLeft.add(jButtonDrinks);
+		
+		lblLogout = new JLabel("Logout");
+		lblLogout.setForeground(Color.WHITE);
+		lblLogout.setFont(new Font("Century Gothic", Font.PLAIN, 14));
+		panelLeft.add(lblLogout);
 		
 		jButtonBack = new JButton("");
 		jButtonBack.setForeground(new Color(29, 33, 34));
@@ -248,6 +272,36 @@ public class OrderNumbers extends JFrame {
 		jButtonBack.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/left-arrow.png")));
 		jButtonBack.setBackground(new Color(27, 32, 33));
 		panelLeft.add(jButtonBack);
+		
+		lblBack = new JLabel(" Back");
+		lblBack.setForeground(Color.WHITE);
+		lblBack.setFont(new Font("Century Gothic", Font.PLAIN, 14));
+		panelLeft.add(lblBack);
+		
+		
+		
+		
+		jButtonMenuAdmin = new JButton("");
+		jButtonMenuAdmin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jButtonMenuActionPerformed(e);
+			}
+		});
+		jButtonMenuAdmin.setForeground(new Color(29, 33, 34));
+		jButtonMenuAdmin.setBorder(new EmptyBorder(0, 0, 0, 0));
+		jButtonMenuAdmin.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/menu.png")));
+		jButtonMenuAdmin.setPreferredSize(new Dimension(64, 64));
+		jButtonMenuAdmin.setBackground(Color.BLACK);
+		panelLeft.add(jButtonMenuAdmin);
+		
+		
+		
+		
+		
+		lblMenuAdmin = new JLabel("Menu Admin");
+		lblMenuAdmin.setForeground(Color.WHITE);
+		lblMenuAdmin.setFont(new Font("Century Gothic", Font.PLAIN, 14));
+		panelLeft.add(lblMenuAdmin);
 		jButtonBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -255,16 +309,21 @@ public class OrderNumbers extends JFrame {
 			}
 		});
 		
+		if (PersonnelLogin.storedPersonnelID() == 2) {
+			jButtonMenuAdmin.setVisible(false);
+			lblMenuAdmin.setVisible(false);
+		}
+		
 		panelMiddle = new JPanel();
 		panelMiddle.setBackground(new Color(21, 25, 28));
-		panelMiddle.setBounds(109, 11, 1321, 1058);
+		panelMiddle.setBounds(109, 11, 1801, 1058);
 		getContentPane().add(panelMiddle);
 		panelMiddle.setLayout(null);
 		
 		lblOrderNumbers = new JLabel("ORDER NUMBERS");
 		lblOrderNumbers.setForeground(Color.LIGHT_GRAY);
-		lblOrderNumbers.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		lblOrderNumbers.setBounds(10, 49, 177, 26);
+		lblOrderNumbers.setFont(new Font("Century Gothic", Font.BOLD, 36));
+		lblOrderNumbers.setBounds(10, 11, 307, 55);
 		panelMiddle.add(lblOrderNumbers);
 		
 		panel_Data = new JPanel();
@@ -713,41 +772,62 @@ public class OrderNumbers extends JFrame {
 		});
 		
 		
+		
 		scrollPane = new JScrollPane();
 		scrollPane.setEnabled(false);
-		scrollPane.setBounds(635, 86, 625, 486);
+		scrollPane.setBounds(635, 86, 1156, 506);
+		scrollPane.setBackground(new Color(64, 64, 64));
 		panelMiddle.add(scrollPane);
-		
+
 		table = new JTable();
+		table.setBackground(new Color(64, 64, 64)); // Set the table background color to dark grey
+		table.setForeground(Color.WHITE);
 		table.setName("");
 		model = new DefaultTableModel();
-        Object[] column = {"Order Code","ID","Name","Price","Quantity","Status","Remarks"};
-        model.setColumnIdentifiers(column);
-        table.setModel(model);
-        table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				dataSelected(PersonnelLogin.storedPersonnelID());
-			}
-			
+		Object[] column = {"Code","ID","Name","Price","Quantity","Status","Remarks"};
+		model.setColumnIdentifiers(column);
+		table.setModel(model);
+		table.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        dataSelected(PersonnelLogin.storedPersonnelID());
+		    }
 		});
 		scrollPane.setViewportView(table);
-        
-		
-		panelRight = new JPanel();
-		panelRight.setBackground(new Color(21, 25, 28));
-		panelRight.setBounds(1436, 11, 484, 1058);
-		getContentPane().add(panelRight);
-		panelRight.setLayout(null);
-		
-		lblEditStatus = new JLabel("Edit Status");
-		lblEditStatus.setForeground(Color.LIGHT_GRAY);
-		lblEditStatus.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		lblEditStatus.setBounds(10, 44, 105, 26);
-		panelRight.add(lblEditStatus);
+
+		// Adjusting column widths
+		table.getColumnModel().getColumn(0).setPreferredWidth(80); // Code - for 6 characters
+		table.getColumnModel().getColumn(1).setPreferredWidth(60); // ID - for 4 characters
+		table.getColumnModel().getColumn(2).setPreferredWidth(180); // Name - for longer text
+		table.getColumnModel().getColumn(5).setPreferredWidth(120); // Status - for longer text
+		table.getColumnModel().getColumn(6).setPreferredWidth(90); // Remarks - for longer text
+
+		// Center align content in specific columns
+		centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Code
+		table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // ID
+		table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer); // Price
+		table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer); // Quantity
+		table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer); // Status
+		table.getColumnModel().getColumn(6).setCellRenderer(centerRenderer); // Remarks
+
+		tableHeader = table.getTableHeader();
+		tableHeader.setFont(new Font("Century Gothic", Font.BOLD, 12));
+		tableHeader.setBackground(new Color(64, 64, 64)); // Set the background color of the table header to dark grey
+
+		// Center align column headers
+		renderer = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
+		renderer.setHorizontalAlignment(JLabel.CENTER);
+
+		// Set font and size for table cells
+		table.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+
+		table.setOpaque(true);
 		
 		jButtonClose = new JButton("");
+		jButtonClose.setBounds(1727, 11, 64, 64);
+		panelMiddle.add(jButtonClose);
 		jButtonClose.setForeground(new Color(21, 25, 28));
 		jButtonClose.setBorder(new EmptyBorder(0, 0, 0, 0));
 		jButtonClose.setOpaque(false);
@@ -759,62 +839,73 @@ public class OrderNumbers extends JFrame {
 		});
 		jButtonClose.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/cancel.png")));
 		jButtonClose.setPreferredSize(new Dimension(64, 64));
-		jButtonClose.setBounds(new Rectangle(19, 126, 64, 64));
 		jButtonClose.setBackground(new Color(21, 25, 28));
-		jButtonClose.setBounds(420, 0, 64, 64);
-		panelRight.add(jButtonClose);
+		
+		lblEditStatus = new JLabel("Customize Data");
+		lblEditStatus.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEditStatus.setBounds(635, 603, 1156, 26);
+		panelMiddle.add(lblEditStatus);
+		lblEditStatus.setForeground(Color.LIGHT_GRAY);
+		lblEditStatus.setFont(new Font("Century Gothic", Font.BOLD, 28));
 		
 		panel = new JPanel();
+		panel.setBounds(635, 638, 616, 409);
+		panelMiddle.add(panel);
+		panel.setForeground(new Color(255, 255, 255));
 		panel.setBackground(new Color(29, 33, 34));
-		panel.setBounds(10, 81, 451, 475);
-		panelRight.add(panel);
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(21, 25, 28), new Color(21, 25, 28)), "Chef Edit Status", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(21, 25, 28)), "Chef Edit Status", TitledBorder.LEADING, TitledBorder.TOP, new Font("Century Gothic", Font.BOLD, 18), Color.WHITE)); // Set the font size for the title and the border color to white
 		panel.setLayout(null);
 		
 		lblName = new JLabel("Dish Name");
+		lblName.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		lblName.setForeground(new Color(255, 255, 255));
-		lblName.setBounds(132, 33, 89, 38);
+		lblName.setBounds(132, 32, 89, 38);
 		panel.add(lblName);
 		
 		lblPrice = new JLabel("Price");
+		lblPrice.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		lblPrice.setForeground(new Color(255, 255, 255));
-		lblPrice.setBounds(231, 32, 89, 38);
+		lblPrice.setBounds(357, 31, 89, 38);
 		panel.add(lblPrice);
 		
 		lblQuantity = new JLabel("Quantity");
+		lblQuantity.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		lblQuantity.setForeground(new Color(255, 255, 255));
-		lblQuantity.setBounds(352, 32, 89, 38);
+		lblQuantity.setBounds(502, 33, 89, 38);
 		panel.add(lblQuantity);
 		
 		txtDishName = new JTextField();
 		txtDishName.setEnabled(false);
-		txtDishName.setBounds(132, 81, 86, 37);
+		txtDishName.setBounds(132, 80, 215, 37);
 		panel.add(txtDishName);
 		txtDishName.setColumns(10);
 		
 		txtPrice = new JTextField();
 		txtPrice.setEnabled(false);
 		txtPrice.setColumns(10);
-		txtPrice.setBounds(231, 81, 86, 37);
+		txtPrice.setBounds(357, 80, 135, 37);
 		panel.add(txtPrice);
 		
 		lblComboStatus = new JLabel("Status");
+		lblComboStatus.setFont(new Font("Century Gothic", Font.BOLD, 18));
 		lblComboStatus.setForeground(new Color(255, 255, 255));
-		lblComboStatus.setBounds(10, 199, 89, 38);
+		lblComboStatus.setBounds(10, 142, 89, 38);
 		panel.add(lblComboStatus);
 		
 		lblComborRemarks = new JLabel("Remarks");
+		lblComborRemarks.setFont(new Font("Century Gothic", Font.BOLD, 18));
 		lblComborRemarks.setForeground(new Color(255, 255, 255));
-		lblComborRemarks.setBounds(10, 315, 89, 38);
+		lblComborRemarks.setBounds(10, 258, 89, 38);
 		panel.add(lblComborRemarks);
 		
 		model1 = new SpinnerNumberModel(1, 1, 10, 1);
 		spinnerQuantity = new JSpinner(model1);
 		spinnerQuantity.setEnabled(false);
-		spinnerQuantity.setBounds(352, 81, 89, 36);
+		spinnerQuantity.setBounds(502, 80, 89, 36);
 		panel.add(spinnerQuantity);
 		
 		lblId = new JLabel("ID");
+		lblId.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		lblId.setForeground(new Color(255, 255, 255));
 		lblId.setBounds(78, 33, 44, 38);
 		panel.add(lblId);
@@ -826,37 +917,47 @@ public class OrderNumbers extends JFrame {
 		panel.add(txtID);
 		
 		rdbtnComplete = new JRadioButton("Complete");
+		rdbtnComplete.setForeground(new Color(255, 255, 255));
+		rdbtnComplete.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		rdbtnComplete.setBackground(new Color(29, 33, 34));
 		rdbtnComplete.setEnabled(false);
-		rdbtnComplete.setBounds(31, 360, 109, 23);
+		rdbtnComplete.setBounds(31, 303, 109, 23);
 		panel.add(rdbtnComplete);
 		
 		rdbtnIncomplete = new JRadioButton("Incomplete");
+		rdbtnIncomplete.setForeground(new Color(255, 255, 255));
+		rdbtnIncomplete.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		rdbtnIncomplete.setBackground(new Color(29, 33, 34));
 		rdbtnIncomplete.setEnabled(false);
-		rdbtnIncomplete.setBounds(180, 360, 109, 23);
+		rdbtnIncomplete.setBounds(167, 303, 109, 23);
 		panel.add(rdbtnIncomplete);
 		
-		rb1 = new ButtonGroup(); 
+		rb1 = new ButtonGroup();
 		rb1.add(rdbtnComplete);
 		rb1.add(rdbtnIncomplete);
 		
 		rdbtnPending = new JRadioButton("Pending");
+		rdbtnPending.setForeground(new Color(255, 255, 255));
+		rdbtnPending.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		rdbtnPending.setBackground(new Color(29, 33, 34));
 		rdbtnPending.setEnabled(false);
-		rdbtnPending.setBounds(48, 244, 73, 23);
+		rdbtnPending.setBounds(31, 187, 120, 23);
 		panel.add(rdbtnPending);
 		
 		rdbtnCooking = new JRadioButton("Cooking");
+		rdbtnCooking.setForeground(new Color(255, 255, 255));
+		rdbtnCooking.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		rdbtnCooking.setBackground(new Color(29, 33, 34));
 		rdbtnCooking.setEnabled(false);
-		rdbtnCooking.setBounds(167, 244, 86, 23);
+		rdbtnCooking.setBounds(167, 187, 86, 23);
 		panel.add(rdbtnCooking);
 		
 		rdbtnReadyToServe = new JRadioButton("Ready to Serve");
+		rdbtnReadyToServe.setForeground(new Color(255, 255, 255));
+		rdbtnReadyToServe.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		rdbtnReadyToServe.setBackground(new Color(29, 33, 34));
 		rdbtnReadyToServe.setEnabled(false);
-		rdbtnReadyToServe.setBounds(289, 244, 121, 23);
+		rdbtnReadyToServe.setBounds(279, 187, 131, 23);
 		panel.add(rdbtnReadyToServe);
 		
 		rb2 = new ButtonGroup();
@@ -865,6 +966,9 @@ public class OrderNumbers extends JFrame {
 		rb2.add(rdbtnReadyToServe);
 		
 		btnButtonStatusEdit = new JButton("Edit Status");
+		btnButtonStatusEdit.setBackground(new Color(128, 128, 128));
+		btnButtonStatusEdit.setForeground(new Color(255, 255, 255));
+		btnButtonStatusEdit.setFont(new Font("Century Gothic", Font.BOLD, 14));
 		btnButtonStatusEdit.setVisible(false);
 		btnButtonStatusEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -872,10 +976,13 @@ public class OrderNumbers extends JFrame {
 				jButtonStatusEditActionPerformed(e);
 			}
 		});
-		btnButtonStatusEdit.setBounds(37, 285, 114, 23);
+		btnButtonStatusEdit.setBounds(67, 148, 120, 30);
 		panel.add(btnButtonStatusEdit);
 		
 		btnButtonRemarksEdit = new JButton("Edit Remarks");
+		btnButtonRemarksEdit.setBackground(new Color(128, 128, 128));
+		btnButtonRemarksEdit.setForeground(new Color(255, 255, 255));
+		btnButtonRemarksEdit.setFont(new Font("Century Gothic", Font.BOLD, 14));
 		btnButtonRemarksEdit.setVisible(false);
 		btnButtonRemarksEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -883,10 +990,13 @@ public class OrderNumbers extends JFrame {
 				jButtonRemarksEditActionPerformed(e);
 			}
 		});
-		btnButtonRemarksEdit.setBounds(37, 398, 108, 23);
+		btnButtonRemarksEdit.setBounds(101, 264, 120, 30);
 		panel.add(btnButtonRemarksEdit);
 		
 		btnStatusDone = new JButton("Done");
+		btnStatusDone.setBackground(new Color(128, 255, 128));
+		btnStatusDone.setForeground(new Color(255, 255, 255));
+		btnStatusDone.setFont(new Font("Century Gothic", Font.BOLD, 14));
 		btnStatusDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -894,10 +1004,18 @@ public class OrderNumbers extends JFrame {
 			}
 		});
 		btnStatusDone.setVisible(false);
-		btnStatusDone.setBounds(180, 285, 95, 23);
+		btnStatusDone.setBounds(180, 228, 95, 30);
 		panel.add(btnStatusDone);
 		
-		btnRemarksDone = new JButton("Done");
+		
+		
+		btnRemarksDone = new JButton("");
+		
+		
+		btnRemarksDone.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/confirm.png")));
+		btnRemarksDone.setBackground(new Color(255, 255, 255));
+		btnRemarksDone.setForeground(new Color(255, 255, 255));
+		btnRemarksDone.setFont(new Font("Century Gothic", Font.BOLD, 14));
 		btnRemarksDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -905,10 +1023,11 @@ public class OrderNumbers extends JFrame {
 			}
 		});
 		btnRemarksDone.setVisible(false);
-		btnRemarksDone.setBounds(180, 398, 95, 23);
+		btnRemarksDone.setBounds(315, 299, 66, 60);
 		panel.add(btnRemarksDone);
 		
 		lblCode = new JLabel("Code");
+		lblCode.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		lblCode.setForeground(new Color(255, 255, 255));
 		lblCode.setBounds(10, 33, 44, 38);
 		panel.add(lblCode);
@@ -920,6 +1039,9 @@ public class OrderNumbers extends JFrame {
 		panel.add(txtCode);
 		
 		btnCancelStatus = new JButton("Cancel");
+		btnCancelStatus.setBackground(new Color(255, 128, 128));
+		btnCancelStatus.setForeground(new Color(255, 255, 255));
+		btnCancelStatus.setFont(new Font("Century Gothic", Font.BOLD, 14));
 		btnCancelStatus.setVisible(false);
 		btnCancelStatus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -927,10 +1049,14 @@ public class OrderNumbers extends JFrame {
 				jButtonCancelStatusActionPerformed(e);
 			}
 		});
-		btnCancelStatus.setBounds(308, 285, 89, 23);
+		btnCancelStatus.setBounds(308, 228, 89, 30);
 		panel.add(btnCancelStatus);
 		
-		btnCancelRemarks = new JButton("Cancel");
+		btnCancelRemarks = new JButton("");
+		btnCancelRemarks.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/cancel.png")));
+		btnCancelRemarks.setBackground(new Color(255, 255, 255));
+		btnCancelRemarks.setForeground(new Color(255, 255, 255));
+		btnCancelRemarks.setFont(new Font("Century Gothic", Font.BOLD, 14));
 		btnCancelRemarks.setVisible(false);
 		btnCancelRemarks.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -938,25 +1064,24 @@ public class OrderNumbers extends JFrame {
 				jButtonCancelRemarksActionPerformed(e);
 			}
 		});
-		btnCancelRemarks.setBounds(308, 398, 89, 23);
+		btnCancelRemarks.setBounds(427, 299, 66, 60);
 		panel.add(btnCancelRemarks);
 		
 		panel_AdminEdit = new JPanel();
+		panel_AdminEdit.setBounds(1279, 640, 512, 407);
+		panelMiddle.add(panel_AdminEdit);
 		panel_AdminEdit.setBackground(new Color(29, 33, 34));
-		panel_AdminEdit.setVisible(false);
-		panel_AdminEdit.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(21, 25, 28), new Color(21, 25, 28)), "Admin Edit", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
-		panel_AdminEdit.setBounds(10, 577, 451, 261);
-		panelRight.add(panel_AdminEdit);
+		panel_AdminEdit.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.RAISED, new Color(255, 255, 255), new Color(21, 25, 28)), "Admin Edit", TitledBorder.LEFT, TitledBorder.TOP, new Font("Century Gothic", Font.BOLD, 18), new Color(255, 255, 255)));
 		panel_AdminEdit.setLayout(null);
 		
 		scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(224, 21, 2, 2);
 		panel_AdminEdit.add(scrollPane_1);
 		
-		rb3 = new ButtonGroup();
-		rb4 = new ButtonGroup();
-		
 		btnDone_2 = new JButton("Done");
+		btnDone_2.setForeground(new Color(255, 255, 255));
+		btnDone_2.setFont(new Font("Century Gothic", Font.BOLD, 14));
+		btnDone_2.setBackground(new Color(50, 205, 50));
 		btnDone_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -964,40 +1089,57 @@ public class OrderNumbers extends JFrame {
 			}
 		});
 		btnDone_2.setVisible(false);
-		btnDone_2.setBounds(166, 55, 107, 23);
+		btnDone_2.setBounds(58, 99, 129, 30);
 		panel_AdminEdit.add(btnDone_2);
 		
 		btnButtonEditQuantity = new JButton("Edit Quantity");
+		btnButtonEditQuantity.setVisible(false);
+		btnButtonEditQuantity.setForeground(new Color(255, 255, 255));
+		btnButtonEditQuantity.setBackground(new Color(128, 128, 128));
+		btnButtonEditQuantity.setFont(new Font("Century Gothic", Font.BOLD, 14));
 		btnButtonEditQuantity.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				jButtonEditQuantityActionPerformed(e);
 				
 			}
 		});
-		btnButtonEditQuantity.setVisible(false);
-		btnButtonEditQuantity.setBounds(23, 55, 107, 23);
+		btnButtonEditQuantity.setBounds(58, 45, 129, 30);
 		panel_AdminEdit.add(btnButtonEditQuantity);
 		
 		btnCancel_2 = new JButton("Cancel");
+		btnCancel_2.setForeground(new Color(255, 255, 255));
+		btnCancel_2.setFont(new Font("Century Gothic", Font.BOLD, 14));
+		btnCancel_2.setBackground(new Color(255, 128, 128));
 		btnCancel_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				jButtonCancel_2ActionPerformed(e);
 			}
 		});
 		btnCancel_2.setVisible(false);
-		btnCancel_2.setBounds(318, 55, 107, 23);
+		btnCancel_2.setBounds(260, 99, 129, 30);
 		panel_AdminEdit.add(btnCancel_2);
 		
 		btnDeleteOrder = new JButton("Delete Order");
+		btnDeleteOrder.setVisible(false);
+		btnDeleteOrder.setForeground(new Color(255, 255, 255));
+		btnDeleteOrder.setBackground(new Color(128, 128, 128));
+		btnDeleteOrder.setFont(new Font("Century Gothic", Font.BOLD, 14));
 		btnDeleteOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				jButtonDeleteOrderActionPerformed(e);
 			}
 		});
-		btnDeleteOrder.setVisible(false);
-		btnDeleteOrder.setBounds(166, 145, 107, 23);
+		btnDeleteOrder.setBounds(260, 45, 129, 30);
 		panel_AdminEdit.add(btnDeleteOrder);
+		scrollPane.getViewport().setBackground(new Color(64, 64, 64));
+		
+		rb1 = new ButtonGroup(); 
+		
+		rb2 = new ButtonGroup();
+		
+		rb3 = new ButtonGroup();
+		rb4 = new ButtonGroup();
 		
 		
 		lblBackground = new JLabel("New label");
@@ -1309,10 +1451,18 @@ public class OrderNumbers extends JFrame {
 		            panel_AdminEdit.setVisible(true);
 		            btnButtonEditQuantity.setVisible(true);
 		            btnDeleteOrder.setVisible(true);
+		            btnButtonEditQuantity.setEnabled(true);
+		            btnDeleteOrder.setEnabled(true);
 		            break; // Added break statement
 		        }
 		        case 2:{
 		            // Code for case 2
+		        	panel_AdminEdit.setVisible(true);
+		        	panel_AdminEdit.setEnabled(false);
+		        	btnButtonEditQuantity.setVisible(true);
+		            btnDeleteOrder.setVisible(true);
+		            btnButtonEditQuantity.setEnabled(false);
+		            btnDeleteOrder.setEnabled(false);
 		            break; // Added break statement
 		        }
 		    }
@@ -1588,6 +1738,15 @@ public class OrderNumbers extends JFrame {
 	        
 	        limit = 0;
 	        count =0;
+	        
+	        rdbtnComplete.setEnabled(false);
+			rdbtnIncomplete.setEnabled(false);
+			btnRemarksDone.setVisible(false);
+			btnButtonRemarksEdit.setVisible(false);
+			btnButtonStatusEdit.setVisible(false);
+			btnCancelRemarks.setVisible(false);
+			btnStatusDone.setVisible(false);
+			btnCancelStatus.setVisible(false);
 
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
@@ -1645,6 +1804,9 @@ public class OrderNumbers extends JFrame {
 			btnButtonRemarksEdit.setVisible(false);
 			btnButtonStatusEdit.setVisible(false);
 			btnCancelRemarks.setVisible(false);
+			btnStatusDone.setVisible(false);
+			btnCancelStatus.setVisible(false);
+			
 
 	        /*if (!recordFound) {
 	            JOptionPane.showMessageDialog(null, "Record not found!");
@@ -1861,6 +2023,34 @@ public class OrderNumbers extends JFrame {
 	    }
 	}
 	
+	public void jButtonProfileActionPerformed(ActionEvent e){
+    	if (profilePage == null) {
+    		profilePage = new ProfilePage(); 
+        }
+    	profilePage.setVisible(true); 
+        dispose();
+    }
+	
+	private void jButtonLogOutActionPerformed(ActionEvent e) {                                         
+        
+		if (personnelLogin == null) {
+			personnelLogin = new PersonnelLogin(); 
+        }
+		personnelLogin.setVisible(true); 
+        dispose();
+       
+   }
+	
+	private void jButtonMenuActionPerformed(java.awt.event.ActionEvent evt) {                                         
+		if (menuAdmin == null) {
+			menuAdmin = new MenuAdmin(); 
+        }
+		menuAdmin.setVisible(true); 
+        dispose();
+        
+       
+   }   
+	
 	
 	
 	private final Object[] row = new Object[8];
@@ -1868,12 +2058,10 @@ public class OrderNumbers extends JFrame {
 	private JPanel panelLeft;
 	private JLabel lblMenu;
 	private JButton jButtonAppetizers;
-	private JButton jButtonEntree;
-	private JButton jButtonDesserts;
+	private JButton jButtonMenuAdmin;
 	private JButton jButtonDrinks;
 	private JPanel panelMiddle;
 	private JLabel lblOrderNumbers;
-	private JPanel panelRight;
 	private JLabel lblEditStatus;
 	private JLabel lblBackground;
 	private int dishCount;
@@ -1958,4 +2146,6 @@ public class OrderNumbers extends JFrame {
 	private JPanel panel_9;
 	private JPanel panel_10;
 	private JPanel panel_11;
+	private JLabel lblProfile;
+	private JLabel lblMenuAdmin;
 }
