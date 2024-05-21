@@ -1,0 +1,527 @@
+package BonAppetit;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+
+import java.awt.Rectangle;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
+
+public class OrderNumbersDiner extends JFrame {
+
+    private JTextField textFieldOrderNumber;
+    private Connection con;
+    private PreparedStatement pst;
+    private ResultSet rs;
+    private JLabel lblStatus;
+    private JLabel lblRemarks;
+    private JTable table;
+    private boolean allPending;
+    private boolean allCooking;
+    private boolean allComplete;
+    private Timer timer;
+	private JScrollPane scrollPane;
+	private DefaultTableModel model;
+	private DefaultTableCellRenderer centerRenderer;
+	private JTableHeader tableHeader;
+	private DefaultTableCellRenderer renderer;
+	private static DinerPage dinerPage;
+	private static SignInPage signInPage;
+	private static int key = 0;
+
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+    	
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new SignInPage().setVisible(false); 
+            }
+        });
+    	
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new OptionsDiner().setVisible(false); 
+            }
+        });
+    	
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new DinerPage().setVisible(false); 
+            }
+        });
+    	
+        EventQueue.invokeLater(new Runnable() {
+        	
+        	
+            public void run() {
+                try {
+                    OrderNumbersDiner window = new OrderNumbersDiner();
+                    window.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Create the application.
+     */
+    public OrderNumbersDiner() {
+        setUndecorated(true);
+        setExtendedState(Frame.MAXIMIZED_BOTH);
+        getContentPane().setPreferredSize(new Dimension(1920, 1080));
+        getContentPane().setBounds(new Rectangle(0, 0, 1920, 1080));
+        initialize();
+        connect(); // Connect to the database
+        populateTable(); // Populate table with initial data
+        startTimer(); // Start the timer for periodic updates
+    }
+
+    /**
+     * Initialize the contents of the frame.
+     */
+    private void initialize() {
+        setBounds(100, 100, 1920, 1080);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
+        
+        JPanel panelLeft = new JPanel();
+        panelLeft.setBounds(new Rectangle(0, 11, 103, 1058));
+        panelLeft.setBackground(new Color(21, 25, 28));
+        panelLeft.setBounds(0, 11, 103, 1058);
+        getContentPane().add(panelLeft);
+        panelLeft.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 30));
+        
+        JButton jButtonAppetizers = new JButton("");
+        jButtonAppetizers.setFocusable(false);
+        jButtonAppetizers.setOpaque(false);
+        jButtonAppetizers.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Home.png")));
+        jButtonAppetizers.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		jButtonHomeActionPerformed(e);
+        	}
+        });
+        jButtonAppetizers.setPreferredSize(new Dimension(64, 64));
+        jButtonAppetizers.setForeground(new Color(29, 33, 34));
+        jButtonAppetizers.setBorder(new EmptyBorder(0, 0, 0, 0));
+        jButtonAppetizers.setBackground(Color.BLACK);
+        panelLeft.add(jButtonAppetizers);
+        
+        JLabel lblHome = new JLabel("Home");
+        lblHome.setForeground(Color.WHITE);
+        lblHome.setFont(new Font("Century Gothic", Font.PLAIN, 14));
+        panelLeft.add(lblHome);
+        
+        JButton btnViewMenu = new JButton("");
+        btnViewMenu.setFocusable(false);
+        btnViewMenu.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/menu.png")));
+        btnViewMenu.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		jButtonMenuAddActionPerformed(e);
+        		key = 1;
+        	}
+        });
+        btnViewMenu.setPreferredSize(new Dimension(64, 64));
+        btnViewMenu.setOpaque(false);
+        btnViewMenu.setForeground(new Color(29, 33, 34));
+        btnViewMenu.setBorder(new EmptyBorder(0, 0, 0, 0));
+        btnViewMenu.setBackground(new Color(100, 149, 237));
+        panelLeft.add(btnViewMenu);
+        
+        JLabel lblLogout = new JLabel("View Menu");
+        lblLogout.setForeground(Color.WHITE);
+        lblLogout.setFont(new Font("Century Gothic", Font.PLAIN, 14));
+        panelLeft.add(lblLogout);
+        
+        JButton btnCreateOrder = new JButton("");
+        btnCreateOrder.setFocusable(false);
+        btnCreateOrder.setOpaque(false);
+        btnCreateOrder.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Order.png")));
+        btnCreateOrder.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		jButtonMenuAddActionPerformed(e);
+        		key = 2;
+        	}
+        });
+        btnCreateOrder.setPreferredSize(new Dimension(64, 64));
+        btnCreateOrder.setForeground(new Color(29, 33, 34));
+        btnCreateOrder.setBorder(new EmptyBorder(0, 0, 0, 0));
+        btnCreateOrder.setBackground(new Color(27, 32, 33));
+        panelLeft.add(btnCreateOrder);
+        
+        JLabel lblBack = new JLabel("Create Order");
+        lblBack.setForeground(Color.WHITE);
+        lblBack.setFont(new Font("Century Gothic", Font.PLAIN, 14));
+        panelLeft.add(lblBack);
+        
+        JButton btnBack = new JButton("");
+        btnBack.setFocusable(false);
+        btnBack.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/left-arrow.png")));
+        btnBack.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		jButtonBackActionPerformed(e);
+        	}
+        });
+        btnBack.setPreferredSize(new Dimension(64, 64));
+        btnBack.setForeground(new Color(29, 33, 34));
+        btnBack.setBorder(new EmptyBorder(0, 0, 0, 0));
+        btnBack.setBackground(Color.BLACK);
+        panelLeft.add(btnBack);
+        
+        JLabel lblMenuAdmin = new JLabel("Back");
+        lblMenuAdmin.setForeground(Color.WHITE);
+        lblMenuAdmin.setFont(new Font("Century Gothic", Font.PLAIN, 14));
+        panelLeft.add(lblMenuAdmin);
+        
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(21, 25, 28));
+        panel.setBounds(109, 11, 1801, 1058);
+        getContentPane().add(panel);
+        panel.setLayout(null);
+        
+        JPanel panelInput = new JPanel();
+        panelInput.setBackground(new Color(21, 25, 28));
+        panelInput.setBounds(10, 77, 1170, 89);
+        panel.add(panelInput);
+        panelInput.setLayout(null);
+        
+        JLabel lblEnterOrderNumber = new JLabel("Enter Order Code:");
+        lblEnterOrderNumber.setFont(new Font("Century Gothic", Font.PLAIN, 18));
+        lblEnterOrderNumber.setForeground(new Color(255, 255, 255));
+        lblEnterOrderNumber.setBounds(10, 29, 228, 31);
+        panelInput.add(lblEnterOrderNumber);
+        
+        textFieldOrderNumber = new JTextField();
+        textFieldOrderNumber.setFont(new Font("Century Gothic", Font.PLAIN, 18));
+        textFieldOrderNumber.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String input = textFieldOrderNumber.getText();
+                if (input.isEmpty()) {
+                    JOptionPane.showMessageDialog(OrderNumbersDiner.this, "Input your order code first", "Missing Order Code", JOptionPane.WARNING_MESSAGE);
+                    textFieldOrderNumber.requestFocusInWindow();
+                } else if (input.length() != 5 || !input.matches("\\d+")) {
+                    JOptionPane.showMessageDialog(OrderNumbersDiner.this, "Error: Enter 5 valid digits", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                    textFieldOrderNumber.setText("");
+                    textFieldOrderNumber.requestFocusInWindow();
+                } else {
+                    searchOrderStatus();
+                }
+            }
+        });
+
+        textFieldOrderNumber.setBounds(248, 29, 176, 31);
+        panelInput.add(textFieldOrderNumber);
+        textFieldOrderNumber.setColumns(10);
+        
+        JButton btnSearch = new JButton("Search");
+        btnSearch.setFont(new Font("Century Gothic", Font.PLAIN, 18));
+        btnSearch.setBounds(434, 29, 120, 30);
+        panelInput.add(btnSearch);
+        
+        JPanel panelOutput = new JPanel();
+        panelOutput.setBackground(new Color(31, 31, 31));
+        panelOutput.setBounds(10, 177, 1216, 870);
+        panel.add(panelOutput);
+        panelOutput.setLayout(null);
+        
+        lblStatus = new JLabel("");
+        lblStatus.setForeground(new Color(255, 255, 255));
+        lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
+        lblStatus.setBounds(10, 164, 575, 575);
+        panelOutput.add(lblStatus);
+        
+        lblRemarks = new JLabel("");
+        lblRemarks.setForeground(new Color(255, 255, 255));
+        lblRemarks.setHorizontalAlignment(SwingConstants.CENTER);
+        lblRemarks.setBounds(607, 164, 575, 575);
+        panelOutput.add(lblRemarks);
+        
+        JLabel lblEnterOrderNumber_1 = new JLabel("STATUS");
+        lblEnterOrderNumber_1.setHorizontalAlignment(SwingConstants.CENTER);
+        lblEnterOrderNumber_1.setForeground(Color.WHITE);
+        lblEnterOrderNumber_1.setFont(new Font("Century Gothic", Font.PLAIN, 50));
+        lblEnterOrderNumber_1.setBounds(10, 35, 575, 58);
+        panelOutput.add(lblEnterOrderNumber_1);
+        
+        JLabel lblEnterOrderNumber_1_1 = new JLabel("REMARKS");
+        lblEnterOrderNumber_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+        lblEnterOrderNumber_1_1.setForeground(Color.WHITE);
+        lblEnterOrderNumber_1_1.setFont(new Font("Century Gothic", Font.PLAIN, 50));
+        lblEnterOrderNumber_1_1.setBounds(607, 35, 575, 58);
+        panelOutput.add(lblEnterOrderNumber_1_1);
+        
+        JLabel lblForFurtherQuestions = new JLabel("For further questions and inquiries about your orders, please approach the staffs and/or manager...");
+        lblForFurtherQuestions.setForeground(Color.WHITE);
+        lblForFurtherQuestions.setFont(new Font("Century Gothic", Font.PLAIN, 18));
+        lblForFurtherQuestions.setBounds(20, 793, 917, 31);
+        panelOutput.add(lblForFurtherQuestions);
+        
+        lblStatus_1 = new JLabel("");
+        lblStatus_1.setHorizontalAlignment(SwingConstants.CENTER);
+        lblStatus_1.setForeground(Color.WHITE);
+        lblStatus_1.setFont(new Font("Century Gothic", Font.ITALIC, 20));
+        lblStatus_1.setBounds(10, 95, 575, 58);
+        panelOutput.add(lblStatus_1);
+        
+        lblRemarks_1 = new JLabel("sample");
+        lblRemarks_1.setHorizontalAlignment(SwingConstants.CENTER);
+        lblRemarks_1.setForeground(Color.WHITE);
+        lblRemarks_1.setFont(new Font("Century Gothic", Font.ITALIC, 20));
+        lblRemarks_1.setBounds(607, 95, 575, 58);
+        panelOutput.add(lblRemarks_1);
+        
+                JPanel panelTable = new JPanel();
+                panelTable.setBackground(new Color(31, 31, 31));
+                panelTable.setBounds(1236, 11, 555, 1036);
+                panel.add(panelTable);
+                panelTable.setLayout(null);
+                
+                scrollPane = new JScrollPane();
+                scrollPane.setBounds(10, 11, 535, 1014);
+                scrollPane.getViewport().setBackground(new Color(64, 64, 64)); // Set the background color of the viewport
+                //scrollPane.setBackground(new Color(64, 64, 64)); // Set the background color of the scroll pane
+                panelTable.add(scrollPane);
+                
+                table = new JTable();
+                table.setBackground(new Color(64, 64, 64));
+                scrollPane.setViewportView(table);
+                table.setForeground(Color.WHITE);
+                model = new DefaultTableModel();
+                Object[] column = {"Order Code","Status","Remarks"};
+                model.setColumnIdentifiers(column);
+                table.setModel(model);
+                
+                table.setRowHeight(30);
+                scrollPane.setViewportView(table);
+                
+                table.getColumnModel().getColumn(0).setPreferredWidth(80); // Code - for 6 characters
+        		table.getColumnModel().getColumn(1).setPreferredWidth(50); // ID - for 4 characters
+        		table.getColumnModel().getColumn(2).setPreferredWidth(50); // Name - for longer text
+
+        		// Center align content in specific columns
+        		centerRenderer = new DefaultTableCellRenderer();
+        		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        		table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Code
+        		table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // ID
+        		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer); // Price
+
+        		tableHeader = table.getTableHeader();
+        		tableHeader.setFont(new Font("Century Gothic", Font.BOLD, 18));
+        		tableHeader.setBackground(new Color(250, 250, 250)); // Set the background color of the table header to dark grey
+
+        		// Center align column headers
+        		renderer = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
+        		renderer.setHorizontalAlignment(JLabel.CENTER);
+
+        		// Set font and size for table cells
+        		table.setFont(new Font("Century Gothic", Font.PLAIN, 18));
+
+        		table.setOpaque(true);
+                
+                
+                
+                
+                
+                JLabel lblOrderNumbers = new JLabel("ORDER CODES");
+                lblOrderNumbers.setForeground(Color.LIGHT_GRAY);
+                lblOrderNumbers.setFont(new Font("Century Gothic", Font.BOLD, 36));
+                lblOrderNumbers.setBounds(10, 11, 1170, 55);
+                panel.add(lblOrderNumbers);
+                
+                JLabel lblNewLabel = new JLabel("New label");
+                lblNewLabel.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/mainBG.png")));
+                lblNewLabel.setBounds(0, 0, 1920, 1080);
+                getContentPane().add(lblNewLabel);
+
+        btnSearch.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (textFieldOrderNumber.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(OrderNumbersDiner.this, "Input your order code first", "Missing Order Code", JOptionPane.WARNING_MESSAGE);
+                    // Set the focus back to the text field
+                    textFieldOrderNumber.requestFocusInWindow();
+                } else if (textFieldOrderNumber.getText().length() != 5) {
+                    JOptionPane.showMessageDialog(OrderNumbersDiner.this, "Invalid Order Code", "Invalid Code", JOptionPane.WARNING_MESSAGE);
+                    textFieldOrderNumber.setText("");
+                    textFieldOrderNumber.requestFocusInWindow();
+                } else {
+                    searchOrderStatus();
+                }
+            }
+        });
+
+        // Add a timer to refresh the data every 20 seconds
+        timer = new Timer(20000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchOrderStatus();
+                populateTable();
+            }
+        });
+        timer.start();
+    }
+
+    /**
+     * Connect to the database.
+     */
+    private void connect() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bon_appetit", "root", "");
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Search for the order status based on the order number.
+     */
+    private void searchOrderStatus() {
+        String orderNumber = textFieldOrderNumber.getText();
+        lblStatus.setVisible(true);
+        lblRemarks.setVisible(true);
+        try {
+            pst = con.prepareStatement("SELECT status, remarks FROM order_cart WHERE order_code = ?");
+            pst.setString(1, orderNumber);
+            rs = pst.executeQuery();
+            allPending = true;
+            allCooking = true;
+            allComplete = true; // Initialize all flags
+            StringBuilder remarksBuilder = new StringBuilder();
+            while (rs.next()) {
+                String status = rs.getString("status");
+                String remarks = rs.getString("remarks");
+                remarksBuilder.append(remarks).append("\n"); // Append remarks for each row
+                if (!status.equals("pending")) {
+                    allPending = false;
+                }
+                if (!status.equals("cooking")) {
+                    allCooking = false;
+                }
+                if (!remarks.equals("complete")) { // If any remark is not "complete", set flag to false
+                    allComplete = false;
+                }
+            }
+            if (allPending) {
+                lblStatus.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Pending.png")));
+                lblStatus_1.setText("Order Code " + orderNumber + " is currently Pending");
+            } else if (allCooking) {
+            	lblStatus.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Cooking.png")));
+            	lblStatus_1.setText("Order Code " + orderNumber + " is currently Cooking");
+            } else {
+            	lblStatus.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Serving.png")));
+            	lblStatus_1.setText("Order Code " + orderNumber + " is currently Serving");
+            }
+            if (allComplete) { // If all remarks are "complete", set label to "Complete"
+            	lblRemarks.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Complete.png")));
+            	lblRemarks_1.setText("Order Code " + orderNumber + " is already Complete");
+            } else {
+            	lblRemarks.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Incomplete.png")));
+            	lblRemarks_1.setText("Order Code " + orderNumber + " is still Incomplete");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Populate the table with data from the database.
+     */
+    private void populateTable() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Clear existing rows
+        Set<String> uniqueOrderCodes = new HashSet<>();
+        try {
+            pst = con.prepareStatement("SELECT order_code, status, remarks FROM order_cart");
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                String orderCode = rs.getString("order_code");
+                if (!uniqueOrderCodes.contains(orderCode)) {
+                    uniqueOrderCodes.add(orderCode);
+                    String status = rs.getString("status");
+                    String remarks = rs.getString("remarks");
+                    model.addRow(new Object[]{orderCode, status, remarks});
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Start the timer for periodic updates.
+     */
+    private void startTimer() {
+        // Timer is started in the initialize method above.
+    }
+    
+    public static int menuKey() {
+    	return key ;
+    }
+    
+    public void jButtonHomeActionPerformed(ActionEvent e) {                                         
+        
+    	if (signInPage == null) {
+    		signInPage = new SignInPage(); 
+        }
+    	signInPage.setVisible(true); 
+        dispose();
+       
+   }
+    
+    public void jButtonMenuAddActionPerformed(ActionEvent e){
+    	if (dinerPage == null) {
+    		dinerPage = new DinerPage(); 
+        }
+    	dinerPage.setVisible(true); 
+        dispose();
+    }
+    
+    public void jButtonBackActionPerformed(ActionEvent e) {
+		
+    	if (optionsDiner == null) {
+    		optionsDiner = new OptionsDiner(); 
+        }
+    	optionsDiner.setVisible(true); 
+        dispose();
+	}
+    
+    private static OptionsDiner optionsDiner;
+    private JLabel lblStatus_1;
+    private JLabel lblRemarks_1;
+}
+
