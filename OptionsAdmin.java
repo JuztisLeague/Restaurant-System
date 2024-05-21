@@ -15,17 +15,18 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
 
-public class OptionAdmin extends javax.swing.JFrame {
+public class OptionsAdmin extends javax.swing.JFrame {
 
 	
 	private static final long serialVersionUID = 1L;
 
 
-	public OptionAdmin() {
+	public OptionsAdmin() {
 		getContentPane().setBackground(new Color(0, 64, 64));
         
     	setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -62,11 +63,11 @@ public class OptionAdmin extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel1.setBackground(new Color(0, 64, 64));
-        jButtonMenu = new javax.swing.JButton();
-        jButtonMenu.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        jButtonMenu.setFont(new Font("Tahoma", Font.BOLD, 20));
-        jButtonMenu.setFocusable(false);
-        jButtonMenu.setBounds(451, 86, 394, 51);
+        btnAddOrders = new javax.swing.JButton();
+        btnAddOrders.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        btnAddOrders.setFont(new Font("Tahoma", Font.BOLD, 20));
+        btnAddOrders.setFocusable(false);
+        btnAddOrders.setBounds(451, 135, 394, 51);
         jButton4 = new javax.swing.JButton();
         jButton4.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
         jButton4.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -77,7 +78,7 @@ public class OptionAdmin extends javax.swing.JFrame {
         	}
         });
         jButton4.setFocusable(false);
-        jButton4.setBounds(451, 245, 394, 51);
+        jButton4.setBounds(451, 259, 394, 51);
         jButtonProfile = new javax.swing.JButton();
         jButtonProfile.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
         jButtonProfile.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -99,17 +100,17 @@ public class OptionAdmin extends javax.swing.JFrame {
         	}
         });
         jButton2.setFocusable(false);
-        jButton2.setBounds(451, 162, 394, 51);
+        jButton2.setBounds(451, 197, 394, 51);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1920, 1080));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(207, 501));
 
-        jButtonMenu.setText("Menu");
-        jButtonMenu.addActionListener(new java.awt.event.ActionListener() {
+        btnAddOrders.setText("Add Orders");
+        btnAddOrders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonMenuActionPerformed(evt);
+                jButtonAddOrdersActionPerformed(evt);
             }
         });
 
@@ -159,9 +160,22 @@ public class OptionAdmin extends javax.swing.JFrame {
         );
         jPanel1.setLayout(null);
         jPanel1.add(jButton4);
-        jPanel1.add(jButtonMenu);
+        jPanel1.add(btnAddOrders);
         jPanel1.add(jButton2);
         jPanel1.add(jButtonProfile);
+        
+        btnMenu = new JButton();
+        btnMenu.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		jButtonMenuActionPerformed(e);
+        	}
+        });
+        btnMenu.setText("Menu");
+        btnMenu.setFont(new Font("Tahoma", Font.BOLD, 20));
+        btnMenu.setFocusable(false);
+        btnMenu.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        btnMenu.setBounds(451, 73, 394, 51);
+        jPanel1.add(btnMenu);
         getContentPane().setLayout(layout);
         
         btnClose = new JButton("Close");
@@ -179,7 +193,7 @@ public class OptionAdmin extends javax.swing.JFrame {
         pack();
     }            
     
-    private void jButtonMenuActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jButtonAddOrdersActionPerformed(java.awt.event.ActionEvent evt) {                                         
         
         MenuAdmin frame = new MenuAdmin();
         frame.setVisible(true);
@@ -196,6 +210,24 @@ public class OptionAdmin extends javax.swing.JFrame {
    }
 
     public static void main(String args[]) {
+    	
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new OrderNumbers().setVisible(false); 
+            }
+        });
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new DinerPage().setVisible(false); 
+            }
+        });
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                profilePage = new ProfilePage();
+                profilePage.setVisible(false); 
+            }
+        });
+    	
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -204,35 +236,50 @@ public class OptionAdmin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(OptionAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OptionsAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(OptionAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OptionsAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(OptionAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OptionsAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(OptionAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OptionsAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new OptionAdmin().setVisible(true);
+                new OptionsAdmin().setVisible(true);
             }
         });
     }
     
     public void jButtonProfileActionPerformed(ActionEvent e){
-    	ProfilePage profilePage = new ProfilePage();
-    	profilePage.setVisible(true);
-    	this.dispose();
+    	if (profilePage == null) {
+    		profilePage = new ProfilePage(); 
+        }
+    	profilePage.setVisible(true); 
+        dispose();
     }
     
     public void jButtonOrderNumbersActionPerformed(ActionEvent e) {
-    	OrderNumbers orderNumbers = new OrderNumbers();
-    	orderNumbers.setVisible(true);
-    	this.dispose();
+    	if (orderNumbers == null) {
+    		orderNumbers = new OrderNumbers(); 
+        }
+    	orderNumbers.setVisible(true); 
+        dispose();
     }
     
-    private JButton jButtonMenu;
+    public void jButtonMenuActionPerformed(ActionEvent e) {
+    	if (dinerPage == null) {
+ 		   dinerPage = new DinerPage(); 
+        }
+ 	   dinerPage.setVisible(true); 
+        dispose();
+    }
+    
+    private static ProfilePage profilePage;
+    private static OrderNumbers orderNumbers;
+    private static DinerPage dinerPage;
+    private JButton btnAddOrders;
     private JButton jButton2;
     private JButton jButtonProfile;
     private JButton jButton4;
@@ -240,4 +287,5 @@ public class OptionAdmin extends javax.swing.JFrame {
     private JLabel jLabel2;
     private JPanel jPanel1;
     private JButton btnClose;
+    private JButton btnMenu;
 }
