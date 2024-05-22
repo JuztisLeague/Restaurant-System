@@ -14,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -774,7 +776,7 @@ public class OrderNumbers extends JFrame {
 		
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setEnabled(false);
+		scrollPane.setEnabled(true);
 		scrollPane.setBounds(635, 86, 1156, 506);
 		scrollPane.setBackground(new Color(64, 64, 64));
 		panelMiddle.add(scrollPane);
@@ -1519,20 +1521,36 @@ public class OrderNumbers extends JFrame {
 	
 	
 	public void statusAssign(int value) {
-		
-		try {
-			
-			
-	        //String id = Integer.toString(count);
-			Statement statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			rs = statement.executeQuery("SELECT * FROM order_cart WHERE FIND_IN_SET('" + stringConverter(value) + "', order_code)");
+	    Statement statement = null;
+	    ResultSet rs = null;
+	    
+	    try {
+	        // Ensure the connection is not null
+	        if (con == null || con.isClosed()) {
+	            throw new SQLException("Database connection is not established.");
+	        }
 	        
+	        statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	        rs = statement.executeQuery("SELECT * FROM order_cart WHERE FIND_IN_SET('" + stringConverter(value) + "', order_code)");
+
+	        // Check if ResultSet is empty
+	        if (!rs.isBeforeFirst()) { // No rows in ResultSet
+	            System.out.println("No data found for value: " + value);
+	            assignStatus("No Data", value); // Handle as needed
+	            assignRemarks("No Data", value); // Handle as needed
+	            return;
+	        }
+
 	        int countSimilarOrderCodes = 0; // Initialize count of similar order codes
 	        while (rs.next()) {
 	            countSimilarOrderCodes++; // Increment count for each matching order code
 	        }
 
-	        String[] stringsStatus = new String[countSimilarOrderCodes]; // Initialize array size based on count
+	        // Debug statement for count
+	        System.out.println("Count of similar order codes: " + countSimilarOrderCodes);
+
+	        // Initialize arrays based on count
+	        String[] stringsStatus = new String[countSimilarOrderCodes];
 	        String[] stringsRemarks = new String[countSimilarOrderCodes];
 
 	        rs.beforeFirst(); // Reset result set cursor
@@ -1542,26 +1560,41 @@ public class OrderNumbers extends JFrame {
 	            stringsRemarks[index] = rs.getString("remarks");
 	            index++;
 	        }
-	        
-	        
+
+	        // Debug statements for array contents
+	        System.out.println("Statuses: " + Arrays.toString(stringsStatus));
+	        System.out.println("Remarks: " + Arrays.toString(stringsRemarks));
+
 	        if (allStringsEqual(stringsStatus)) {
 	            assignStatus(stringsStatus[0], value); // Assign the status to the correct label
 	        } else {
 	            assignStatus("Different Statuses", value); // Assign "Different Statuses" to the correct label
 	        }
-	        
+
 	        if (allStringsEqual(stringsRemarks)) {
 	            assignRemarks(stringsRemarks[0], value); // Assign the status to the correct label
 	        } else {
 	            assignRemarks("Incomplete", value); // Assign "Different Statuses" to the correct label
 	        }
-	        
-			
-	       }
-	    catch (SQLException e1) 
-	        {            
-	    		e1.printStackTrace();
+	    } catch (SQLException e1) {            
+	        e1.printStackTrace();
+	    } finally {
+	        // Ensure resources are closed
+	        if (rs != null) {
+	            try {
+	                rs.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
 	        }
+	        if (statement != null) {
+	            try {
+	                statement.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
 	}
 	
 	public static boolean allStringsEqual(String[] strings) {
