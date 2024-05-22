@@ -1,226 +1,1125 @@
 package BonAppetit;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.plaf.basic.BasicButtonUI;
+
+import java.awt.EventQueue;
+
+
+import javax.swing.JFrame;
+import java.awt.Rectangle;
+import java.awt.Window;
+import java.awt.image.BufferedImage;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Container;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.FlowLayout;
-import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
+
+import javax.swing.JButton;
 import java.awt.Dimension;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
-import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+public class CashierPage extends JFrame {
+	
+	
+	Connection con;
+	PreparedStatement pst;
+	ResultSet rs;
+	ResultSet countResult;
+	private JLabel lblTotalPrice_12;
+	
 
-public class CashierPage extends javax.swing.JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
+	public void connect() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bon_appetit", "root", "");
+		}
+		
+		catch (ClassNotFoundException ex) {
+			
+		}
+		
+		catch (SQLException ex) {
+			
+		}
+	}
 
-    
-    public CashierPage() {
-    	getContentPane().setBackground(new Color(0, 0, 0));
-        initComponents();
-        JButton[] btns = {jButtonProfile, jButtonOrderNum, jButtonLogOut};
-        for (JButton btn : btns) {
-            btn.setBackground(new Color(27, 32, 22));
-            btn.setUI(new BasicButtonUI());
-            btn.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    // TODO Auto-generated method stub
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CashierPage window = new CashierPage();
+					window.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				
+			}
+		});
+	}
 
-                }
+	/**
+	 * Create the application.
+	 */
+	public CashierPage() {
+		initialize();
+		connect();
+		codesData();
+		implementStatuses();
+	}
 
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    // TODO Auto-generated method stub
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		
+		
+		setUndecorated(true);
+		setBounds(0, 0, 1920, 1080);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getContentPane().setLayout(null);
+		
+		lblTotalPrice_11 = new JLabel("Total Price:");
+		lblTotalPrice_11.setVisible(false);
+		lblTotalPrice_11.setForeground(Color.LIGHT_GRAY);
+		lblTotalPrice_11.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		lblTotalPrice_11.setBounds(1066, 601, 243, 26);
+		getContentPane().add(lblTotalPrice_11);
+		
+		panelRight = new JPanel();
+		panelRight.setBackground(new Color(0, 0, 0));
+		panelRight.setBounds(1436, 11, 484, 1058);
+		getContentPane().add(panelRight);
+		panelRight.setLayout(null);
+		
+		panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Payment Options", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBounds(10, 11, 464, 137);
+		panelRight.add(panel);
+		panel.setLayout(null);
+		
+		btnCash = new JButton("Cash");
+		btnCash.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				jButtonCashActionPerformed(e);
+			}
+		});
+		btnCash.setBounds(57, 44, 106, 35);
+		panel.add(btnCash);
+		
+		btnCreditCard = new JButton("GCash");
+		btnCreditCard.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				jButtonInstaPaymentActionPerformed(e);
+			}
+		});
+		btnCreditCard.setBounds(261, 44, 106, 35);
+		panel.add(btnCreditCard);
+		
+		panelReceipt = new JPanel();
+		panelReceipt.setVisible(false);
+		panelReceipt.setBorder(new TitledBorder(null, "Receipt", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelReceipt.setBounds(10, 159, 464, 888);
+		panelRight.add(panelReceipt);
+		panelReceipt.setLayout(null);
+		originalIcon = new ImageIcon(CashierPage.class.getResource("/images/GCash-MyQR-18052024210346.PNG.jpg"));
 
-                }
+        originalImage = originalIcon.getImage();
+        int newWidth = 444; // Specify the new width
+        int newHeight = 855; // Specify the new height
+        resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+        g2d = resizedImage.createGraphics();
+        g2d.drawImage(originalImage, 0, 0, newWidth, newHeight, null);
+        g2d.dispose(); // Dispose of the Graphics2D object
 
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    // TODO Auto-generated method stub
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    btn.setBackground(new Color(30, 40, 44));
-//                    btn.setPreferredSize(new Dimension(100, 100));
-
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    btn.setBackground(new Color(27, 32, 22));
-//                    btn.setPreferredSize(new Dimension(64, 64));
-
-
-                }
-            });
-        }
-    }
-
-   
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
-    private void initComponents() {
-
-        jPanel1 = new javax.swing.JPanel();
-        jPanel1.setBackground(new Color(27, 32, 33));
-        jButtonLogOut = new javax.swing.JButton();
-        jButtonLogOut.setIcon(new ImageIcon(CashierPage.class.getResource("/images/log-out.png")));
-        jButtonLogOut.setPreferredSize(new Dimension(64, 64));
-        jButtonLogOut.setBounds(new Rectangle(0, 0, 100, 100));
-        jButtonOrderNum = new javax.swing.JButton();
-        jButtonOrderNum.setIcon(new ImageIcon(CashierPage.class.getResource("/images/stationery.png")));
-        jButtonOrderNum.setPreferredSize(new Dimension(64, 64));
-        jButtonOrderNum.setBounds(new Rectangle(0, 0, 100, 100));
-        jButtonProfile = new javax.swing.JButton();
-        jButtonProfile.setIcon(new ImageIcon(CashierPage.class.getResource("/images/user.png")));
-        jButtonProfile.setPreferredSize(new Dimension(64, 64));
-        jButtonProfile.setBounds(new Rectangle(0, 0, 100, 100));
-        jPanel2 = new javax.swing.JPanel();
-        jPanel2.setBackground(new Color(27, 32, 33));
-        jPanel3 = new javax.swing.JPanel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1075, 501));
-
-        jPanel1.setPreferredSize(new Dimension(205, 500));
-        jButtonLogOut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jButtonOrderNum.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jButtonProfile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jPanel2.setPreferredSize(new java.awt.Dimension(312, 195));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 312, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 491, Short.MAX_VALUE)
-        );
-
-        jPanel3.setBackground(new Color(21, 25, 28));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 463, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        layout.setHorizontalGroup(
-        	layout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(layout.createSequentialGroup()
-        			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.UNRELATED)
-        			.addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
-        			.addGap(10)
-        			.addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-        	layout.createParallelGroup(Alignment.LEADING)
-        		.addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
-        		.addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
-        		.addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
-        );
-        jPanel1.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 30));
-        jPanel1.add(jButtonProfile);
-        jPanel1.add(jButtonOrderNum);
-        jPanel1.add(jButtonLogOut);
-        jLabel2 = new javax.swing.JLabel();
-        jLabel2.setForeground(new Color(255, 255, 255));
+        // Convert the BufferedImage back to an ImageIcon
+        resizedIcon = new ImageIcon(resizedImage);
         
-                jLabel2.setFont(new Font("Century Gothic", Font.PLAIN, 32)); // NOI18N
-                jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-                jLabel2.setText("Cashier");
-                jPanel1.add(jLabel2);
-        getContentPane().setLayout(layout);
-
-        pack();
-    }// </editor-fold>                        
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        lblTotalPrice_12 = new JLabel("Total Price: ");
+        lblTotalPrice_12.setVisible(false);
         
-        ProfilePage cashierPage = new ProfilePage();
-         cashierPage.setVisible(true);
-        this.dispose();
-    }                                        
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CashierPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CashierPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CashierPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CashierPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CashierPage().setVisible(true);
-            }
-        });
+        lblTotalPrice_13 = new JLabel("500");
+        lblTotalPrice_13.setOpaque(true);
+        lblTotalPrice_13.setBackground(new Color(255, 255, 255));
+        lblTotalPrice_13.setFont(new Font("Segoe UI Black", Font.PLAIN, 40));
+        lblTotalPrice_13.setHorizontalAlignment(SwingConstants.CENTER);
+        lblTotalPrice_13.setBounds(159, 617, 142, 43);
+        
+        panelReceipt.add(lblTotalPrice_13);
+        lblTotalPrice_12.setFont(new Font("Monospaced", Font.PLAIN, 11));
+        lblTotalPrice_12.setBounds(332, 794, 122, 37);
+        panelReceipt.add(lblTotalPrice_12);
+        
+        lblGashReceipt = new JLabel("");
+        
+                // Set the resized ImageIcon as the icon for the JLabel
+                lblGashReceipt.setIcon(resizedIcon);
+                
+                        lblGashReceipt.setBounds(10, 22, 444, 855);
+                        panelReceipt.add(lblGashReceipt);
+                        
+                        
+       labelsPanel = new JPanel();
+       labelsPanel.setVisible(false);
+       labelsPanel.setBounds(10, 22, 444, 855);
+       panelReceipt.add(labelsPanel);
+       labelsPanel.setLayout(new GridBagLayout());
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(109, 11, 1321, 1058);
+		lblGashReceipt.setVisible(false);
+		getContentPane().add(scrollPane);
+		
+		panelmiddle = new JPanel();
+		scrollPane.setViewportView(panelmiddle);
+		panelmiddle.setBackground(new Color(0, 0, 0));
+		panelmiddle.setLayout(null);
+		
+		lblCashierPage = new JLabel("Cashier Page");
+		lblCashierPage.setBounds(10, 25, 150, 26);
+		panelmiddle.add(lblCashierPage);
+		lblCashierPage.setForeground(Color.LIGHT_GRAY);
+		lblCashierPage.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		panel_1 = new JPanel();
+		panel_1.setBounds(10, 79, 494, 966);
+		panelmiddle.add(panel_1);
+		panel_1.setLayout(null);
+		
+		lblOrderCode = new JLabel("Order Code");
+		lblOrderCode.setBounds(10, 11, 127, 26);
+		panel_1.add(lblOrderCode);
+		lblOrderCode.setForeground(new Color(0, 0, 0));
+		lblOrderCode.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblOrderCode_1 = new JLabel("Order Code");
+		lblOrderCode_1.setVisible(false);
+		lblOrderCode_1.setBounds(10, 101, 127, 26);
+		panel_1.add(lblOrderCode_1);
+		lblOrderCode_1.setForeground(new Color(0, 0, 0));
+		lblOrderCode_1.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblOrderCode_2 = new JLabel("Order Code");
+		lblOrderCode_2.setVisible(false);
+		lblOrderCode_2.setBounds(10, 191, 127, 26);
+		panel_1.add(lblOrderCode_2);
+		lblOrderCode_2.setForeground(new Color(0, 0, 0));
+		lblOrderCode_2.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblOrderCode_4 = new JLabel("Order Code");
+		lblOrderCode_4.setVisible(false);
+		lblOrderCode_4.setBounds(10, 371, 127, 26);
+		panel_1.add(lblOrderCode_4);
+		lblOrderCode_4.setForeground(new Color(0, 0, 0));
+		lblOrderCode_4.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblOrderCode_3 = new JLabel("Order Code");
+		lblOrderCode_3.setVisible(false);
+		lblOrderCode_3.setBounds(10, 281, 127, 26);
+		panel_1.add(lblOrderCode_3);
+		lblOrderCode_3.setForeground(new Color(0, 0, 0));
+		lblOrderCode_3.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblOrderCode_5 = new JLabel("Order Code");
+		lblOrderCode_5.setVisible(false);
+		lblOrderCode_5.setBounds(10, 461, 127, 26);
+		panel_1.add(lblOrderCode_5);
+		lblOrderCode_5.setForeground(new Color(0, 0, 0));
+		lblOrderCode_5.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblOrderCode_10 = new JLabel("Order Code");
+		lblOrderCode_10.setVisible(false);
+		lblOrderCode_10.setBounds(10, 921, 127, 26);
+		panel_1.add(lblOrderCode_10);
+		lblOrderCode_10.setForeground(new Color(0, 0, 0));
+		lblOrderCode_10.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblOrderCode_9 = new JLabel("Order Code");
+		lblOrderCode_9.setVisible(false);
+		lblOrderCode_9.setBounds(10, 831, 127, 26);
+		panel_1.add(lblOrderCode_9);
+		lblOrderCode_9.setForeground(new Color(0, 0, 0));
+		lblOrderCode_9.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblOrderCode_8 = new JLabel("Order Code");
+		lblOrderCode_8.setVisible(false);
+		lblOrderCode_8.setBounds(10, 741, 127, 26);
+		panel_1.add(lblOrderCode_8);
+		lblOrderCode_8.setForeground(new Color(0, 0, 0));
+		lblOrderCode_8.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblOrderCode_7 = new JLabel("Order Code");
+		lblOrderCode_7.setVisible(false);
+		lblOrderCode_7.setBounds(10, 651, 127, 26);
+		panel_1.add(lblOrderCode_7);
+		lblOrderCode_7.setForeground(new Color(0, 0, 0));
+		lblOrderCode_7.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblOrderCode_6 = new JLabel("Order Code");
+		lblOrderCode_6.setVisible(false);
+		lblOrderCode_6.setBounds(10, 561, 127, 26);
+		panel_1.add(lblOrderCode_6);
+		lblOrderCode_6.setForeground(new Color(0, 0, 0));
+		lblOrderCode_6.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblTotalPrice = new JLabel("Total Price");
+		lblTotalPrice.setBounds(199, 11, 127, 26);
+		panel_1.add(lblTotalPrice);
+		lblTotalPrice.setForeground(new Color(0, 0, 0));
+		lblTotalPrice.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblTotalPrice_1 = new JLabel("Total Price");
+		lblTotalPrice_1.setVisible(false);
+		lblTotalPrice_1.setBounds(199, 101, 127, 26);
+		panel_1.add(lblTotalPrice_1);
+		lblTotalPrice_1.setForeground(new Color(0, 0, 0));
+		lblTotalPrice_1.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblTotalPrice_2 = new JLabel("Total Price");
+		lblTotalPrice_2.setVisible(false);
+		lblTotalPrice_2.setBounds(199, 191, 127, 26);
+		panel_1.add(lblTotalPrice_2);
+		lblTotalPrice_2.setForeground(new Color(0, 0, 0));
+		lblTotalPrice_2.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblTotalPrice_3 = new JLabel("Total Price");
+		lblTotalPrice_3.setVisible(false);
+		lblTotalPrice_3.setBounds(199, 281, 127, 26);
+		panel_1.add(lblTotalPrice_3);
+		lblTotalPrice_3.setForeground(new Color(0, 0, 0));
+		lblTotalPrice_3.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblTotalPrice_4 = new JLabel("Total Price");
+		lblTotalPrice_4.setVisible(false);
+		lblTotalPrice_4.setBounds(199, 371, 127, 26);
+		panel_1.add(lblTotalPrice_4);
+		lblTotalPrice_4.setForeground(new Color(0, 0, 0));
+		lblTotalPrice_4.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblTotalPrice_5 = new JLabel("Total Price");
+		lblTotalPrice_5.setVisible(false);
+		lblTotalPrice_5.setBounds(199, 461, 127, 26);
+		panel_1.add(lblTotalPrice_5);
+		lblTotalPrice_5.setForeground(new Color(0, 0, 0));
+		lblTotalPrice_5.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblTotalPrice_6 = new JLabel("Total Price");
+		lblTotalPrice_6.setVisible(false);
+		lblTotalPrice_6.setBounds(199, 561, 127, 26);
+		panel_1.add(lblTotalPrice_6);
+		lblTotalPrice_6.setForeground(new Color(0, 0, 0));
+		lblTotalPrice_6.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblTotalPrice_7 = new JLabel("Total Price");
+		lblTotalPrice_7.setVisible(false);
+		lblTotalPrice_7.setBounds(199, 651, 127, 26);
+		panel_1.add(lblTotalPrice_7);
+		lblTotalPrice_7.setForeground(new Color(0, 0, 0));
+		lblTotalPrice_7.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblTotalPrice_8 = new JLabel("Total Price");
+		lblTotalPrice_8.setVisible(false);
+		lblTotalPrice_8.setBounds(199, 741, 127, 26);
+		panel_1.add(lblTotalPrice_8);
+		lblTotalPrice_8.setForeground(new Color(0, 0, 0));
+		lblTotalPrice_8.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblTotalPrice_9 = new JLabel("Total Price");
+		lblTotalPrice_9.setVisible(false);
+		lblTotalPrice_9.setBounds(199, 831, 127, 26);
+		panel_1.add(lblTotalPrice_9);
+		lblTotalPrice_9.setForeground(new Color(0, 0, 0));
+		lblTotalPrice_9.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblTotalPrice_10 = new JLabel("Total Price");
+		lblTotalPrice_10.setVisible(false);
+		lblTotalPrice_10.setBounds(199, 921, 127, 26);
+		panel_1.add(lblTotalPrice_10);
+		lblTotalPrice_10.setForeground(new Color(0, 0, 0));
+		lblTotalPrice_10.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		lblView = new JLabel("View Orders");
+		lblView.setBounds(357, 11, 127, 26);
+		panel_1.add(lblView);
+		lblView.setForeground(new Color(0, 0, 0));
+		lblView.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
+		btnView_1 = new JButton("View Order");
+		btnView_1.setVisible(false);
+		btnView_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				tableRefresh();
+				jViewButtonActionPerformed(e, 1);
+				lblTotalPrice_11.setVisible(true);
+			}
+		});
+		btnView_1.setBounds(357, 107, 105, 23);
+		panel_1.add(btnView_1);
+		
+		btnView_2 = new JButton("View Order");
+		btnView_2.setVisible(false);
+		btnView_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				tableRefresh();
+				jViewButtonActionPerformed(e, 2);
+				lblTotalPrice_11.setVisible(true);
+			}
+		});
+		btnView_2.setBounds(357, 191, 105, 23);
+		panel_1.add(btnView_2);
+		
+		btnView_3 = new JButton("View Order");
+		btnView_3.setVisible(false);
+		btnView_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				tableRefresh();
+				jViewButtonActionPerformed(e, 3);
+				lblTotalPrice_11.setVisible(true);
+			}
+		});
+		btnView_3.setBounds(357, 281, 105, 23);
+		panel_1.add(btnView_3);
+		
+		btnView_4 = new JButton("View Order");
+		btnView_4.setVisible(false);
+		btnView_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				tableRefresh();
+				jViewButtonActionPerformed(e, 4);
+				lblTotalPrice_11.setVisible(true);
+			}
+		});
+		btnView_4.setBounds(357, 365, 105, 23);
+		panel_1.add(btnView_4);
+		
+		btnView_5 = new JButton("View Order");
+		btnView_5.setVisible(false);
+		btnView_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				tableRefresh();
+				jViewButtonActionPerformed(e, 5);
+				lblTotalPrice_11.setVisible(true);
+			}
+		});
+		btnView_5.setBounds(357, 461, 105, 23);
+		panel_1.add(btnView_5);
+		
+		btnView_6 = new JButton("View Order");
+		btnView_6.setVisible(false);
+		btnView_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				tableRefresh();
+				jViewButtonActionPerformed(e, 6);
+				lblTotalPrice_11.setVisible(true);
+			}
+		});
+		btnView_6.setBounds(357, 561, 105, 23);
+		panel_1.add(btnView_6);
+		
+		btnView_7 = new JButton("View Order");
+		btnView_7.setVisible(false);
+		btnView_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				tableRefresh();
+				jViewButtonActionPerformed(e, 7);
+				lblTotalPrice_11.setVisible(true);
+			}
+		});
+		btnView_7.setBounds(357, 651, 105, 23);
+		panel_1.add(btnView_7);
+		
+		btnView_8 = new JButton("View Order");
+		btnView_8.setVisible(false);
+		btnView_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				tableRefresh();
+				jViewButtonActionPerformed(e, 8);
+				lblTotalPrice_11.setVisible(true);
+			}
+		});
+		btnView_8.setBounds(357, 735, 105, 23);
+		panel_1.add(btnView_8);
+		
+		btnView_9 = new JButton("View Order");
+		btnView_9.setVisible(false);
+		btnView_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				tableRefresh();
+				jViewButtonActionPerformed(e, 9);
+				lblTotalPrice_11.setVisible(true);
+			}
+		});
+		btnView_9.setBounds(357, 831, 105, 23);
+		panel_1.add(btnView_9);
+		
+		btnView_10 = new JButton("View Order");
+		btnView_10.setVisible(false);
+		btnView_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				tableRefresh();
+				jViewButtonActionPerformed(e, 10);
+				lblTotalPrice_11.setVisible(true);
+			}
+		});
+		btnView_10.setBounds(357, 921, 105, 23);
+		panel_1.add(btnView_10);
+		
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(514, 79, 795, 499);
+		panelmiddle.add(scrollPane_1);
+		
+		table = new JTable();
+		model = new DefaultTableModel();
+        Object[] column = {"Order Code","ID","Name","Price","Quantity","Total Price", "Status","Remarks"};
+        model.setColumnIdentifiers(column);
+        table.setModel(model);
+		scrollPane_1.setViewportView(table);
+		
+		panelLeft = new JPanel();
+		panelLeft.setBounds(0, 11, 103, 1058);
+		panelLeft.setLayout(null);
+		panelLeft.setBackground(Color.BLACK);
+		getContentPane().add(panelLeft);
+		
+		lblMenu = new JLabel("MENU");
+		lblMenu.setForeground(Color.LIGHT_GRAY);
+		lblMenu.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		lblMenu.setBounds(23, 50, 56, 26);
+		panelLeft.add(lblMenu);
+		
+		jButtonAppetizers = new JButton("");
+		jButtonAppetizers.setPreferredSize(new Dimension(64, 64));
+		jButtonAppetizers.setBounds(new Rectangle(19, 126, 64, 64));
+		jButtonAppetizers.setBackground(Color.BLACK);
+		jButtonAppetizers.setBounds(19, 126, 64, 64);
+		panelLeft.add(jButtonAppetizers);
+		
+		jButtonEntree = new JButton("");
+		jButtonEntree.setPreferredSize(new Dimension(64, 64));
+		jButtonEntree.setBounds(new Rectangle(19, 240, 64, 64));
+		jButtonEntree.setBackground(Color.BLACK);
+		jButtonEntree.setBounds(19, 240, 64, 64);
+		panelLeft.add(jButtonEntree);
+		
+		jButtonDesserts = new JButton("");
+		jButtonDesserts.setPreferredSize(new Dimension(64, 64));
+		jButtonDesserts.setBounds(new Rectangle(19, 354, 64, 64));
+		jButtonDesserts.setBackground(Color.BLACK);
+		jButtonDesserts.setBounds(19, 354, 64, 64);
+		panelLeft.add(jButtonDesserts);
+		
+		jButtonDrinks = new JButton("");
+		jButtonDrinks.setPreferredSize(new Dimension(64, 64));
+		jButtonDrinks.setBounds(new Rectangle(19, 468, 64, 64));
+		jButtonDrinks.setBackground(Color.BLACK);
+		jButtonDrinks.setBounds(19, 468, 64, 64);
+		panelLeft.add(jButtonDrinks);
+		
+		lblBackground = new JLabel("New label");
+		lblBackground.setBounds(0, 0, 1920, 1080);
+		lblBackground.setBackground(new Color(0, 0, 0));
+		lblBackground.setIcon(new ImageIcon(CashierPage.class.getResource("/images/mainBG.png")));
+		getContentPane().add(lblBackground);
+		
+		
+		
+	}
+	
+	public void jButtonInstaPaymentActionPerformed(ActionEvent e) {
+		panelReceipt.setVisible(true);
+		lblGashReceipt.setVisible(true);
+		labelsPanel.setVisible(false);
+		lblTotalPrice_12.setVisible(false);
+		lblTotalPrice_13.setVisible(true);
+		
+	}
+	
+	public void codesData() {
+    	
+    	System.out.println("Performed");
+    			
+		try {
+			
+			pst = con.prepareStatement("SELECT COUNT(*) FROM order_cart");
+	        countResult = pst.executeQuery();
+	        countResult.next();
+	        totalRows = countResult.getInt(1); // Total number of rows in the ResultSet
+	        int limit = totalRows;
+			
+	        
+	        pst = con.prepareStatement("select order_code, order_number from order_cart");
+	        rs = pst.executeQuery();
+	        //JOptionPane.showMessageDialog(null, "Codes Printed!!!!!");
+	        
+	        int count = 0;
+	        while (rs.next() && count < limit) {
+	        	code = rs.getString(1);
+	        	//String status = rs.getString(3);
+	        	int number = Integer.valueOf(rs.getString(2));
+	        	if (codeChecker(number)) {
+	        		switch(trueCount) {
+	        		case 1:{
+	        			
+			        	lblOrderCode_1.setText(code);
+			        	lblOrderCode_1.setVisible(true);;
+			        	lblTotalPrice_1.setVisible(true);
+			        	btnView_1.setVisible(true);
+			        	break;
+			        }
+	        		case 2:{
+	        			
+			        	lblOrderCode_2.setText(code);
+			        	lblOrderCode_2.setVisible(true);
+			        	lblTotalPrice_2.setVisible(true);
+			        	btnView_2.setVisible(true);
+			        	break;
+			        }
+		        	case 3:{
+		        		
+		        		lblOrderCode_3.setText(code);
+		        		lblOrderCode_3.setVisible(true);
+		        		lblTotalPrice_3.setVisible(true);
+		        		btnView_3.setVisible(true);
+			        	break;
+		        	}
+		        	case 4:{
+		        		
+		        		lblOrderCode_4.setText(code);
+		        		lblOrderCode_4.setVisible(true);
+		        		lblTotalPrice_4.setVisible(true);
+		        		btnView_4.setVisible(true);
+			        	break;
+		        	}
+		        	case 5:{
+		        		
+		        		lblOrderCode_5.setText(code);
+		        		lblOrderCode_5.setVisible(true);
+		        		lblTotalPrice_5.setVisible(true);
+		        		btnView_5.setVisible(true);
+			        	break;
+		        	}
+		        	case 6:{
+		        		
+		        		lblOrderCode_6.setText(code);
+		        		lblOrderCode_6.setVisible(true);
+		        		lblTotalPrice_6.setVisible(true);
+		        		btnView_6.setVisible(true);
+			        	break;
+		        	}
+		        	case 7:{
+		        		
+		        		lblOrderCode_7.setText(code);
+		        		lblOrderCode_7.setVisible(true);
+		        		lblTotalPrice_7.setVisible(true);
+		        		btnView_7.setVisible(true);
+			        	break;
+		        	}
+		        	case 8:{
+		        		
+		        		lblOrderCode_8.setText(code);
+		        		lblOrderCode_8.setVisible(true);
+		        		lblTotalPrice_8.setVisible(true);
+		        		btnView_8.setVisible(true);
+			        	break;
+		        	}
+		        	case 9:{
+		        		
+		        		lblOrderCode_9.setText(code);
+		        		lblOrderCode_9.setVisible(true);
+		        		lblTotalPrice_9.setVisible(true);
+		        		btnView_9.setVisible(true);
+			        	break;
+		        	}
+		        	case 10:{
+		        		
+		        		lblOrderCode_10.setText(code);
+		        		lblOrderCode_10.setVisible(true);
+		        		lblTotalPrice_10.setVisible(true);
+		        		btnView_10.setVisible(true);
+			        	break;
+		        	}
+	        	}
+	        	
+	        	
+	        	}
+	        	
+	        	count++;
+	        }
+	        
+	       }
+	    catch (SQLException e1) 
+	        {            
+	    		e1.printStackTrace();
+	        }
+		
+		pressedCount++;
+    	
     }
+	
+	
+	public void implementStatuses() {
+		
+		for (int i = 1; i <= trueCount; i++) {
+			totalPriceAssign(i);
+		}
+		
+	}
+	
+	
+	
+	
+	private boolean codeChecker(int number) {
+		
+		if ( number == 1) {
+			trueCount++;
+			return true;
+		}
+		return false;
+		
+	}
+	
+	public int stringConverter(int value) {
+		int digit = 0;
+		switch(value) {
+		case 1:{
+			digit = Integer.parseInt(lblOrderCode_1.getText().toString());break;
+		}
+		case 2:{
+			digit = Integer.parseInt(lblOrderCode_2.getText().toString());break;
+		}
+		case 3:{
+			digit = Integer.parseInt(lblOrderCode_3.getText().toString());break;
+		}
+		case 4:{
+			digit = Integer.parseInt(lblOrderCode_4.getText().toString());break;
+		}
+		case 5:{
+			digit = Integer.parseInt(lblOrderCode_5.getText().toString());break;
+		}
+		case 6:{
+			digit = Integer.parseInt(lblOrderCode_6.getText().toString());break;
+		}
+		case 7:{
+			digit = Integer.parseInt(lblOrderCode_7.getText().toString());break;
+		}
+		case 8:{
+			digit = Integer.parseInt(lblOrderCode_8.getText().toString());break;
+		}
+		case 9:{
+			digit = Integer.parseInt(lblOrderCode_9.getText().toString());break;
+		}
+		case 10:{
+			digit = Integer.parseInt(lblOrderCode_10.getText().toString());break;
+		}
+		}
+		
+		return digit;
+	}
+	
+	public void totalPriceAssign(int value) {
+	    try {
+	        Statement statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	        rs = statement.executeQuery("SELECT * FROM order_cart WHERE FIND_IN_SET('" + stringConverter(value) + "', order_code)");
 
-    // Variables declaration - do not modify                     
-    private javax.swing.JButton jButtonOrderNum;
-    private javax.swing.JButton jButtonLogOut;
-    private javax.swing.JButton jButtonProfile;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    // End of variables declaration                   
+	        int countSimilarOrderCodes = 0; // Initialize count of similar order codes
+	        while (rs.next()) {
+	            countSimilarOrderCodes++; // Increment count for each matching order code
+	        }
+
+	        String[] stringsTotalPrice = new String[countSimilarOrderCodes]; // Initialize array size based on count
+	        rs.beforeFirst(); // Reset result set cursor
+	        int index = 0; // Initialize index for storing statuses in the array
+	        while (rs.next()) {
+	            stringsTotalPrice[index] = rs.getString("total_price");
+	            if (index == countSimilarOrderCodes - 1) { // Check if it's the last index
+	                codesCount++;
+	                assignTotalPrice(stringsTotalPrice[index], codesCount);
+	            }
+	            index++;
+	        }
+	    } catch (SQLException e1) {
+	        e1.printStackTrace();
+	    }
+	}
+	
+	public static boolean allStringsEqual(String[] strings) {
+        for (int i = 1; i < strings.length; i++) {
+            if (!strings[i].equals(strings[0])) {
+                return false;
+            }
+        }
+        return true;
+    }
+	
+	
+	
+	public void assignTotalPrice(String price, int value) {
+		switch(value) {
+		case 1:{
+			lblTotalPrice_1.setText(price);break;
+		}
+		case 2:{
+			lblTotalPrice_2.setText(price);break;
+		}
+		case 3:{
+			lblTotalPrice_3.setText(price);break;
+		}
+		case 4:{
+			lblTotalPrice_4.setText(price);break;
+		}
+		case 5:{
+			lblTotalPrice_5.setText(price);break;
+		}
+		case 6:{
+			lblTotalPrice_6.setText(price);break;
+		}
+		case 7:{
+			lblTotalPrice_7.setText(price);break;
+		}
+		case 8:{
+			lblTotalPrice_8.setText(price);break;
+		}
+		case 9:{
+			lblTotalPrice_9.setText(price);break;
+		}
+		case 10:{
+			lblTotalPrice_10.setText(price);break;
+		}
+		}
+	}
+	
+	private boolean pressedCount() {
+		if (pressedCount > 1) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+
+	public void jViewButtonActionPerformed(ActionEvent e, int value) {
+	    labelsPanel.removeAll(); // Clear the labelsPanel
+
+	    if (pressedCount()) {
+	        try {
+	            // Retrieve data from the order_cart table
+	            pst = con.prepareStatement("SELECT * FROM order_cart");
+	            rs = pst.executeQuery();
+
+	            GridBagConstraints gbc = new GridBagConstraints();
+	            gbc.anchor = GridBagConstraints.WEST;
+	            gbc.insets = new Insets(5, 5, 5, 5); // Add spacing between labels
+	            gbc.gridx = 0; // Start at the first column
+
+	            // Add "Bon Appetit" and date on top of labels
+	            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	            String printedDate = dateFormat.format(new Date());
+	            JLabel bonAppetitLabel = new JLabel("Bon Appetit");
+	            JLabel dateLabel = new JLabel("Printed on: " + printedDate);
+
+	            // Set font to monospaced
+	            Font monoFont = new Font(Font.MONOSPACED, Font.PLAIN, 12);
+	            bonAppetitLabel.setFont(monoFont);
+	            dateLabel.setFont(monoFont);
+
+	            gbc.gridwidth = 4; // Span across 4 columns
+	            labelsPanel.add(bonAppetitLabel, gbc);
+
+	            gbc.gridy = 1; // Row 1 for the date
+	            labelsPanel.add(dateLabel, gbc);
+
+	            gbc.gridwidth = 1; // Reset gridwidth
+
+	            // Add column identifiers
+	            JLabel[] columnIdentifiers = new JLabel[4];
+	            columnIdentifiers[0] = new JLabel("Quantity");
+	            columnIdentifiers[1] = new JLabel("Name");
+	            columnIdentifiers[2] = new JLabel("Price");
+	            columnIdentifiers[3] = new JLabel("Total Price");
+
+	            // Set font to monospaced for column identifiers
+	            for (JLabel label : columnIdentifiers) {
+	                label.setFont(monoFont);
+	            }
+
+	            // Set GridBagConstraints for each column identifier
+	            gbc.gridy = 2; // Row 2 for column identifiers
+	            for (int i = 0; i < 4; i++) {
+	                gbc.gridx = i; // Move to the next column for each iteration
+	                labelsPanel.add(columnIdentifiers[i], gbc);
+	            }
+
+	            int rowCount = 3; // Start from row 3 for data
+	            while (rs.next()) {
+	                searchedCode = rs.getString("order_code");
+
+	                if (codeCheck1(value)) {
+	                    // Add retrieved data to the table model
+	                    row[0] = searchedCode;
+	                    row[1] = rs.getString("order_number");
+	                    row[2] = rs.getString("dish_name");
+	                    row[3] = rs.getString("price");
+	                    row[4] = rs.getString("quantity");
+	                    row[5] = rs.getString("total_price");
+	                    row[6] = rs.getString("status");
+	                    row[7] = rs.getString("remarks");
+
+	                    model.addRow(row);
+
+	                    String quantity = rs.getString("quantity");
+	                    String dishName = rs.getString("dish_name");
+	                    String price = rs.getString("price");
+	                    String totalPrice = rs.getString("total_price");
+
+	                    // Create JLabels for each data and add to labelsPanel
+	                    JLabel[] labels = new JLabel[4];
+	                    labels[0] = new JLabel(quantity);
+	                    labels[1] = new JLabel(dishName);
+	                    labels[2] = new JLabel(price);
+	                    labels[3] = new JLabel(totalPrice);
+
+	                    // Set font to monospaced for data labels
+	                    for (JLabel label : labels) {
+	                        label.setFont(monoFont);
+	                    }
+
+	                    // Set GridBagConstraints for each label
+	                    gbc.gridy = rowCount; // Row stays the same for each iteration
+
+	                    // Add the labels to the labelsPanel
+	                    for (int i = 0; i < 4; i++) {
+	                        gbc.gridx = i; // Move to the next column for each iteration
+	                        labelsPanel.add(labels[i], gbc);
+	                    }
+	                }
+
+	                rowCount++;
+	            }
+
+	            // Repaint the labelsPanel to reflect changes
+	            labelsPanel.revalidate();
+	            labelsPanel.repaint();
+
+	        } catch (SQLException ex) {
+	            ex.printStackTrace();
+	        }
+	        pressedCount++;
+	    }
+	}
+
+
+	
+	
+	
+	private boolean codeCheck1(int value) {
+		
+		String label = null;
+		
+		switch(value) {
+		case 1:{
+			label = lblOrderCode_1.getText();
+			lblTotalPrice_11.setText("Total Price: " + lblTotalPrice_1.getText());
+			lblTotalPrice_13.setText("₱ " + lblTotalPrice_1.getText() +".00");break;
+		}
+		case 2:{
+			label = lblOrderCode_2.getText();
+			lblTotalPrice_11.setText("Total Price: " + lblTotalPrice_2.getText());
+			lblTotalPrice_13.setText("₱ " + lblTotalPrice_2.getText());break;
+		}
+		case 3:{
+			label = lblOrderCode_3.getText();
+			lblTotalPrice_11.setText("Total Price: " + lblTotalPrice_3.getText());
+			lblTotalPrice_13.setText("₱ " + lblTotalPrice_3.getText());break;
+		}
+		case 4:{
+			label = lblOrderCode_4.getText();
+			lblTotalPrice_11.setText("Total Price: " + lblTotalPrice_4.getText());
+			lblTotalPrice_13.setText("₱ " + lblTotalPrice_4.getText());break;
+		}
+		case 5:{
+			label = lblOrderCode_5.getText();
+			lblTotalPrice_11.setText("Total Price: " + lblTotalPrice_5.getText());
+			lblTotalPrice_13.setText("₱ " + lblTotalPrice_5.getText());break;
+		}
+		case 6:{
+			label = lblOrderCode_6.getText();
+			lblTotalPrice_11.setText("Total Price: " + lblTotalPrice_6.getText());
+			lblTotalPrice_13.setText("₱ " + lblTotalPrice_6.getText());break;
+		}
+		case 7:{
+			label = lblOrderCode_7.getText();
+			lblTotalPrice_11.setText("Total Price: " + lblTotalPrice_7.getText());
+			lblTotalPrice_13.setText("₱ " + lblTotalPrice_7.getText());break;
+		}
+		case 8:{
+			label = lblOrderCode_8.getText();
+			lblTotalPrice_11.setText("Total Price: " + lblTotalPrice_8.getText());
+			lblTotalPrice_13.setText("₱ " + lblTotalPrice_8.getText());break;
+			
+		}
+		case 9:{
+			label = lblOrderCode_9.getText();
+			lblTotalPrice_11.setText("Total Price: " + lblTotalPrice_9.getText());
+			lblTotalPrice_13.setText("₱ " + lblTotalPrice_9.getText());break;
+		}
+		case 10:{
+			label = lblOrderCode_10.getText();
+			lblTotalPrice_11.setText("Total Price: " + lblTotalPrice_10.getText());
+			lblTotalPrice_13.setText("₱ " + lblTotalPrice_10.getText());break;
+		}
+			
+		}
+		
+		if ( label.equals(searchedCode)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public void tableRefresh() {
+		
+		int rowCount = model.getRowCount();
+		//Remove rows one by one from the end of the table
+		for (int i = rowCount - 1; i >= 0; i--) {
+		    model.removeRow(i);
+		}
+		
+		
+		pressedCount = 0;
+	}
+	
+	public void jButtonCashActionPerformed(ActionEvent e) {
+		panelReceipt.setVisible(true);
+		labelsPanel.setVisible(true);
+		lblTotalPrice_12.setVisible(true);
+		lblTotalPrice_12.setText(lblTotalPrice_11.getText());
+	}
+
+
+
+
+	private final Object[] row = new Object[9];
+	private DefaultTableModel model;
+	private JPanel panelmiddle;
+	private JPanel panelLeft;
+	private JPanel panelRight;
+	private JPanel panel;
+	private JButton btnCash;
+	private JButton btnCreditCard;
+	private JPanel panelReceipt;
+	private JLabel lblGashReceipt;
+	private JScrollPane scrollPane;
+	private JLabel lblCashierPage;
+	private JLabel lblOrderCode;
+	private ImageIcon resizedIcon;
+	private BufferedImage resizedImage;
+	private ImageIcon originalIcon;
+	private Graphics2D g2d;
+	private Image originalImage;
+	private JLabel lblOrderCode_1;
+	private JLabel lblOrderCode_2;
+	private JLabel lblOrderCode_3;
+	private JLabel lblOrderCode_4;
+	private JLabel lblOrderCode_5;
+	private JLabel lblOrderCode_6;
+	private JLabel lblOrderCode_7;
+	private JLabel lblOrderCode_8;
+	private JLabel lblOrderCode_9;
+	private JLabel lblOrderCode_10;
+	private JLabel lblTotalPrice;
+	private JLabel lblTotalPrice_1;
+	private JLabel lblTotalPrice_2;
+	private JLabel lblTotalPrice_3;
+	private JLabel lblTotalPrice_4;
+	private JLabel lblTotalPrice_5;
+	private JLabel lblTotalPrice_6;
+	private JLabel lblTotalPrice_7;
+	private JLabel lblView;
+	private JPanel panel_1;
+	private JLabel lblTotalPrice_9;
+	private JLabel lblTotalPrice_8;
+	private JTable table;
+	private JButton btnView_9;
+	private JButton btnView_10;
+	private JButton btnView_2;
+	private JButton btnView_3;
+	private JButton btnView_4;
+	private JButton btnView_1;
+	private JButton btnView_5;
+	private JButton btnView_6;
+	private JButton btnView_7;
+	private JButton btnView_8;
+	private JButton jButtonDrinks;
+	private JButton jButtonDesserts;
+	private JButton jButtonEntree;
+	private JButton jButtonAppetizers;
+	private Container lblMenu;
+	private int totalRows;
+	private String code;
+	private int trueCount;
+	private int pressedCount;
+	private JLabel lblTotalPrice_10;
+	private String price;
+	private JLabel lblBackground;
+	private int count;
+	private int codesCount;
+	private JScrollPane scrollPane_1;
+	private String searchedCode;
+	private JLabel lblTotalPrice_11;
+	
+	
+	
+	 private JLabel lblEnterNumberOf;
+	 private JTextField textField;
+	 private JButton createLabelsButton;
+	 private JPanel labelsPanel;
+	 private JLabel lblTotalPrice_13;
 }
