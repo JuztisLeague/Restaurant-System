@@ -4,6 +4,7 @@ package BonAppetit;
 import java.awt.Dimension;
 
 
+
 import java.awt.Frame;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPasswordField;
@@ -45,6 +47,8 @@ public class ProfilePage extends JFrame {
     	setExtendedState(Frame.MAXIMIZED_BOTH);
     	
         initComponents();
+        
+        userPhoto();
     }
     
     Connection con;
@@ -52,7 +56,7 @@ public class ProfilePage extends JFrame {
 	ResultSet rs;
 	private JLabel lblNewPassword;
 	private JLabel lblConfirmPassword;
-	private JLabel lblNewLabel;
+	private JLabel lblUserPhoto;
     
     public void connect() {
 		try {
@@ -175,10 +179,10 @@ public class ProfilePage extends JFrame {
         jPanel1.add(jLabelPassword);
         jPanel1.setLayout(null);
         
-        lblNewLabel = new JLabel("USER PHOTO");
-        lblNewLabel.setBounds(858, 111, 164, 97);
-        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        jPanel1.add(lblNewLabel);
+        lblUserPhoto = new JLabel("USER PHOTO");
+        lblUserPhoto.setBounds(169, 132, 350, 350);
+        lblUserPhoto.setHorizontalAlignment(SwingConstants.CENTER);
+        jPanel1.add(lblUserPhoto);
         
         btnEditPassword = new JButton("Edit Password");
         btnEditPassword.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -233,6 +237,7 @@ public class ProfilePage extends JFrame {
         txtRole.setFocusable(false);
         
         btnCancel = new JButton("Cancel");
+        btnCancel.setVisible(false);
         btnCancel.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -456,100 +461,7 @@ public class ProfilePage extends JFrame {
         
        
    }   
-    
-    /*private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-    
-    try {
-        //jButton1ActionPerformed.addActionListener(new ActionListener() {
-        //public void actionPerformed(ActionEvent e) {
-        savePassword();
-    } catch (IOException ex) {
-        Logger.getLogger(ProfilePage.class.getName()).log(Level.SEVERE, null, ex);
-    }
-
-}             
-
-
-/*private void savePassword() throws IOException {
-    String role = jTextField2.getText();
-    String password = jTextField1.getText();
-
-    if (password.length() != 5 || !password.matches("\\d+")) {
-    	JOptionPane.showMessageDialog(this, "Please enter a valid 5-digit password.", "Error", JOptionPane.ERROR_MESSAGE);
-    	return;
-    }
-
-    try {
-    	// Connect to the database
-    	Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/tablemanagement_database", "root", "");
- 
-    	// Prepare the SQL statement
-    	String sql = "INSERT INTO password (role, password) VALUES (?, ?)";
-    	PreparedStatement statement = conn.prepareStatement(sql);
-    	statement.setString(1, role);
-    	statement.setString(2, password);
- 
-    	// Execute the statement
-    	int rowsInserted = statement.executeUpdate();
-    	if (rowsInserted > 0) {
-    		JOptionPane.showMessageDialog(this, "Password saved successfully.");
-    	} else {
-    		JOptionPane.showMessageDialog(this, "Error saving password.", "Error", JOptionPane.ERROR_MESSAGE);
-    	}
- 
-    	// Close the connection and statement
-    	statement.close();
-    	conn.close();
-    } catch (SQLException e) {
-    	JOptionPane.showMessageDialog(this, "Error connecting to database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}*/
-    
-    
-    /*private void savePassword() throws IOException {
-        String role = txtRole.getText();
-        String password = passwordField_CurrentPass.getText();
-        
-        if (password.length() != 5 || !password.matches("\\d+")) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid 5-digit password.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        try {
-            
-        	int id = PersonnelLogin.storedPersonnelID();
-        	
-            pst = con.prepareStatement("select * from accounts where id = ?");
-            pst.setString(1, Integer.toString(id));
-            rs = pst.executeQuery();
-            
-            
-            
-            
-            if (rs.next() == true) {
-				 
-				 
-				txtRole.setText(rs.getString("role"));
-				
-				
-				
-				passwordField_CurrentPass.setText(rs.getString("password"));
-			 }
-            
-            // Execute the statement
-            int rowsInserted = pst.executeUpdate();
-            if (rowsInserted > 0) {
-                JOptionPane.showMessageDialog(this, "Password saved successfully.");
-            } else {
-                JOptionPane.showMessageDialog(this, "Error saving password.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            
-            
-            
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error connecting to database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }*/
+  
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -588,7 +500,28 @@ public class ProfilePage extends JFrame {
         });
     }
     
-    
+    private void userPhoto() {
+    	
+    	switch (PersonnelLogin.storedPersonnelID()) {
+    	case 1:{
+    		lblUserPhoto.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Mar.png")));
+    		
+    		break;
+    	}
+    	case 2:{
+    		lblUserPhoto.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Von.png")));
+    		
+    		break;
+    	}
+    	case 3:{
+    		lblUserPhoto.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Franz.png")));
+    		
+    		break;
+    	}
+    	}
+    	
+    	lblUserPhoto.setText("");
+    }
                 
     // Variables declaration - do not modify                     
     private javax.swing.JButton jBtnSave;
