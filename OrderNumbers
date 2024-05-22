@@ -44,11 +44,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JRadioButton;
 import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import javax.swing.border.EmptyBorder;
-import javax.swing.UIManager;
 
 public class OrderNumbers extends JFrame {
 	/**
@@ -492,6 +488,7 @@ public class OrderNumbers extends JFrame {
 		
 		lblRemarks_4 = new JLabel("remarks");
 		lblRemarks_4.setBounds(466, 20, 124, 18);
+		lblRemarks_4.setVisible(false);
 		panel_5.add(lblRemarks_4);
 		lblRemarks_4.setForeground(Color.WHITE);
 		lblRemarks_4.setFont(new Font("Century Gothic", Font.PLAIN, 16));
