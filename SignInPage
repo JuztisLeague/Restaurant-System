@@ -231,8 +231,8 @@ public class SignInPage extends JFrame {
     	
     	SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                dinerPage = new DinerPage();
-                dinerPage.setVisible(false); // Hide the frame initially
+                optionsDiner = new OptionsDiner();
+                optionsDiner.setVisible(false); // Hide the frame initially
             }
         });
         
@@ -255,8 +255,8 @@ public class SignInPage extends JFrame {
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                SignInPage signInPage = new SignInPage();
-                signInPage.setVisible(true);
+                
+                new SignInPage().setVisible(true);
                 
                 
             }
@@ -267,27 +267,35 @@ public class SignInPage extends JFrame {
         
     	
         
-        if (personnelLogin == null) {
+    	if (personnelLogin == null) {
             personnelLogin = new PersonnelLogin();
         }
         personnelLogin.setVisible(true);
         dispose(); 
+        userNumber = 1;
        
    }  
     
     
     private void jButtonDinerActionPerformed(java.awt.event.ActionEvent evt) {                                         
         
-        if (dinerPage == null) {
-            dinerPage = new DinerPage(); 
+        if (optionsDiner == null) {
+            optionsDiner = new OptionsDiner(); 
         }
-        personnelLogin.setVisible(true); 
+        optionsDiner.setVisible(true); 
         dispose();
+        userNumber = 2;
         
    }  
     
+    public static int user() {
+    	return userNumber;
+    }
+    
+    
+    private static int userNumber = 0;
     private static PersonnelLogin personnelLogin;
-    private static DinerPage dinerPage;
+    private static OptionsDiner optionsDiner;
     private javax.swing.JLabel WelcomeMsg;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel ContentHolder;
