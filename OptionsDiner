@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +22,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import java.awt.Rectangle;
+import javax.swing.SwingConstants;
 
 public class OptionsDiner extends JFrame {
 
@@ -120,6 +123,11 @@ public class OptionsDiner extends JFrame {
                 jLabel2.setFont(new Font("Century Gothic", Font.PLAIN, 30)); 
                 jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 jLabel2.setText("Diner");
+        
+        lblUserPhoto = new JLabel("");
+        lblUserPhoto.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Jahleel.png")));
+        lblUserPhoto.setHorizontalAlignment(SwingConstants.CENTER);
+        lblUserPhoto.setBounds(new Rectangle(0, 0, 150, 150));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
@@ -133,7 +141,10 @@ public class OptionsDiner extends JFrame {
         					.addGap(192)
         					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
         						.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 1286, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE))))
+        						.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE)))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(763)
+        					.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)))
         			.addContainerGap(422, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -142,9 +153,11 @@ public class OptionsDiner extends JFrame {
         			.addGap(29)
         			.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+        			.addGap(4)
         			.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-        			.addGap(27)
-        			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 378, GroupLayout.PREFERRED_SIZE)
         			.addContainerGap(343, Short.MAX_VALUE))
         );
         jPanel1.setLayout(null);
@@ -253,4 +266,5 @@ public class OptionsDiner extends JFrame {
     private JLabel jLabel2;
     private JPanel jPanel1;
     private JButton btnClose;
+    private JLabel lblUserPhoto;
 }
