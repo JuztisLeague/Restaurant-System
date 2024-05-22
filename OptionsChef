@@ -30,7 +30,7 @@ public class OptionsChef extends JFrame {
 
 
 	public OptionsChef() {
-		getContentPane().setBackground(new Color(0, 64, 64));
+		getContentPane().setBackground(new Color(31, 34, 50));
         
     	setExtendedState(Frame.MAXIMIZED_BOTH);
     	setUndecorated(true);
@@ -66,7 +66,8 @@ public class OptionsChef extends JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel1.setBackground(new Color(0, 64, 64));
+        jPanel1.setBounds(307, 365, 1306, 296);
+        jPanel1.setBackground(new Color(31, 34, 50));
         jButtonLogout = new javax.swing.JButton();
         jButtonLogout.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
         jButtonLogout.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -77,12 +78,12 @@ public class OptionsChef extends JFrame {
         	}
         });
         jButtonLogout.setFocusable(false);
-        jButtonLogout.setBounds(491, 211, 358, 59);
+        jButtonLogout.setBounds(455, 200, 395, 50);
         jButtonProfile = new javax.swing.JButton();
         jButtonProfile.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
         jButtonProfile.setFont(new Font("Tahoma", Font.BOLD, 20));
         jButtonProfile.setFocusable(false);
-        jButtonProfile.setBounds(491, 21, 358, 60);
+        jButtonProfile.setBounds(455, 20, 395, 50);
         jButtonProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	
@@ -99,7 +100,7 @@ public class OptionsChef extends JFrame {
         	}
         });
         jButton2.setFocusable(false);
-        jButton2.setBounds(491, 113, 358, 60);
+        jButton2.setBounds(455, 110, 395, 50);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1920, 1080));
@@ -112,73 +113,49 @@ public class OptionsChef extends JFrame {
 
         jButton2.setText("Order Numbers");
         jLabel1 = new javax.swing.JLabel();
+        jLabel1.setBounds(754, 28, 411, 67);
         jLabel1.setForeground(new Color(255, 255, 255));
         
                 jLabel1.setFont(new Font("Century Gothic", Font.BOLD, 43));
                 jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 jLabel1.setText("Bon Appettit");
-        jLabel2 = new javax.swing.JLabel();
-        jLabel2.setForeground(new Color(255, 255, 255));
+        Chef = new javax.swing.JLabel();
+        Chef.setBounds(905, 290, 100, 64);
+        Chef.setForeground(new Color(255, 255, 255));
         
         
         
-                jLabel2.setFont(new Font("Century Gothic", Font.PLAIN, 30)); 
-                jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-                jLabel2.setText("Chef");
+                Chef.setFont(new Font("Century Gothic", Font.PLAIN, 30)); 
+                Chef.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                Chef.setText("Chef");
         
         lblUserPhoto = new JLabel("");
+        lblUserPhoto.setBounds(872, 100, 175, 175);
         lblUserPhoto.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Von1.png")));
-        
-        
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        layout.setHorizontalGroup(
-        	layout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(layout.createSequentialGroup()
-        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(34)
-        					.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
-        					.addGap(439)
-        					.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 411, GroupLayout.PREFERRED_SIZE))
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(190)
-        					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        						.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 1286, GroupLayout.PREFERRED_SIZE))))
-        			.addContainerGap(424, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-        	layout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(layout.createSequentialGroup()
-        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(28)
-        					.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE))
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(20)
-        					.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)))
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-        			.addGap(41)
-        			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 296, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(480, Short.MAX_VALUE))
-        );
         jPanel1.setLayout(null);
         jPanel1.add(jButtonLogout);
         jPanel1.add(jButton2);
         jPanel1.add(jButtonProfile);
-        getContentPane().setLayout(layout);
         
-        btnClose = new JButton("Close");
-        btnClose.setFocusable(false);
-        btnClose.addActionListener(new ActionListener() {
+        jButtonClose = new JButton("");
+        jButtonClose.setBackground(new Color(31, 34, 50));
+        jButtonClose.setIcon(new ImageIcon(OptionsDiner.class.getResource("/images/cancel.png")));
+        jButtonClose.setBorder(null);
+        jButtonClose.setFocusable(false);
+        jButtonClose.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		System.exit(0);
         	}
         });
-        btnClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        btnClose.setBounds(1776, 11, 112, 46);
-        getContentPane().add(btnClose);
+        getContentPane().setLayout(null);
+        jButtonClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        jButtonClose.setBounds(1840, 20, 64, 64);
+        getContentPane().add(jButtonClose);
+        
+        getContentPane().add(jLabel1);
+        getContentPane().add(jPanel1);
+        getContentPane().add(lblUserPhoto);
+        getContentPane().add(Chef);
 
         pack();
     }            
@@ -260,8 +237,8 @@ public class OptionsChef extends JFrame {
     private JButton jButtonProfile;
     private JButton jButtonLogout;
     private JLabel jLabel1;
-    private JLabel jLabel2;
+    private JLabel Chef;
     private JPanel jPanel1;
-    private JButton btnClose;
+    private JButton jButtonClose;
     private JLabel lblUserPhoto;
 }
