@@ -16,12 +16,10 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.SwingConstants;
 import java.awt.Rectangle;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
 
 public class OptionsAdmin extends javax.swing.JFrame {
@@ -44,14 +42,14 @@ public class OptionsAdmin extends javax.swing.JFrame {
     private JButton jButton4;
     private JLabel jLabel1;
     private JLabel jLabel2;
-    private JPanel jPanel1;
-    private JButton btnClose;
+    private JPanel OptionsHolder;
+    private JButton jButtonClose;
     private JButton btnMenu;
 
 	private JLabel lblUserPhoto;
 
     public OptionsAdmin() {
-        getContentPane().setBackground(new Color(0, 64, 64));
+        getContentPane().setBackground(new Color(31, 34, 50));
         setExtendedState(Frame.MAXIMIZED_BOTH);
         setUndecorated(true);
         connect();
@@ -68,13 +66,13 @@ public class OptionsAdmin extends javax.swing.JFrame {
     }
 
     private void initComponents() {
-        jPanel1 = new javax.swing.JPanel();
-        jPanel1.setBackground(new Color(0, 64, 64));
+        OptionsHolder = new javax.swing.JPanel();
+        OptionsHolder.setBackground(new Color(31, 34, 50));
         btnAddOrders = new javax.swing.JButton();
         btnAddOrders.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
         btnAddOrders.setFont(new Font("Tahoma", Font.BOLD, 20));
         btnAddOrders.setFocusable(false);
-        btnAddOrders.setBounds(451, 135, 394, 51);
+        btnAddOrders.setBounds(451, 135, 395, 50);
         jButton4 = new javax.swing.JButton();
         jButton4.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
         jButton4.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -84,12 +82,12 @@ public class OptionsAdmin extends javax.swing.JFrame {
             }
         });
         jButton4.setFocusable(false);
-        jButton4.setBounds(451, 259, 394, 51);
+        jButton4.setBounds(451, 259, 395, 50);
         jButtonProfile = new javax.swing.JButton();
         jButtonProfile.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
         jButtonProfile.setFont(new Font("Tahoma", Font.BOLD, 20));
         jButtonProfile.setFocusable(false);
-        jButtonProfile.setBounds(451, 11, 394, 51);
+        jButtonProfile.setBounds(451, 11, 395, 50);
         jButtonProfile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 jButtonProfileActionPerformed(e);
@@ -104,12 +102,12 @@ public class OptionsAdmin extends javax.swing.JFrame {
             }
         });
         jButton2.setFocusable(false);
-        jButton2.setBounds(451, 197, 394, 51);
+        jButton2.setBounds(451, 197, 395, 50);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1920, 1080));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(207, 501));
+        OptionsHolder.setPreferredSize(new java.awt.Dimension(207, 501));
 
         btnAddOrders.setText("Add Orders");
         btnAddOrders.addActionListener(new java.awt.event.ActionListener() {
@@ -145,19 +143,17 @@ public class OptionsAdmin extends javax.swing.JFrame {
         		.addGroup(layout.createSequentialGroup()
         			.addGroup(layout.createParallelGroup(Alignment.LEADING)
         				.addGroup(layout.createSequentialGroup()
-        					.addGap(198)
+        					.addGap(772)
+        					.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 376, GroupLayout.PREFERRED_SIZE))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(873)
+        					.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(307)
         					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        						.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE)
-        						.addGroup(layout.createSequentialGroup()
-        							.addGap(395)
-        							.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 376, GroupLayout.PREFERRED_SIZE))))
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(179)
-        					.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 1286, GroupLayout.PREFERRED_SIZE))
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(703)
-        					.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)))
-        			.addContainerGap(416, Short.MAX_VALUE))
+        						.addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(OptionsHolder, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE))))
+        			.addContainerGap(307, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
@@ -166,18 +162,18 @@ public class OptionsAdmin extends javax.swing.JFrame {
         			.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
         			.addGap(1)
         			.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
-        			.addGap(18)
-        			.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
         			.addGap(30)
-        			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 403, GroupLayout.PREFERRED_SIZE)
+        			.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
+        			.addGap(18)
+        			.addComponent(OptionsHolder, GroupLayout.PREFERRED_SIZE, 403, GroupLayout.PREFERRED_SIZE)
         			.addContainerGap(290, Short.MAX_VALUE))
         );
 
-        jPanel1.setLayout(null);
-        jPanel1.add(jButton4);
-        jPanel1.add(btnAddOrders);
-        jPanel1.add(jButton2);
-        jPanel1.add(jButtonProfile);
+        OptionsHolder.setLayout(null);
+        OptionsHolder.add(jButton4);
+        OptionsHolder.add(btnAddOrders);
+        OptionsHolder.add(jButton2);
+        OptionsHolder.add(jButtonProfile);
 
         btnMenu = new JButton();
         btnMenu.addActionListener(new ActionListener() {
@@ -189,21 +185,23 @@ public class OptionsAdmin extends javax.swing.JFrame {
         btnMenu.setFont(new Font("Tahoma", Font.BOLD, 20));
         btnMenu.setFocusable(false);
         btnMenu.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        btnMenu.setBounds(451, 73, 394, 51);
-        jPanel1.add(btnMenu);
+        btnMenu.setBounds(451, 73, 395, 50);
+        OptionsHolder.add(btnMenu);
         getContentPane().setLayout(layout);
 
-        btnClose = new JButton("Close");
-        btnClose.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        btnClose.setFocusable(false);
-        btnClose.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
+        jButtonClose = new JButton("");
+        jButtonClose.setBackground(new Color(31, 34, 50));
+        jButtonClose.setIcon(new ImageIcon(OptionsDiner.class.getResource("/images/cancel.png")));
+        jButtonClose.setBorder(null);
+        jButtonClose.setFocusable(false);
+        jButtonClose.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		System.exit(0);
+        	}
         });
-        btnClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        btnClose.setBounds(1776, 11, 112, 46);
-        getContentPane().add(btnClose);
+        jButtonClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        jButtonClose.setBounds(1840, 20, 64, 64);
+        getContentPane().add(jButtonClose);
 
         pack();
     }
