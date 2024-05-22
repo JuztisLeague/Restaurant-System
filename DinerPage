@@ -5,31 +5,43 @@ import java.util.Random;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.Frame;
+import java.awt.Image;
 import java.awt.Dimension;
 import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import java.awt.Rectangle;
 import java.awt.Font;
 import java.awt.Color;
+
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 
 public class DinerPage extends javax.swing.JFrame {
 	
@@ -57,40 +69,6 @@ public class DinerPage extends javax.swing.JFrame {
         for (JButton btn : btns) {
             btn.setBackground(new Color(0, 0, 0));
             btn.setUI(new BasicButtonUI());
-            btn.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    // TODO Auto-generated method stub
-
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    // TODO Auto-generated method stub
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    // TODO Auto-generated method stub
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    btn.setBackground(new Color(30, 40, 44));
-//                    btn.setPreferredSize(new Dimension(100, 100));
-
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    btn.setBackground(new Color(0, 0, 0));
-//                    btn.setPreferredSize(new Dimension(64, 64));
-
-
-                }
-            });
         }
 
     }
@@ -109,6 +87,13 @@ public class DinerPage extends javax.swing.JFrame {
 	PreparedStatement pst;
 	ResultSet rs;
 	ResultSet countResult;
+	private DefaultTableCellRenderer centerRenderer;
+	private JTableHeader tableHeader;
+	private DefaultTableCellRenderer renderer;
+	private JSpinner spinner;
+	private JButton btnDeleteRow;
+	private JButton btnEditQuantity;
+	private Blob imageBlob;
 	
 	
     public void connect() {
@@ -214,7 +199,7 @@ public class DinerPage extends javax.swing.JFrame {
         	public void actionPerformed(ActionEvent e) {
         		
         		
-        		jAddButtonActionPerformed(e, lblDishName_1,lblPrice_1,"1");
+        		jAddButtonActionPerformed(e, lblDishName_1,lblPrice_1);
         	
         	}
         });
@@ -247,7 +232,7 @@ public class DinerPage extends javax.swing.JFrame {
         btnOrderAdd_2.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		jAddButtonActionPerformed(e, lblDishName_2,lblPrice_2,"1");
+        		jAddButtonActionPerformed(e, lblDishName_2,lblPrice_2);
         		
         	}
         });
@@ -280,7 +265,7 @@ public class DinerPage extends javax.swing.JFrame {
         btnOrderAdd_3.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		jAddButtonActionPerformed(e, lblDishName_3,lblPrice_3,"1");
+        		jAddButtonActionPerformed(e, lblDishName_3,lblPrice_3);
         	}
         });
         btnOrderAdd_3.setBounds(201, 202, 96, 38);
@@ -312,7 +297,7 @@ public class DinerPage extends javax.swing.JFrame {
         btnOrderAdd_4.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		jAddButtonActionPerformed(e, lblDishName_4,lblPrice_4,"1");
+        		jAddButtonActionPerformed(e, lblDishName_4,lblPrice_4);
         	}
         });
         btnOrderAdd_4.setBounds(204, 202, 96, 38);
@@ -344,7 +329,7 @@ public class DinerPage extends javax.swing.JFrame {
         btnOrderAdd_5.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		jAddButtonActionPerformed(e, lblDishName_5,lblPrice_5,"1");
+        		jAddButtonActionPerformed(e, lblDishName_5,lblPrice_5);
         	}
         });
         btnOrderAdd_5.setBounds(201, 202, 96, 38);
@@ -376,7 +361,7 @@ public class DinerPage extends javax.swing.JFrame {
         btnOrderAdd_6.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		jAddButtonActionPerformed(e, lblDishName_6,lblPrice_6,"1");
+        		jAddButtonActionPerformed(e, lblDishName_6,lblPrice_6);
         	}
         });
         btnOrderAdd_6.setBounds(201, 202, 96, 38);
@@ -408,7 +393,7 @@ public class DinerPage extends javax.swing.JFrame {
         btnOrderAdd_7.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		jAddButtonActionPerformed(e, lblDishName_7,lblPrice_7,"1");
+        		jAddButtonActionPerformed(e, lblDishName_7,lblPrice_7);
         	}
         });
         btnOrderAdd_7.setBounds(201, 202, 96, 38);
@@ -440,7 +425,7 @@ public class DinerPage extends javax.swing.JFrame {
         btnOrderAdd_8.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		jAddButtonActionPerformed(e, lblDishName_8,lblPrice_8,"1");
+        		jAddButtonActionPerformed(e, lblDishName_8,lblPrice_8);
         	}
         });
         btnOrderAdd_8.setBounds(201, 202, 96, 38);
@@ -472,7 +457,7 @@ public class DinerPage extends javax.swing.JFrame {
         btnOrderAdd_9.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		jAddButtonActionPerformed(e, lblDishName_9,lblPrice_9,"1");
+        		jAddButtonActionPerformed(e, lblDishName_9,lblPrice_9);
         	}
         });
         btnOrderAdd_9.setBounds(201, 202, 96, 38);
@@ -549,21 +534,24 @@ public class DinerPage extends javax.swing.JFrame {
         jButtonDrinks.setBounds(new Rectangle(0, 0, 64, 64));
         SidePanel1.add(jButtonDrinks);
         getContentPane().add(SidePanel1);
+        
+        jButtonDrinks_1 = new JButton("");
+        jButtonDrinks_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		jButtonBackActionPerformed(e);
+        	}
+        });
+        jButtonDrinks_1.setIcon(new ImageIcon(DinerPage.class.getResource("/images/left-arrow.png")));
+        jButtonDrinks_1.setPreferredSize(new Dimension(64, 64));
+        jButtonDrinks_1.setBounds(new Rectangle(0, 0, 64, 64));
+        jButtonDrinks_1.setBackground(Color.BLACK);
+        SidePanel1.add(jButtonDrinks_1);
         getContentPane().add(jPanel4);
         getContentPane().add(SidePanel2);
         
-        scrollPane = new JScrollPane();
-        scrollPane.setEnabled(false);
-        scrollPane.setBounds(23, 89, 428, 651);
-        SidePanel2.add(scrollPane);
+        	
         
-        table = new JTable();
-        table.setName("");
-        model = new DefaultTableModel();
-        Object[] column = {"ID","Name","Price","Amount"};
-        model.setColumnIdentifiers(column);
-        table.setModel(model);
-        scrollPane.setViewportView(table);
         
         lblTotalPrice = new JLabel();
         lblTotalPrice.setText("Total Price:");
@@ -577,6 +565,77 @@ public class DinerPage extends javax.swing.JFrame {
         lblBackground.setBounds(0, 0, 1920, 1080);
         getContentPane().add(lblBackground);
 
+        
+        scrollPane = new JScrollPane();
+    	scrollPane.setEnabled(false);
+    	scrollPane.getViewport().setBackground(new Color(64, 64, 64)); // Set the background color of the viewport
+    	scrollPane.setBounds(10, 77, 464, 549);
+    	SidePanel2.add(scrollPane);
+    	
+    	
+		table = new JTable();
+		table.setBackground(new Color(64, 64, 64)); // Set the table background color to dark grey
+		table.setForeground(Color.WHITE);
+		table.setName("");
+		model = new DefaultTableModel();
+		Object[] column = {"ID","Name","Price","Quantity"};
+		model.setColumnIdentifiers(column);
+		table.setModel(model);
+		table.setRowHeight(30);
+		scrollPane.setViewportView(table);
+
+		// Adjusting column widths
+		table.getColumnModel().getColumn(0).setPreferredWidth(50); // Code - for 6 characters
+		table.getColumnModel().getColumn(1).setPreferredWidth(50); // ID - for 4 characters
+		table.getColumnModel().getColumn(2).setPreferredWidth(50); // Name - for longer text
+		table.getColumnModel().getColumn(3).setPreferredWidth(50); // Status - for longer text
+
+		// Center align content in specific columns
+		centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Code
+		table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // ID
+		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer); // Price
+		table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer); // Quantity
+
+		tableHeader = table.getTableHeader();
+		tableHeader.setFont(new Font("Century Gothic", Font.BOLD, 18));
+		tableHeader.setBackground(new Color(64, 64, 64)); // Set the background color of the table header to dark grey
+
+		// Center align column headers
+		renderer = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
+		renderer.setHorizontalAlignment(JLabel.CENTER);
+
+		// Set font and size for table cells
+		table.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+
+		table.setOpaque(true);
+		
+		
+		
+		
+		btnEditQuantity = new JButton("Edit Quantity");
+		btnEditQuantity.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				editQuantity();
+			}
+		});
+		btnEditQuantity.setBounds(23, 712, 125, 35);
+		SidePanel2.add(btnEditQuantity);
+		
+		btnDeleteRow = new JButton("Delete Order");
+		btnDeleteRow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deleteSelectedRow();
+			}
+		});
+		btnDeleteRow.setBounds(295, 712, 125, 35);
+		SidePanel2.add(btnDeleteRow);
+		
+		spinner = new JSpinner();
+		spinner.setBounds(170, 712, 72, 35);
+
         pack();
         
         
@@ -585,17 +644,35 @@ public class DinerPage extends javax.swing.JFrame {
         
     }// </editor-fold>
 
-    private int generatedcode;
-	private float totalPrice;
+   
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {
-
-        if (generatedcode == 0) {
-            generatedcode = generateRandomCode();
+        if (table != null && table.getRowCount() > 0 && table.getColumnCount() > 1) { // Check if the table model is not null and has rows and columns (excluding identifiers)
+            if (generatedcode == 0) {
+                generatedcode = generateRandomCode();
+            }
+            jLabelOrderNumber.setText("Your Order Number: " + generatedcode);
+        } else {
+            JOptionPane.showMessageDialog(this, "Add a dish first", "Warning", JOptionPane.WARNING_MESSAGE); // Show a message dialog indicating that a dish should be added first
         }
-        jLabelOrderNumber.setText("Your Order Number: " + generatedcode);
 
+        // Set the visibility of all labels and panels of the menu printer to false
+        panelData_1.setVisible(false);
+        panelData_2.setVisible(false);
+        panelData_3.setVisible(false);
+        panelData_4.setVisible(false);
+        panelData_5.setVisible(false);
+        panelData_6.setVisible(false);
+        panelData_7.setVisible(false);
+        panelData_8.setVisible(false);
+        panelData_9.setVisible(false);
     }
+    
+    public void addButtonsVisibility() {
+    	
+    }
+
+
 
     
     private int generateRandomCode() {
@@ -626,6 +703,13 @@ public class DinerPage extends javax.swing.JFrame {
          * For details see
          * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
+    	
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new OptionsDiner().setVisible(false); 
+            }
+        });
+    	
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -689,9 +773,23 @@ public class DinerPage extends javax.swing.JFrame {
 	        // Set the limit to the total number of rows
 	        int limit = totalRows;
 	        
+	        int key = OrderNumbersDiner.menuKey();
+	    	
+	    	if (key == 1) {
+	    		btnOrderAdd_1.setEnabled(false);
+	    		btnOrderAdd_2.setEnabled(false);
+	    		btnOrderAdd_3.setEnabled(false);
+	    		btnOrderAdd_4.setEnabled(false);
+	    		btnOrderAdd_5.setEnabled(false);
+	    		btnOrderAdd_6.setEnabled(false);
+	    		btnOrderAdd_7.setEnabled(false);
+	    		btnOrderAdd_8.setEnabled(false);
+	    		btnOrderAdd_9.setEnabled(false);
+	    	}
+	        
 	        
 	        lblNumber.setText(total);
-	        pst = con.prepareStatement("select dish_name,description,price from " + option);
+	        pst = con.prepareStatement("select dish_name,description,price, image, type from " + option);
 	        rs = pst.executeQuery();
 	        
 	        int count = 0;
@@ -699,60 +797,75 @@ public class DinerPage extends javax.swing.JFrame {
 	            dishName = rs.getString("dish_name");
 	            description = rs.getString("description");
 	            price = rs.getString("price");
+	            
+	            imageBlob = rs.getBlob("image");
+				byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
+	   	 		ImageIcon imageIcon = new ImageIcon(imageBytes);
+	   		 	Image img = imageIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+	            
 	            switch (count) {
 	                case 0:
 	                    lblDishName_1.setText(dishName);
 	                    lblDescription_1.setText(description);
 	                    lblPrice_1.setText(price);
 	                    panelData_1.setVisible(true);
+	                    lblDishPhoto_1.setIcon(new ImageIcon(img));
 	                    break;
 	                case 1:
 	                	lblDishName_2.setText(dishName);
 	                    lblDescription_2.setText(description);
 	                    lblPrice_2.setText(price);
 	                    panelData_2.setVisible(true);
+	                    lblDishPhoto_2.setIcon(new ImageIcon(img));
 	                    break;
 	                case 2:
 	                	lblDishName_3.setText(dishName);
 	                    lblDescription_3.setText(description);
 	                    lblPrice_3.setText(price);
 	                    panelData_3.setVisible(true);
+	                    lblDishPhoto_3.setIcon(new ImageIcon(img));
 	                    break;
 	                case 3:
 	                	lblDishName_4.setText(dishName);
 	                    lblDescription_4.setText(description);
 	                    lblPrice_4.setText(price);
 	                    panelData_4.setVisible(true);
+	                    lblDishPhoto_4.setIcon(new ImageIcon(img));
 	                    break;
 	                case 4:
 	                	lblDishName_5.setText(dishName);
 	                    lblDescription_5.setText(description);
 	                    lblPrice_5.setText(price);
 	                    panelData_5.setVisible(true);
+	                    lblDishPhoto_5.setIcon(new ImageIcon(img));
 	                    break;
 	                case 5:
 	                	lblDishName_6.setText(dishName);
 	                    lblDescription_6.setText(description);
 	                    lblPrice_6.setText(price);
 	                    panelData_6.setVisible(true);
+	                    lblDishPhoto_6.setIcon(new ImageIcon(img));
 	                    break;
 	                case 6:
 	                	lblDishName_7.setText(dishName);
 	                    lblDescription_7.setText(description);
 	                    lblPrice_7.setText(price);
 	                    panelData_7.setVisible(true);
+	                    lblDishPhoto_7.setIcon(new ImageIcon(img));
 	                    break;
 	                case 7:
 	                	lblDishName_8.setText(dishName);
 	                    lblDescription_8.setText(description);
 	                    lblPrice_8.setText(price);
 	                    panelData_8.setVisible(true);
+	                    lblDishPhoto_8.setIcon(new ImageIcon(img));
 	                    break;
 	                case 8:
 	                	lblDishName_9.setText(dishName);
 	                    lblDescription_9.setText(description);
 	                    lblPrice_9.setText(price);
 	                    panelData_9.setVisible(true);
+	                    lblDishPhoto_9.setIcon(new ImageIcon(img));
 	                    break;
 	            }
 	            count++;
@@ -776,71 +889,157 @@ public class DinerPage extends javax.swing.JFrame {
     }
     
     public String numberIDChecker() {
-    	
-    	String id;
-    	
-    	if (row[0] == null) {
-    		id = "1";
-    	}
-    	
-    	else{
-    		dishCount++;
-    		id = String.valueOf(dishCount);
-    	}
-    	
-    	return id;
+        return String.valueOf(++lastOrderNumber);
     }
     
     
-    public void jAddButtonActionPerformed(ActionEvent e, JLabel dishName, JLabel dishPrice, String amount) {
-    	
-    	System.out.println("Add button clicked");
-    	String name, price, orderNumber, numberAmount, orderCode;
-    	float priceCurrent;
-    	
-    	name = dishName.getText();
-    	price = dishPrice.getText();
-    	priceCurrent = Float.parseFloat(dishPrice.getText());
-    	totalPrice += priceCurrent;
-    	orderNumber = numberIDChecker();
-    	numberAmount = amount;
-    	orderCode = String.valueOf(generateRandomCode());
-    			
-		try {
-			
-			lblTotalPrice.setText("Total Price: " + String.valueOf(totalPrice));
-			
-			row[0] = orderNumber;
-	    	row[1] = name;
-	    	row[2] = price;
-	    	row[3] = numberAmount;
-			
-	        pst = con.prepareStatement("insert into order_cart (order_number, dish_name, price, quantity, order_code, status, remarks, total_price)values(?,?,?,?,?,?,?,?)");
-	        pst.setString(1, orderNumber);
-	        pst.setString(2, name);
-	        pst.setString(3, price);
-	        pst.setString(4, numberAmount);
-	        pst.setString(5, orderCode);
-	        pst.setString(6, "pending");
-	        pst.setString(7, "incomplete");
-	        pst.setString(8, String.valueOf(totalPrice));
-	        pst.executeUpdate();
-	        //JOptionPane.showMessageDialog(null, "Record Addedddd!!!!!");
-	    	model.addRow(row);
-	        
-	        //menuPrinter(option);
-	       }
-	    catch (SQLException e1) 
-	        {            
-	    		e1.printStackTrace();
-	        }
-		
-		pressedCount++;
-    	
-		
-		
+    public void jAddButtonActionPerformed(ActionEvent e, JLabel dishName, JLabel dishPrice) {
+        System.out.println("Add button clicked");
+        String name, price, orderNumber, orderCode;
+        float priceCurrent;
+        
+        name = dishName.getText();
+        price = dishPrice.getText();
+        priceCurrent = Float.parseFloat(dishPrice.getText());
+        
+        // Create spinner for inputting the number of orders
+        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1); // Initial value, minimum value, maximum value, step
+        JSpinner spinner = new JSpinner(spinnerModel);
+        Object[] message = {"Enter the number of orders for " + name + ":", spinner};
+        
+        int option = JOptionPane.showConfirmDialog(null, message, "Number of Orders", JOptionPane.OK_CANCEL_OPTION);
+        
+        // Check if the user canceled
+        if (option != JOptionPane.OK_OPTION) {
+            return; // Exit if canceled
+        }
+        
+        int quantity = (int) spinner.getValue();
+        float totalPriceChange = priceCurrent * quantity;
+        
+        orderNumber = numberIDChecker();
+        orderCode = String.valueOf(generateRandomCode());
+        
+        try {
+            // Calculate total price dynamically based on the quantity of each dish in the table model
+            float total = 0;
+            for (int i = 0; i < model.getRowCount(); i++) {
+                int rowQuantity = Integer.parseInt((String) model.getValueAt(i, 3));
+                float rowPrice = Float.parseFloat((String) model.getValueAt(i, 2));
+                total += rowQuantity * rowPrice;
+            }
+            total += totalPriceChange;
+            totalPrice = total;
+            
+            lblTotalPrice.setText("Total Price: " + String.valueOf(totalPrice));
+            
+            // Add a single row to the table model, with the total amount
+            row[0] = orderNumber;
+            row[1] = name;
+            row[2] = price;
+            row[3] = String.valueOf(quantity);
+            
+            pst = con.prepareStatement("insert into order_cart (order_number, dish_name, price, quantity, order_code, status, remarks, total_price)values(?,?,?,?,?,?,?,?)");
+            pst.setString(1, orderNumber);
+            pst.setString(2, name);
+            pst.setString(3, price);
+            pst.setString(4, String.valueOf(quantity));
+            pst.setString(5, orderCode);
+            pst.setString(6, "pending");
+            pst.setString(7, "incomplete");
+            pst.setString(8, String.valueOf(totalPrice));
+            pst.executeUpdate();
+            
+            model.addRow(row);
+        } catch (SQLException e1) {            
+            e1.printStackTrace();
+        }
+        
+        pressedCount++;
+    }
+    
+    
+    private void editQuantity() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 0, 50, 1);
+            JSpinner spinner = new JSpinner(spinnerModel);
+            spinner.setValue(Integer.parseInt((String) table.getValueAt(selectedRow, 3))); // Set spinner value to current quantity
+            int result = JOptionPane.showConfirmDialog(null, new Object[]{"Edit Quantity:", spinner}, "Edit Quantity", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                int newQuantity = (int) spinner.getValue();
+                table.setValueAt(String.valueOf(newQuantity), selectedRow, 3); // Update quantity in table model as string
+                
+                // Recalculate total price after updating quantity
+                float total = 0;
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    int rowQuantity = Integer.parseInt((String) model.getValueAt(i, 3));
+                    float rowPrice = Float.parseFloat((String) model.getValueAt(i, 2));
+                    total += rowQuantity * rowPrice;
+                }
+                lblTotalPrice.setText("Total Price: " + String.valueOf(total));
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a row to edit.", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
+
+    // Method to delete selected row
+    private void deleteSelectedRow() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            float deletedRowPrice = Float.parseFloat((String) model.getValueAt(selectedRow, 2)); // Price of the deleted dish
+            int deletedRowQuantity = Integer.parseInt((String) model.getValueAt(selectedRow, 3)); // Quantity of the deleted dish
+            float deletedRowTotalPrice = deletedRowPrice * deletedRowQuantity; // Total price of the deleted dish
+            
+            model.removeRow(selectedRow);
+            
+            // Update the ID or row number to be sequential from 1 to the last row count
+            for (int i = 0; i < model.getRowCount(); i++) {
+                model.setValueAt(i + 1, i, 0); // Assuming the ID is in column 0, and it starts from 1
+            }
+            lastOrderNumber--;
+            
+            // Recalculate total price after removing the row
+            float total = 0;
+            for (int i = 0; i < model.getRowCount(); i++) {
+                int rowQuantity = Integer.parseInt((String) model.getValueAt(i, 3));
+                float rowPrice = Float.parseFloat((String) model.getValueAt(i, 2));
+                total += rowQuantity * rowPrice;
+            }
+            totalPrice -= deletedRowTotalPrice; // Subtract the price of the deleted dish
+            lblTotalPrice.setText("Total Price: " + String.valueOf(totalPrice));
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a row to delete.", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    public void jButtonBackActionPerformed(ActionEvent e) {
+		
+    	if (SignInPage.user() == 1) {
+    		if (optionsAdmin == null) {
+    			optionsAdmin = new OptionsAdmin(); 
+            }
+    		optionsAdmin.setVisible(true); 
+            dispose();
+    	} else {
+    		if (optionsDiner == null) {
+        		optionsDiner = new OptionsDiner(); 
+            }
+        	optionsDiner.setVisible(true); 
+            dispose();
+    	}
+    	
+	}
+    
+    private static OptionsDiner optionsDiner;
+    private static OptionsAdmin optionsAdmin;
+    private int generatedcode;
+   	private float totalPrice = 0;
+   	private int lastOrderNumber = 0;
     private JButton jButtonConfirm;
     private JButton jButtonCancel;
     private JLabel jLabel3;
@@ -906,7 +1105,7 @@ public class DinerPage extends javax.swing.JFrame {
     private JScrollPane scrollPane;
     private JButton btnOrderAdd_1; 
     private final Object[] row = new Object[4];
-    private int dishCount = 1;
+    private int dishCount = 0;
     private JButton btnOrderAdd_9;
 	private JButton btnOrderAdd_8;
 	private JButton btnOrderAdd_7;
@@ -918,4 +1117,5 @@ public class DinerPage extends javax.swing.JFrame {
 	private int pressedCount = 0;
 	private int code;
 	private JLabel lblTotalPrice;
+	private JButton jButtonDrinks_1;
 }
