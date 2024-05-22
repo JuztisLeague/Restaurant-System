@@ -19,6 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import javax.swing.SwingConstants;
+import java.awt.Rectangle;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ImageIcon;
 
 public class OptionsAdmin extends javax.swing.JFrame {
 
@@ -43,6 +47,8 @@ public class OptionsAdmin extends javax.swing.JFrame {
     private JPanel jPanel1;
     private JButton btnClose;
     private JButton btnMenu;
+
+	private JLabel lblUserPhoto;
 
     public OptionsAdmin() {
         getContentPane().setBackground(new Color(0, 64, 64));
@@ -127,32 +133,44 @@ public class OptionsAdmin extends javax.swing.JFrame {
         jLabel2.setFont(new Font("Century Gothic", Font.PLAIN, 30));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Administrator");
+        
+        lblUserPhoto = new JLabel("");
+        lblUserPhoto.setIcon(new ImageIcon(OptionsAdmin.class.getResource("/images/Mar1.png")));
+        lblUserPhoto.setBounds(new Rectangle(0, 0, 150, 150));
+        lblUserPhoto.setHorizontalAlignment(SwingConstants.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
-            layout.createParallelGroup(Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(645)
-                            .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 376, GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(192)
-                            .addGroup(layout.createParallelGroup(Alignment.LEADING)
-                                .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 1286, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE))))
-                    .addContainerGap(422, Short.MAX_VALUE))
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(198)
+        					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        						.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE)
+        						.addGroup(layout.createSequentialGroup()
+        							.addGap(395)
+        							.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 376, GroupLayout.PREFERRED_SIZE))))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(179)
+        					.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 1286, GroupLayout.PREFERRED_SIZE))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(703)
+        					.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)))
+        			.addContainerGap(416, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(35)
-                    .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
-                    .addGap(35)
-                    .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-                    .addGap(41)
-                    .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(300, Short.MAX_VALUE))
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addGap(35)
+        			.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
+        			.addGap(1)
+        			.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+        			.addGap(18)
+        			.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
+        			.addGap(30)
+        			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 403, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(290, Short.MAX_VALUE))
         );
 
         jPanel1.setLayout(null);
