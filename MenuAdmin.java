@@ -26,8 +26,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.FontMetrics;
-
 import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JRadioButton;
@@ -44,6 +42,7 @@ import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import java.awt.Component;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 public class MenuAdmin extends javax.swing.JFrame{
 
@@ -71,7 +70,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 	}
 
 	public MenuAdmin() {
-		getContentPane().setBackground(new Color(21, 25, 28));
+		getContentPane().setBackground(new Color(0, 0, 0));
 		setUndecorated(true);
 		getContentPane().setFocusable(false);
 		initialize();
@@ -102,29 +101,18 @@ public class MenuAdmin extends javax.swing.JFrame{
 	}
 	
 	int update;
-	private JButton btnUpload;
+	private JButton jButtonUpload;
 	private JLabel labelImage;
 	private java.sql.Blob imageBlob;
 	
 	private void initialize() {
 		
-		btnClose = new JButton("Close");
-		btnClose.setFocusable(false);
-		btnClose.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		btnClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnClose.setBounds(1776, 11, 112, 46);
-		getContentPane().add(btnClose);
-		
 		jMiddlePanel = new JPanel();
 		jMiddlePanel.setFocusable(false);
 		jMiddlePanel.setBorder(null);
-		jMiddlePanel.setBackground(new Color(0, 0, 0));
+		jMiddlePanel.setBackground(new Color(21, 25, 28));
 		jMiddlePanel.setForeground(new Color(255, 255, 255));
-		jMiddlePanel.setBounds(109, 11, 1321, 1058);
+		jMiddlePanel.setBounds(109, 0, 1321, 1080);
 		getContentPane().add(jMiddlePanel);
 		jMiddlePanel.setLayout(null);
 		
@@ -134,106 +122,123 @@ public class MenuAdmin extends javax.swing.JFrame{
 		getContentPane().setLayout(null);
 		
 		panelCategories = new JPanel();
-		panelCategories.setBackground(new Color(0, 0, 0));
+		panelCategories.setBackground(new Color(21, 25, 28));
 		panelCategories.setFocusable(false);
-		panelCategories.setBounds(0, 11, 103, 1058);
+		panelCategories.setBounds(0, 0, 103, 1080);
 		getContentPane().add(panelCategories);
 		
 		
 		
-		btnAppetizers = new JButton("");
-		btnAppetizers.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnAppetizers.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/nachos.png")));
-		btnAppetizers.setPreferredSize(new Dimension(64, 64));
-		btnAppetizers.setBounds(new Rectangle(0, 0, 64, 64));
-		btnAppetizers.setFocusable(false);
-		btnAppetizers.addActionListener(new ActionListener() {
+		jButtonAppetizers = new JButton("");
+		jButtonAppetizers.setBorder(null);
+		jButtonAppetizers.setBackground(new Color(21, 25, 28));
+		jButtonAppetizers.setAlignmentX(Component.CENTER_ALIGNMENT);
+		jButtonAppetizers.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/nachos.png")));
+		jButtonAppetizers.setPreferredSize(new Dimension(64, 64));
+		jButtonAppetizers.setBounds(new Rectangle(0, 0, 64, 64));
+		jButtonAppetizers.setFocusable(false);
+		jButtonAppetizers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				jAppetizerButtonActionPerformed(e);
 			}
 		});
 		panelCategories.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 30));
-		panelCategories.add(btnAppetizers);
+		panelCategories.add(jButtonAppetizers);
 		
-		btnEntree = new JButton("");
-		btnEntree.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/Entree.png")));
-		btnEntree.setPreferredSize(new Dimension(64, 64));
-		btnEntree.setBounds(new Rectangle(0, 0, 64, 64));
-		btnEntree.addActionListener(new ActionListener() {
+		jButtonEntree = new JButton("");
+		jButtonEntree.setBorder(null);
+		jButtonEntree.setBackground(new Color(21, 25, 28));
+		jButtonEntree.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/Entree.png")));
+		jButtonEntree.setPreferredSize(new Dimension(64, 64));
+		jButtonEntree.setBounds(new Rectangle(0, 0, 64, 64));
+		jButtonEntree.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				jEntreeButtonActionPerformed(e);
 				
 			}
 		});
-		btnEntree.setFocusable(false);
-		panelCategories.add(btnEntree);
+		jButtonEntree.setFocusable(false);
+		panelCategories.add(jButtonEntree);
 		
-		btnDessert = new JButton("");
-		btnDessert.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/dessert.png")));
-		btnDessert.setBounds(new Rectangle(0, 0, 64, 64));
-		btnDessert.setPreferredSize(new Dimension(64, 64));
-		btnDessert.addActionListener(new ActionListener() {
+		jButtonDessert = new JButton("");
+		jButtonDessert.setBorder(null);
+		jButtonDessert.setBackground(new Color(21, 25, 28));
+		jButtonDessert.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/dessert.png")));
+		jButtonDessert.setBounds(new Rectangle(0, 0, 64, 64));
+		jButtonDessert.setPreferredSize(new Dimension(64, 64));
+		jButtonDessert.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				jDessertButtonActionPerformed(e);
 				
 			}
 		});
-		btnDessert.setFocusable(false);
-		panelCategories.add(btnDessert);
+		jButtonDessert.setFocusable(false);
+		panelCategories.add(jButtonDessert);
 		
-		btnDrinks = new JButton("");
-		btnDrinks.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/drinks.png")));
-		btnDrinks.setPreferredSize(new Dimension(64, 64));
-		btnDrinks.setBounds(new Rectangle(0, 0, 64, 64));
-		btnDrinks.addActionListener(new ActionListener() {
+		jButtonDrinks = new JButton("");
+		jButtonDrinks.setBorder(null);
+		jButtonDrinks.setBackground(new Color(21, 25, 28));
+		jButtonDrinks.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/drinks.png")));
+		jButtonDrinks.setPreferredSize(new Dimension(64, 64));
+		jButtonDrinks.setBounds(new Rectangle(0, 0, 64, 64));
+		jButtonDrinks.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				jDrinksButtonActionPerformed(e);
 				
 			}
 		});
-		btnDrinks.setFocusable(false);
-		panelCategories.add(btnDrinks);
+		jButtonDrinks.setFocusable(false);
+		panelCategories.add(jButtonDrinks);
 		
 		panelEditables = new JPanel();
-		panelEditables.setBackground(new Color(0, 0, 0));
+		panelEditables.setOpaque(false);
+		panelEditables.setBackground(new Color(21, 25, 28));
 		panelEditables.setFocusable(false);
 		panelEditables.setLayout(null);
-		panelEditables.setBounds(1436, 11, 484, 1058);
+		panelEditables.setBounds(1436, 0, 495, 1080);
 		getContentPane().add(panelEditables);
 		
 		panel_2 = new JPanel();
 		panel_2.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		panel_2.setForeground(new Color(255, 255, 255));
-		panel_2.setBackground(new Color(0, 0, 0));
+		panel_2.setBackground(new Color(44, 44, 44));
 		panel_2.setFocusable(false);
 		panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Add Dishes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
-		panel_2.setBounds(20, 43, 323, 513);
+		panel_2.setBounds(70, 43, 325, 513);
 		panelEditables.add(panel_2);
 		panel_2.setLayout(null);
 		
 		rdbtnAppetizer1 = new JRadioButton("Appetizer");
+		rdbtnAppetizer1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		rdbtnAppetizer1.setBackground(new Color(44, 44, 44));
 		rdbtnAppetizer1.setForeground(new Color(255, 255, 255));
 		rdbtnAppetizer1.setFocusable(false);
 		rdbtnAppetizer1.setBounds(47, 185, 88, 23);
 		panel_2.add(rdbtnAppetizer1);
 		
 		rdbtnEntree1 = new JRadioButton("Entree");
+		rdbtnEntree1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		rdbtnEntree1.setBackground(new Color(44, 44, 44));
 		rdbtnEntree1.setForeground(new Color(255, 255, 255));
 		rdbtnEntree1.setFocusable(false);
 		rdbtnEntree1.setBounds(186, 185, 71, 23);
 		panel_2.add(rdbtnEntree1);
 		
 		rdbtnDessert1 = new JRadioButton("Dessert");
+		rdbtnDessert1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		rdbtnDessert1.setBackground(new Color(44, 44, 44));
 		rdbtnDessert1.setForeground(new Color(255, 255, 255));
 		rdbtnDessert1.setFocusable(false);
 		rdbtnDessert1.setBounds(47, 211, 71, 23);
 		panel_2.add(rdbtnDessert1);
 		
 		rdbtnDrinks1 = new JRadioButton("Drinks");
+		rdbtnDrinks1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		rdbtnDrinks1.setBackground(new Color(44, 44, 44));
 		rdbtnDrinks1.setForeground(new Color(255, 255, 255));
 		rdbtnDrinks1.setFocusTraversalPolicyProvider(true);
 		rdbtnDrinks1.setFocusable(false);
@@ -248,47 +253,62 @@ public class MenuAdmin extends javax.swing.JFrame{
 		}
 		
 		menubtnGrp1 = new ButtonGroup();{
-			menubtnGrp1.add(btnAppetizers);
-			menubtnGrp1.add(btnEntree);
-			menubtnGrp1.add(btnDessert);
-			menubtnGrp1.add(btnDrinks);
+			menubtnGrp1.add(jButtonAppetizers);
+			menubtnGrp1.add(jButtonEntree);
+			menubtnGrp1.add(jButtonDessert);
+			menubtnGrp1.add(jButtonDrinks);
 		}
-		btnBack = new JButton("");
-		btnBack.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/left-arrow.png")));
-		btnBack.setBounds(new Rectangle(0, 0, 64, 64));
-		btnBack.setPreferredSize(new Dimension(64, 64));
-		btnBack.setFocusable(false);
-		btnBack.addActionListener(new ActionListener() {
+		jButtonBack = new JButton("");
+		jButtonBack.setBorder(null);
+		jButtonBack.setBackground(new Color(21, 25, 28));
+		jButtonBack.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/left-arrow.png")));
+		jButtonBack.setBounds(new Rectangle(0, 0, 64, 64));
+		jButtonBack.setPreferredSize(new Dimension(64, 64));
+		jButtonBack.setFocusable(false);
+		jButtonBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				actionBackPerformed(e);
 			}
 		});
-		panelCategories.add(btnBack);
+		panelCategories.add(jButtonBack);
 		
 		panel = new JPanel();
+		panel.setBackground(new Color(44, 44, 44));
 		panel.setFocusable(false);
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Search Dish", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(20, 659, 312, 118);
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Search Dish", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
+		panel.setBounds(70, 680, 325, 120);
 		panelEditables.add(panel);
 		panel.setLayout(null);
 		
 		rdbtnAppetizer2 = new JRadioButton("Appetizer");
+		rdbtnAppetizer2.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		rdbtnAppetizer2.setForeground(new Color(255, 255, 255));
+		rdbtnAppetizer2.setBackground(new Color(44, 44, 44));
 		rdbtnAppetizer2.setFocusable(false);
 		rdbtnAppetizer2.setBounds(47, 20, 88, 23);
 		panel.add(rdbtnAppetizer2);
 		
 		rdbtnEntree2 = new JRadioButton("Entree");
+		rdbtnEntree2.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		rdbtnEntree2.setForeground(new Color(255, 255, 255));
+		rdbtnEntree2.setBackground(new Color(44, 44, 44));
 		rdbtnEntree2.setFocusable(false);
 		rdbtnEntree2.setBounds(186, 20, 71, 23);
 		panel.add(rdbtnEntree2);
 		
 		rdbtnDessert2 = new JRadioButton("Dessert");
+		rdbtnDessert2.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		rdbtnDessert2.setForeground(new Color(255, 255, 255));
+		rdbtnDessert2.setBackground(new Color(44, 44, 44));
 		rdbtnDessert2.setFocusable(false);
 		rdbtnDessert2.setBounds(47, 46, 71, 23);
 		panel.add(rdbtnDessert2);
 		
 		rdbtnDrinks2 = new JRadioButton("Drinks");
+		rdbtnDrinks2.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		rdbtnDrinks2.setForeground(new Color(255, 255, 255));
+		rdbtnDrinks2.setBackground(new Color(44, 44, 44));
 		rdbtnDrinks2.setFocusable(false);
 		rdbtnDrinks2.setFocusTraversalPolicyProvider(true);
 		rdbtnDrinks2.setBounds(186, 46, 71, 23);
@@ -314,9 +334,10 @@ public class MenuAdmin extends javax.swing.JFrame{
 		
 		
 		lblDishId = new JLabel("Dish ID");
+		lblDishId.setForeground(new Color(255, 255, 255));
 		lblDishId.setBounds(20, 82, 62, 17);
 		panel.add(lblDishId);
-		lblDishId.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblDishId.setFont(new Font("Century Gothic", Font.BOLD, 14));
 		lblDishId.setFocusable(false);
 		
 		textDishID = new JTextField();
@@ -353,7 +374,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 				
 			}
 		});
-		btnAdd.setBounds(20, 580, 96, 47);
+		btnAdd.setBounds(190, 567, 96, 47);
 		panelEditables.add(btnAdd);
 		
 		btnDelete = new JButton("Delete");
@@ -365,7 +386,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 				
 			}
 		});
-		btnDelete.setBounds(20, 860, 292, 37);
+		btnDelete.setBounds(242, 819, 150, 37);
 		panelEditables.add(btnDelete);
 		
 		
@@ -406,12 +427,16 @@ public class MenuAdmin extends javax.swing.JFrame{
 		textPrice.setBounds(108, 141, 185, 20);
 		panel_2.add(textPrice);
 		
-		
-		
-		btnUpload = new JButton("Upload");
-		btnUpload.setBounds(108, 440, 107, 47);
-		panel_2.add(btnUpload);
-		btnUpload.addActionListener(new ActionListener() {
+		jButtonUpload = new JButton("Upload");
+		jButtonUpload.setForeground(new Color(255, 255, 255));
+		jButtonUpload.setOpaque(false);
+		jButtonUpload.setBackground(new Color(44, 44, 44));
+		jButtonUpload.setBorder(null);
+		jButtonUpload.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		jButtonUpload.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/upload.png")));
+		jButtonUpload.setBounds(108, 445, 115, 47);
+		panel_2.add(jButtonUpload);
+		jButtonUpload.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
                 FileNameExtensionFilter fnwf = new FileNameExtensionFilter("PNG JPG AND JPEG", "png", "jpeg", "jpg");
@@ -439,15 +464,30 @@ public class MenuAdmin extends javax.swing.JFrame{
 			}
 		});
 		btnUpdate.setFocusable(false);
-		btnUpdate.setBounds(20, 812, 292, 37);
+		btnUpdate.setBounds(70, 819, 150, 37);
 		panelEditables.add(btnUpdate);
+		
+		jButtonClose = new JButton("");
+		jButtonClose.setBackground(new Color(21, 25, 28));
+		jButtonClose.setPreferredSize(new Dimension(64, 64));
+		jButtonClose.setIcon(new ImageIcon(MenuAdmin.class.getResource("/images/cancel.png")));
+		jButtonClose.setBorder(null);
+		jButtonClose.setBounds(410, 10, 64, 64);
+		panelEditables.add(jButtonClose);
+		jButtonClose.setFocusable(false);
+		jButtonClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		jButtonClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
 		
 		
 		panelData_1 = new JPanel();
         panelData_1.setBounds(47, 79, 327, 251);
         
-        lblNumber = new JLabel("New label");
+        lblNumber = new JLabel("Numbers");
         lblNumber.setBounds(10, 11, 248, 50);
         lblNumber.setForeground(new Color(255, 255, 255));
         lblNumber.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -463,20 +503,15 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_1.add(lblDishPhoto_1);
         
         lblDishName_1 = new JLabel("New label");
-        lblDishName_1.setVerticalAlignment(SwingConstants.TOP);
-        lblDishName_1.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDishName_1.setBounds(172, 22, 145, 38);
+        lblDishName_1.setBounds(172, 22, 72, 14);
         panelData_1.add(lblDishName_1);
         
         lblPrice_1 = new JLabel("New label");
-        lblPrice_1.setFont(new Font("Century Gothic", Font.PLAIN, 11));
         lblPrice_1.setBounds(172, 71, 96, 14);
         panelData_1.add(lblPrice_1);
         
         lblDescription_1 = new JLabel("New label");
-        lblDescription_1.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDescription_1.setVerticalAlignment(SwingConstants.TOP);
-        lblDescription_1.setBounds(20, 150, 297, 90);
+        lblDescription_1.setBounds(20, 150, 96, 14);
         panelData_1.add(lblDescription_1);
         
         panelData_2 = new JPanel();
@@ -491,20 +526,15 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_2.add(lblDishPhoto_2);
         
         lblDishName_2 = new JLabel("New label");
-        lblDishName_2.setVerticalAlignment(SwingConstants.TOP);
-        lblDishName_2.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDishName_2.setBounds(172, 22, 145, 38);
+        lblDishName_2.setBounds(172, 22, 72, 14);
         panelData_2.add(lblDishName_2);
         
         lblPrice_2 = new JLabel("New label");
-        lblPrice_2.setFont(new Font("Century Gothic", Font.PLAIN, 11));
         lblPrice_2.setBounds(172, 71, 96, 14);
         panelData_2.add(lblPrice_2);
         
         lblDescription_2 = new JLabel("New label");
-        lblDescription_2.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDescription_2.setVerticalAlignment(SwingConstants.TOP);
-        lblDescription_2.setBounds(20, 150, 297, 90);
+        lblDescription_2.setBounds(20, 150, 96, 14);
         panelData_2.add(lblDescription_2);
         
         panelData_3 = new JPanel();
@@ -519,20 +549,15 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_3.add(lblDishPhoto_3);
         
         lblDishName_3 = new JLabel("New label");
-        lblDishName_3.setVerticalAlignment(SwingConstants.TOP);
-        lblDishName_3.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDishName_3.setBounds(172, 22, 145, 38);
+        lblDishName_3.setBounds(172, 22, 72, 14);
         panelData_3.add(lblDishName_3);
         
         lblPrice_3 = new JLabel("New label");
-        lblPrice_3.setFont(new Font("Century Gothic", Font.PLAIN, 11));
         lblPrice_3.setBounds(172, 71, 96, 14);
         panelData_3.add(lblPrice_3);
         
         lblDescription_3 = new JLabel("New label");
-        lblDescription_3.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDescription_3.setVerticalAlignment(SwingConstants.TOP);
-        lblDescription_3.setBounds(20, 150, 297, 90);
+        lblDescription_3.setBounds(20, 150, 96, 14);
         panelData_3.add(lblDescription_3);
         
         panelData_4 = new JPanel();
@@ -547,20 +572,15 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_4.add(lblDishPhoto_4);
         
         lblDishName_4 = new JLabel("New label");
-        lblDishName_4.setVerticalAlignment(SwingConstants.TOP);
-        lblDishName_4.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDishName_4.setBounds(172, 22, 145, 38);
+        lblDishName_4.setBounds(172, 22, 72, 14);
         panelData_4.add(lblDishName_4);
         
         lblPrice_4 = new JLabel("New label");
-        lblPrice_4.setFont(new Font("Century Gothic", Font.PLAIN, 11));
         lblPrice_4.setBounds(172, 71, 96, 14);
         panelData_4.add(lblPrice_4);
         
         lblDescription_4 = new JLabel("New label");
-        lblDescription_4.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDescription_4.setVerticalAlignment(SwingConstants.TOP);
-        lblDescription_4.setBounds(20, 150, 297, 90);
+        lblDescription_4.setBounds(20, 150, 96, 14);
         panelData_4.add(lblDescription_4);
         
         panelData_5 = new JPanel();
@@ -575,20 +595,15 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_5.add(lblDishPhoto_5);
         
         lblDishName_5 = new JLabel("New label");
-        lblDishName_5.setVerticalAlignment(SwingConstants.TOP);
-        lblDishName_5.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDishName_5.setBounds(172, 22, 145, 38);
+        lblDishName_5.setBounds(172, 22, 72, 14);
         panelData_5.add(lblDishName_5);
         
         lblPrice_5 = new JLabel("New label");
-        lblPrice_5.setFont(new Font("Century Gothic", Font.PLAIN, 11));
         lblPrice_5.setBounds(172, 71, 96, 14);
         panelData_5.add(lblPrice_5);
         
         lblDescription_5 = new JLabel("New label");
-        lblDescription_5.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDescription_5.setVerticalAlignment(SwingConstants.TOP);
-        lblDescription_5.setBounds(20, 150, 297, 90);
+        lblDescription_5.setBounds(20, 150, 96, 14);
         panelData_5.add(lblDescription_5);
         
         panelData_6 = new JPanel();
@@ -603,20 +618,15 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_6.add(lblDishPhoto_6);
         
         lblDishName_6 = new JLabel("New label");
-        lblDishName_6.setVerticalAlignment(SwingConstants.TOP);
-        lblDishName_6.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDishName_6.setBounds(172, 22, 145, 38);
+        lblDishName_6.setBounds(172, 22, 72, 14);
         panelData_6.add(lblDishName_6);
         
         lblPrice_6 = new JLabel("New label");
-        lblPrice_6.setFont(new Font("Century Gothic", Font.PLAIN, 11));
         lblPrice_6.setBounds(172, 71, 96, 14);
         panelData_6.add(lblPrice_6);
         
         lblDescription_6 = new JLabel("New label");
-        lblDescription_6.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDescription_6.setVerticalAlignment(SwingConstants.TOP);
-        lblDescription_6.setBounds(20, 150, 297, 90);
+        lblDescription_6.setBounds(20, 150, 96, 14);
         panelData_6.add(lblDescription_6);
         
         panelData_7 = new JPanel();
@@ -631,20 +641,15 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_7.add(lblDishPhoto_7);
         
         lblDishName_7 = new JLabel("New label");
-        lblDishName_7.setVerticalAlignment(SwingConstants.TOP);
-        lblDishName_7.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDishName_7.setBounds(172, 22, 145, 38);
+        lblDishName_7.setBounds(172, 22, 72, 14);
         panelData_7.add(lblDishName_7);
         
         lblPrice_7 = new JLabel("New label");
-        lblPrice_7.setFont(new Font("Century Gothic", Font.PLAIN, 11));
         lblPrice_7.setBounds(172, 71, 96, 14);
         panelData_7.add(lblPrice_7);
         
         lblDescription_7 = new JLabel("New label");
-        lblDescription_7.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDescription_7.setVerticalAlignment(SwingConstants.TOP);
-        lblDescription_7.setBounds(20, 150, 297, 90);
+        lblDescription_7.setBounds(20, 150, 96, 14);
         panelData_7.add(lblDescription_7);
         
         panelData_8 = new JPanel();
@@ -659,20 +664,15 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_8.add(lblDishPhoto_8);
         
         lblDishName_8 = new JLabel("New label");
-        lblDishName_8.setVerticalAlignment(SwingConstants.TOP);
-        lblDishName_8.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDishName_8.setBounds(172, 22, 145, 38);
+        lblDishName_8.setBounds(172, 22, 72, 14);
         panelData_8.add(lblDishName_8);
         
         lblPrice_8 = new JLabel("New label");
-        lblPrice_8.setFont(new Font("Century Gothic", Font.PLAIN, 11));
         lblPrice_8.setBounds(172, 71, 96, 14);
         panelData_8.add(lblPrice_8);
         
         lblDescription_8 = new JLabel("New label");
-        lblDescription_8.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDescription_8.setVerticalAlignment(SwingConstants.TOP);
-        lblDescription_8.setBounds(20, 150, 297, 90);
+        lblDescription_8.setBounds(20, 150, 96, 14);
         panelData_8.add(lblDescription_8);
         
         panelData_9 = new JPanel();
@@ -687,20 +687,15 @@ public class MenuAdmin extends javax.swing.JFrame{
         panelData_9.add(lblDishPhoto_9);
         
         lblDishName_9 = new JLabel("New label");
-        lblDishName_9.setVerticalAlignment(SwingConstants.TOP);
-        lblDishName_9.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDishName_9.setBounds(172, 22, 145, 38);
+        lblDishName_9.setBounds(172, 22, 72, 14);
         panelData_9.add(lblDishName_9);
         
         lblPrice_9 = new JLabel("New label");
-        lblPrice_9.setFont(new Font("Century Gothic", Font.PLAIN, 11));
         lblPrice_9.setBounds(172, 71, 96, 14);
         panelData_9.add(lblPrice_9);
         
         lblDescription_9 = new JLabel("New label");
-        lblDescription_9.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-        lblDescription_9.setVerticalAlignment(SwingConstants.TOP);
-        lblDescription_9.setBounds(20, 150, 297, 90);
+        lblDescription_9.setBounds(20, 150, 96, 14);
         panelData_9.add(lblDescription_9);
 		
 		
@@ -769,7 +764,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 	}
 	
 	public void addDish(ActionEvent e, JRadioButton rb1, JRadioButton  rb2, JRadioButton rb3, JRadioButton rb4, ButtonGroup buttonGroup) {
-		refreshPrint();
+		
 		String dishName, description, price, type;
 		
 		dishName = textDishName.getText();
@@ -785,17 +780,12 @@ public class MenuAdmin extends javax.swing.JFrame{
 	        pst.setString(1, dishName);
 	        pst.setString(2, description);
 	        pst.setString(3, price);
-	        pst.setString(5, path);
-	        pst.setBinaryStream(4, fis, (int) f.length());
+	        pst.setString(4, path);
+	        pst.setBinaryStream(5, fis, (int) f.length());
 	        pst.executeUpdate();
 	        JOptionPane.showMessageDialog(null, "Record Addedddd!!!!!");
 	        
 	        menuPrinter(option);
-	        textDishName.setText("");
-			textDescription.setText("");
-			textPrice.setText("");
-			rdbtnGrp1.clearSelection();
-			labelImage.setIcon(null);
 	        textDishName.requestFocus();
 	        
 	       }
@@ -927,64 +917,64 @@ public class MenuAdmin extends javax.swing.JFrame{
 	            
 	            switch (count) {
 	                case 0:
-	                    lblDishName_1.setText(formatText(dishName, lblDishName_1.getFont(), 145));
-	                    lblDescription_1.setText(formatText(description, lblDescription_1.getFont(), 280));
+	                    lblDishName_1.setText(dishName);
+	                    lblDescription_1.setText(description);
 	                    lblPrice_1.setText(price);
 	                    panelData_1.setVisible(true);
 	                    lblDishPhoto_1.setIcon(new ImageIcon(img));
 	                    break;
 	                case 1:
-	                	lblDishName_2.setText(formatText(dishName, lblDishName_2.getFont(), 145));
-	                    lblDescription_2.setText(formatText(description, lblDescription_1.getFont(), 280));
+	                	lblDishName_2.setText(dishName);
+	                    lblDescription_2.setText(description);
 	                    lblPrice_2.setText(price);
 	                    panelData_2.setVisible(true);
 	                    lblDishPhoto_2.setIcon(new ImageIcon(img));
 	                    break;
 	                case 2:
-	                	lblDishName_3.setText(formatText(dishName, lblDishName_3.getFont(), 145));
-	                    lblDescription_3.setText(formatText(description, lblDescription_1.getFont(), 280));
+	                	lblDishName_3.setText(dishName);
+	                    lblDescription_3.setText(description);
 	                    lblPrice_3.setText(price);
 	                    panelData_3.setVisible(true);
 	                    lblDishPhoto_3.setIcon(new ImageIcon(img));
 	                    break;
 	                case 3:
-	                	lblDishName_4.setText(formatText(dishName, lblDishName_4.getFont(), 145));
-	                    lblDescription_4.setText(formatText(description, lblDescription_1.getFont(), 280));
+	                	lblDishName_4.setText(dishName);
+	                    lblDescription_4.setText(description);
 	                    lblPrice_4.setText(price);
 	                    panelData_4.setVisible(true);
 	                    lblDishPhoto_4.setIcon(new ImageIcon(img));
 	                    break;
 	                case 4:
-	                	lblDishName_5.setText(formatText(dishName, lblDishName_5.getFont(), 145));
-	                    lblDescription_5.setText(formatText(description, lblDescription_1.getFont(), 280));
+	                	lblDishName_5.setText(dishName);
+	                    lblDescription_5.setText(description);
 	                    lblPrice_5.setText(price);
 	                    panelData_5.setVisible(true);
 	                    lblDishPhoto_5.setIcon(new ImageIcon(img));
 	                    break;
 	                case 5:
-	                	lblDishName_6.setText(formatText(dishName, lblDishName_6.getFont(), 145));
-	                    lblDescription_6.setText(formatText(description, lblDescription_1.getFont(), 280));
+	                	lblDishName_6.setText(dishName);
+	                    lblDescription_6.setText(description);
 	                    lblPrice_6.setText(price);
 	                    panelData_6.setVisible(true);
 	                    lblDishPhoto_6.setIcon(new ImageIcon(img));
 	                    break;
 	                case 6:
-	                	lblDishName_7.setText(formatText(dishName, lblDishName_7.getFont(), 145));
-	                    lblDescription_7.setText(formatText(description, lblDescription_1.getFont(), 280));
+	                	lblDishName_7.setText(dishName);
+	                    lblDescription_7.setText(description);
 	                    lblPrice_7.setText(price);
 	                    panelData_7.setVisible(true);
 	                    lblDishPhoto_7.setIcon(new ImageIcon(img));
 	                    break;
 	                case 7:
-	                	lblDishName_8.setText(formatText(dishName, lblDishName_8.getFont(), 145));
-	                    lblDescription_8.setText(formatText(description, lblDescription_1.getFont(), 280));
+	                	lblDishName_8.setText(dishName);
+	                    lblDescription_8.setText(description);
 	                    lblPrice_8.setText(price);
 	                    panelData_8.setVisible(true);
 	                    lblDishPhoto_8.setIcon(new ImageIcon(img));
 	                    break;
 	                case 8:
-	                	lblDishName_9.setText(formatText(dishName, lblDishName_9.getFont(), 145));
-	                	lblDescription_9.setText(formatText(description, lblDescription_1.getFont(), 280));
+	                	lblDishName_9.setText(dishName);
+	                    lblDescription_9.setText(description);
 	                    lblPrice_9.setText(price);
 	                    panelData_9.setVisible(true);
 	                    lblDishPhoto_9.setIcon(new ImageIcon(img));
@@ -1009,39 +999,15 @@ public class MenuAdmin extends javax.swing.JFrame{
     	panelData_9.setVisible(false);
     	
     }
-    
-    private static String formatText(String text, Font font, int width) {
-        JLabel tempLabel = new JLabel();
-        tempLabel.setFont(font);
-        FontMetrics metrics = tempLabel.getFontMetrics(font);
-
-        StringBuilder formattedText = new StringBuilder("<html><body>");
-        String[] words = text.split(" ");
-        int lineWidth = 0;
-
-        for (String word : words) {
-            int wordWidth = metrics.stringWidth(word + " ");
-            if (lineWidth + wordWidth > width) {
-                formattedText.append("<br>");
-                lineWidth = 0;
-            }
-            formattedText.append(word).append(" ");
-            lineWidth += wordWidth;
-        }
-
-        formattedText.append("</body></html>");
-        return formattedText.toString();
-    }
-    
 	
     
     private JLabel lblDishId;
-	private JButton btnEntree;
-	private JButton btnAppetizers;
+	private JButton jButtonEntree;
+	private JButton jButtonAppetizers;
 	private JPanel panelCategories;
 	private JPanel jMiddlePanel;
-	private JButton btnDessert;
-	private JButton btnDrinks;
+	private JButton jButtonDessert;
+	private JButton jButtonDrinks;
 	private JPanel panelEditables;
 	private JPanel panel_2;
 	private JRadioButton rdbtnAppetizer1;
@@ -1050,7 +1016,7 @@ public class MenuAdmin extends javax.swing.JFrame{
 	private JRadioButton rdbtnDrinks1;
 	private ButtonGroup rdbtnGrp1;
 	private ButtonGroup menubtnGrp1;
-	private JButton btnBack;
+	private JButton jButtonBack;
 	private JPanel panel;
 	private JRadioButton rdbtnAppetizer2;
 	private JRadioButton rdbtnEntree2;
@@ -1110,5 +1076,5 @@ public class MenuAdmin extends javax.swing.JFrame{
     private JLabel lblDishName_9;
     private JLabel lblPrice_9;
     private JLabel lblDescription_9;
-	 private JButton btnClose;
+	 private JButton jButtonClose;
 }
