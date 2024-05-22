@@ -27,6 +27,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.JTextField;
 import java.awt.Color;
+import javax.swing.border.EmptyBorder;
+import javax.swing.UIManager;
 
 
 /**
@@ -83,19 +85,19 @@ public class ProfilePage extends JFrame {
     	
     	
         jPanel1 = new javax.swing.JPanel();
-        jPanel1.setBackground(new Color(0, 64, 64));
+        jPanel1.setBackground(new Color(31, 34, 50));
         jLabelPassword = new javax.swing.JLabel();
+        jLabelPassword.setBounds(827, 321, 266, 36);
         jLabelPassword.setForeground(new Color(255, 255, 255));
-        jLabelPassword.setBounds(817, 349, 266, 36);
         jLabelPassword.setHorizontalAlignment(SwingConstants.CENTER);
         jLabel2 = new javax.swing.JLabel();
+        jLabel2.setBounds(5, 16, 1910, 64);
         jLabel2.setForeground(new Color(255, 255, 255));
-        jLabel2.setBounds(0, 16, 1910, 62);
         jBtnSave = new javax.swing.JButton();
-        jBtnSave.setBounds(912, 638, 92, 36);
+        jBtnSave.setBounds(914, 692, 92, 36);
         jLabel3 = new javax.swing.JLabel();
+        jLabel3.setBounds(931, 238, 58, 36);
         jLabel3.setForeground(new Color(255, 255, 255));
-        jLabel3.setBounds(932, 238, 58, 36);
         jLabel3.setHorizontalAlignment(SwingConstants.CENTER);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -130,9 +132,11 @@ public class ProfilePage extends JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
         );
-        jPanel1.setLayout(null);
         
-        btnCheckPassword = new JButton("Check");
+        btnCheckPassword = new JButton("");
+        btnCheckPassword.setBorder(null);
+        btnCheckPassword.setIcon(new ImageIcon(ProfilePage.class.getResource("/images/view.png")));
+        btnCheckPassword.setBounds(1011, 368, 76, 36);
         btnCheckPassword.addFocusListener(new FocusAdapter() {
         	@Override
         	public void focusGained(FocusEvent e) {
@@ -144,10 +148,15 @@ public class ProfilePage extends JFrame {
         	}
         });
         btnCheckPassword.setVisible(false);
-        btnCheckPassword.setBounds(995, 398, 76, 36);
         btnCheckPassword.setFont(new Font("Tahoma", Font.PLAIN, 11));
         
-        btnBack = new JButton("Back");
+        btnBack = new JButton("");
+        btnBack.setBounds(10, 16, 64, 64);
+        btnBack.setBackground(new Color(31, 34, 50));
+        btnBack.setMinimumSize(new Dimension(64, 64));
+        btnBack.setMaximumSize(new Dimension(64, 64));
+        btnBack.setIcon(new ImageIcon(ProfilePage.class.getResource("/images/left-arrow.png")));
+        btnBack.setPreferredSize(new Dimension(64, 64));
         btnBack.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -155,23 +164,23 @@ public class ProfilePage extends JFrame {
         		
         	}
         });
-        btnBack.setBounds(10, 16, 99, 62);
         
-        btnClose = new JButton("Close");
-        btnClose.addActionListener(new ActionListener() {
+        jButtonClose = new JButton("");
+        jButtonClose.setBounds(1846, 11, 64, 64);
+        jButtonClose.setBackground(new Color(31, 34, 50));
+        jButtonClose.setIcon(new ImageIcon(ProfilePage.class.getResource("/images/cancel.png")));
+        jButtonClose.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		System.exit(0);
         	}
         });
-        btnClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        btnClose.setFocusable(false);
-        btnClose.setBounds(1798, 11, 112, 46);
-        jPanel1.add(btnClose);
+        jPanel1.setLayout(null);
+        jButtonClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        jButtonClose.setFocusable(false);
+        jPanel1.add(jButtonClose);
         btnBack.setFont(new Font("Century Gothic", Font.PLAIN, 20));
         btnBack.setFocusable(false);
-        btnBack.setBounds(10, 16, 99, 62);
         jPanel1.add(btnBack);
-        btnCheckPassword.setBounds(995, 398, 76, 36);
         jPanel1.add(btnCheckPassword);
         jPanel1.add(jLabel2);
         jPanel1.add(jLabel3);
@@ -180,13 +189,13 @@ public class ProfilePage extends JFrame {
         jPanel1.setLayout(null);
         
         lblUserPhoto = new JLabel("USER PHOTO");
-        lblUserPhoto.setBounds(169, 132, 350, 350);
+        lblUserPhoto.setBounds(170, 265, 350, 350);
         lblUserPhoto.setHorizontalAlignment(SwingConstants.CENTER);
         jPanel1.add(lblUserPhoto);
         
         btnEditPassword = new JButton("Edit Password");
+        btnEditPassword.setBounds(905, 431, 110, 23);
         btnEditPassword.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        btnEditPassword.setBounds(1145, 405, 146, 23);
         btnEditPassword.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -196,47 +205,48 @@ public class ProfilePage extends JFrame {
         jPanel1.add(btnEditPassword);
         
         passwordField_CurrentPass = new JPasswordField(20);
+        passwordField_CurrentPass.setBounds(827, 363, 266, 46);
         passwordField_CurrentPass.setBackground(new Color(255, 255, 255));
         passwordField_CurrentPass.setFocusable(false);
-        passwordField_CurrentPass.setBounds(817, 393, 266, 46);
         jPanel1.add(passwordField_CurrentPass);
         
         passwordField_NewPass = new JPasswordField(20);
-        passwordField_NewPass.setBounds(817, 478, 266, 36);
+        passwordField_NewPass.setBounds(827, 532, 266, 36);
         jPanel1.add(passwordField_NewPass);
         passwordField_NewPass.setVisible(false);
         
         passwordField_ConfirmPass = new JPasswordField(20);
-        passwordField_ConfirmPass.setBounds(817, 552, 266, 36);
+        passwordField_ConfirmPass.setBounds(827, 620, 266, 36);
         jPanel1.add(passwordField_ConfirmPass);
         passwordField_ConfirmPass.setVisible(false);
         
         
         lblNewPassword = new JLabel();
+        lblNewPassword.setBounds(827, 496, 266, 36);
         lblNewPassword.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewPassword.setText("New Password");
         lblNewPassword.setForeground(new Color(255, 255, 255));
-        lblNewPassword.setBounds(817, 437, 266, 36);
         jPanel1.add(lblNewPassword);
         lblNewPassword.setFont(new Font("Century Gothic", Font.BOLD, 18));
         lblNewPassword.setVisible(false);
         
         lblConfirmPassword = new JLabel();
+        lblConfirmPassword.setBounds(827, 580, 266, 36);
         lblConfirmPassword.setHorizontalAlignment(SwingConstants.CENTER);
         lblConfirmPassword.setText("Confirm Password");
         lblConfirmPassword.setForeground(new Color(255, 255, 255));
-        lblConfirmPassword.setBounds(817, 516, 266, 36);
         lblConfirmPassword.setFont(new Font("Century Gothic", Font.BOLD, 18));
         jPanel1.add(lblConfirmPassword);
         
         txtRole = new JTextField();
+        txtRole.setBounds(827, 274, 266, 36);
         txtRole.setText("Sample");
-        txtRole.setBounds(817, 274, 266, 36);
         jPanel1.add(txtRole);
         txtRole.setColumns(10);
         txtRole.setFocusable(false);
         
         btnCancel = new JButton("Cancel");
+        btnCancel.setBounds(905, 462, 110, 23);
         btnCancel.setVisible(false);
         btnCancel.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -244,7 +254,6 @@ public class ProfilePage extends JFrame {
         		jBtnCancelActionPerformed();
         	}
         });
-        btnCancel.setBounds(1145, 447, 146, 23);
         jPanel1.add(btnCancel);
         lblConfirmPassword.setVisible(false);
         btnCancel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -541,5 +550,5 @@ public class ProfilePage extends JFrame {
     private char[] passwordCurrent;
     private JButton btnCancel;
     private JButton btnBack;
-    private JButton btnClose;
+    private JButton jButtonClose;
 }
