@@ -30,7 +30,7 @@ public class OptionsCashier extends JFrame {
 
 
 	public OptionsCashier() {
-		getContentPane().setBackground(new Color(0, 64, 64));
+		getContentPane().setBackground(new Color(31, 34, 50));
         
     	setExtendedState(Frame.MAXIMIZED_BOTH);
     	setUndecorated(true);
@@ -65,8 +65,10 @@ public class OptionsCashier extends JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel1.setBackground(new Color(0, 64, 64));
+        jPanel1.setBounds(307, 364, 1306, 541);
+        jPanel1.setBackground(new Color(31, 34, 50));
         jButtonLogout = new javax.swing.JButton();
+        jButtonLogout.setBounds(455, 204, 395, 50);
         jButtonLogout.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
         jButtonLogout.setFont(new Font("Tahoma", Font.BOLD, 20));
         jButtonLogout.addActionListener(new ActionListener() {
@@ -76,18 +78,18 @@ public class OptionsCashier extends JFrame {
         	}
         });
         jButtonLogout.setFocusable(false);
-        jButtonLogout.setBounds(459, 204, 422, 54);
         jButtonProfile = new javax.swing.JButton();
+        jButtonProfile.setBounds(455, 32, 395, 50);
         jButtonProfile.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
         jButtonProfile.setFont(new Font("Tahoma", Font.BOLD, 20));
         jButtonProfile.setFocusable(false);
-        jButtonProfile.setBounds(459, 32, 422, 54);
         jButtonProfile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	jButtonProfileActionPerformed(e);
             }
         });
         jButtonPayments = new javax.swing.JButton();
+        jButtonPayments.setBounds(455, 119, 395, 50);
         jButtonPayments.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
         jButtonPayments.setFont(new Font("Tahoma", Font.BOLD, 20));
         jButtonPayments.addActionListener(new ActionListener() {
@@ -96,7 +98,6 @@ public class OptionsCashier extends JFrame {
         	}
         });
         jButtonPayments.setFocusable(false);
-        jButtonPayments.setBounds(459, 119, 422, 54);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1920, 1080));
@@ -109,12 +110,14 @@ public class OptionsCashier extends JFrame {
 
         jButtonPayments.setText("Payments");
         jLabel1 = new javax.swing.JLabel();
+        jLabel1.setBounds(787, 29, 345, 67);
         jLabel1.setForeground(new Color(255, 255, 255));
         
                 jLabel1.setFont(new Font("Century Gothic", Font.BOLD, 43));
                 jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 jLabel1.setText("Bon Appettit");
         jLabel2 = new javax.swing.JLabel();
+        jLabel2.setBounds(889, 291, 142, 62);
         jLabel2.setForeground(new Color(255, 255, 255));
         
                 jLabel2.setFont(new Font("Century Gothic", Font.PLAIN, 30)); 
@@ -122,58 +125,32 @@ public class OptionsCashier extends JFrame {
                 jLabel2.setText("Cashier");
         
         lblUserPhoto = new JLabel("");
+        lblUserPhoto.setBounds(872, 105, 175, 175);
         lblUserPhoto.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Franz1.png")));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        layout.setHorizontalGroup(
-        	layout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(layout.createSequentialGroup()
-        			.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(686)
-        					.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 345, GroupLayout.PREFERRED_SIZE))
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(192)
-        					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-        						.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 1286, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE))))
-        			.addContainerGap(422, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-        	layout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(layout.createSequentialGroup()
-        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(29)
-        					.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-        					.addPreferredGap(ComponentPlacement.UNRELATED)
-        					.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-        					.addGap(27)
-        					.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE))
-        				.addGroup(layout.createSequentialGroup()
-        					.addContainerGap()
-        					.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)))
-        			.addContainerGap(343, Short.MAX_VALUE))
-        );
         jPanel1.setLayout(null);
         jPanel1.add(jButtonLogout);
         jPanel1.add(jButtonPayments);
         jPanel1.add(jButtonProfile);
-        getContentPane().setLayout(layout);
         
-        btnClose = new JButton("Close");
-        btnClose.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        btnClose.setFocusable(false);
-        btnClose.addActionListener(new ActionListener() {
+        jButtonClose = new JButton("");
+        jButtonClose.setBackground(new Color(31, 34, 50));
+        jButtonClose.setIcon(new ImageIcon(OptionsDiner.class.getResource("/images/cancel.png")));
+        jButtonClose.setBorder(null);
+        jButtonClose.setFocusable(false);
+        jButtonClose.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		System.exit(0);
         	}
         });
-        btnClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        btnClose.setBounds(1776, 11, 112, 46);
-        getContentPane().add(btnClose);
+        getContentPane().setLayout(null);
+        jButtonClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        jButtonClose.setBounds(1840, 20, 64, 64);
+        getContentPane().add(jButtonClose);
+        
+        getContentPane().add(lblUserPhoto);
+        getContentPane().add(jLabel1);
+        getContentPane().add(jLabel2);
+        getContentPane().add(jPanel1);
 
         pack();
     }            
@@ -258,6 +235,6 @@ public class OptionsCashier extends JFrame {
     private JLabel jLabel1;
     private JLabel jLabel2;
     private JPanel jPanel1;
-    private JButton btnClose;
+    private JButton jButtonClose;
     private JLabel lblUserPhoto;
 }
