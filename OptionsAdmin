@@ -1,16 +1,11 @@
 package BonAppetit;
 
 import java.awt.Color;
+
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import javax.swing.JButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -21,14 +16,11 @@ import javax.swing.border.BevelBorder;
 import javax.swing.SwingConstants;
 import java.awt.Rectangle;
 import javax.swing.ImageIcon;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class OptionsAdmin extends javax.swing.JFrame {
 
     private static final long serialVersionUID = 1L;
-
-    private Connection con;
-    private PreparedStatement pst;
-    private ResultSet rs;
 
     private static PersonnelLogin personnelLogin;
     private static MenuAdmin menuAdmin;
@@ -41,75 +33,79 @@ public class OptionsAdmin extends javax.swing.JFrame {
     private JButton jButtonProfile;
     private JButton jButton4;
     private JLabel jLabel1;
+    private JLabel lblBackground;
     private JLabel jLabel2;
     private JPanel OptionsHolder;
     private JButton jButtonClose;
     private JButton btnMenu;
 
 	private JLabel lblUserPhoto;
+	private JLabel lblUserPhoto_1;
+	private JButton btnPayments;
 
     public OptionsAdmin() {
         getContentPane().setBackground(new Color(31, 34, 50));
         setExtendedState(Frame.MAXIMIZED_BOTH);
         setUndecorated(true);
-        connect();
         initComponents();
-    }
-
-    public void connect() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bon_appetit", "root", "");
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace();
-        }
+        
+        // Create a JLabel for the background image
+        
     }
 
     private void initComponents() {
         OptionsHolder = new javax.swing.JPanel();
         OptionsHolder.setBackground(new Color(31, 34, 50));
         btnAddOrders = new javax.swing.JButton();
+        btnAddOrders.setForeground(new Color(255, 255, 255));
+        btnAddOrders.setBackground(new Color(64, 64, 64));
         btnAddOrders.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        btnAddOrders.setFont(new Font("Tahoma", Font.BOLD, 20));
+        btnAddOrders.setFont(new Font("Century Gothic", Font.PLAIN, 20));
         btnAddOrders.setFocusable(false);
-        btnAddOrders.setBounds(451, 135, 395, 50);
+        btnAddOrders.setBounds(451, 165, 395, 50);
         jButton4 = new javax.swing.JButton();
+        jButton4.setForeground(new Color(255, 255, 255));
+        jButton4.setBackground(new Color(64, 64, 64));
         jButton4.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        jButton4.setFont(new Font("Tahoma", Font.BOLD, 20));
+        jButton4.setFont(new Font("Century Gothic", Font.PLAIN, 20));
         jButton4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 jButtonLogOutActionPerformed(e);
             }
         });
         jButton4.setFocusable(false);
-        jButton4.setBounds(451, 259, 395, 50);
+        jButton4.setBounds(451, 379, 395, 50);
         jButtonProfile = new javax.swing.JButton();
+        jButtonProfile.setForeground(new Color(255, 255, 255));
+        jButtonProfile.setBackground(new Color(64, 64, 64));
         jButtonProfile.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        jButtonProfile.setFont(new Font("Tahoma", Font.BOLD, 20));
+        jButtonProfile.setFont(new Font("Century Gothic", Font.PLAIN, 20));
         jButtonProfile.setFocusable(false);
-        jButtonProfile.setBounds(451, 11, 395, 50);
+        jButtonProfile.setBounds(451, 24, 395, 50);
         jButtonProfile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 jButtonProfileActionPerformed(e);
             }
         });
         jButton2 = new javax.swing.JButton();
+        jButton2.setForeground(new Color(255, 255, 255));
+        jButton2.setBackground(new Color(64, 64, 64));
         jButton2.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        jButton2.setFont(new Font("Tahoma", Font.BOLD, 20));
+        jButton2.setFont(new Font("Century Gothic", Font.PLAIN, 20));
         jButton2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 jButtonOrderNumbersActionPerformed(e);
             }
         });
         jButton2.setFocusable(false);
-        jButton2.setBounds(451, 197, 395, 50);
+        jButton2.setBounds(451, 237, 395, 50);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1920, 1080));
 
         OptionsHolder.setPreferredSize(new java.awt.Dimension(207, 501));
 
-        btnAddOrders.setText("Add Orders");
+        btnAddOrders.setText("Menu Admin");
         btnAddOrders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAddOrdersActionPerformed(evt);
@@ -122,9 +118,15 @@ public class OptionsAdmin extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel1.setForeground(new Color(255, 255, 255));
-        jLabel1.setFont(new Font("Century Gothic", Font.BOLD, 43));
+        jLabel1.setFont(new Font("Century Gothic", Font.BOLD, 60));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Bon Appettit");
+        
+        lblBackground = new javax.swing.JLabel();
+        lblBackground.setForeground(new Color(255, 255, 255));
+        lblBackground.setFont(new Font("Century Gothic", Font.BOLD, 60));
+        lblBackground.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBackground.setText("Hello");
 
         jLabel2 = new javax.swing.JLabel();
         jLabel2.setForeground(new Color(255, 255, 255));
@@ -136,37 +138,44 @@ public class OptionsAdmin extends javax.swing.JFrame {
         lblUserPhoto.setIcon(new ImageIcon(OptionsAdmin.class.getResource("/images/Mar1.png")));
         lblUserPhoto.setBounds(new Rectangle(0, 0, 150, 150));
         lblUserPhoto.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        lblUserPhoto_1 = new JLabel("");
+        lblUserPhoto_1.setIcon(new ImageIcon(OptionsAdmin.class.getResource("/images/Mar1.png")));
+        lblUserPhoto_1.setBounds(new Rectangle(0, 0, 150, 150));
+        lblUserPhoto_1.setHorizontalAlignment(SwingConstants.CENTER);
+        
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap()
         			.addGroup(layout.createParallelGroup(Alignment.LEADING)
         				.addGroup(layout.createSequentialGroup()
-        					.addGap(772)
-        					.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 376, GroupLayout.PREFERRED_SIZE))
+        					.addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, 1900, Short.MAX_VALUE)
+        					.addContainerGap())
         				.addGroup(layout.createSequentialGroup()
-        					.addGap(873)
-        					.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE))
+        					.addComponent(lblUserPhoto_1, GroupLayout.DEFAULT_SIZE, 1900, Short.MAX_VALUE)
+        					.addContainerGap())
         				.addGroup(layout.createSequentialGroup()
-        					.addGap(307)
+        					.addGap(297)
         					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        						.addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        						.addComponent(OptionsHolder, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE))))
-        			.addContainerGap(307, Short.MAX_VALUE))
+        						.addComponent(OptionsHolder, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE))
+        					.addGap(307))))
         );
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addGap(35)
+        			.addGap(41)
         			.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
-        			.addGap(1)
-        			.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
-        			.addGap(30)
+        			.addGap(25)
+        			.addComponent(lblUserPhoto_1, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
         			.addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
         			.addGap(18)
-        			.addComponent(OptionsHolder, GroupLayout.PREFERRED_SIZE, 403, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(290, Short.MAX_VALUE))
+        			.addComponent(OptionsHolder, GroupLayout.PREFERRED_SIZE, 463, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(224, Short.MAX_VALUE))
         );
 
         OptionsHolder.setLayout(null);
@@ -176,17 +185,35 @@ public class OptionsAdmin extends javax.swing.JFrame {
         OptionsHolder.add(jButtonProfile);
 
         btnMenu = new JButton();
+        btnMenu.setForeground(new Color(255, 255, 255));
+        btnMenu.setBackground(new Color(64, 64, 64));
         btnMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 jButtonMenuActionPerformed(e);
             }
         });
-        btnMenu.setText("Menu");
-        btnMenu.setFont(new Font("Tahoma", Font.BOLD, 20));
+        btnMenu.setText("Menu Diners");
+        btnMenu.setFont(new Font("Century Gothic", Font.PLAIN, 20));
         btnMenu.setFocusable(false);
         btnMenu.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        btnMenu.setBounds(451, 73, 395, 50);
+        btnMenu.setBounds(451, 94, 395, 50);
         OptionsHolder.add(btnMenu);
+        
+        btnPayments = new JButton();
+        btnPayments.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		new CashierPage().setVisible(true);
+        		dispose();
+        	}
+        });
+        btnPayments.setText("Payments");
+        btnPayments.setForeground(Color.WHITE);
+        btnPayments.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        btnPayments.setFocusable(false);
+        btnPayments.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        btnPayments.setBackground(Color.DARK_GRAY);
+        btnPayments.setBounds(451, 308, 395, 50);
+        OptionsHolder.add(btnPayments);
         getContentPane().setLayout(layout);
 
         jButtonClose = new JButton("");
@@ -202,6 +229,7 @@ public class OptionsAdmin extends javax.swing.JFrame {
         jButtonClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
         jButtonClose.setBounds(1840, 20, 64, 64);
         getContentPane().add(jButtonClose);
+        
 
         pack();
     }
