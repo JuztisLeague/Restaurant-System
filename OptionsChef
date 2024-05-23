@@ -1,18 +1,12 @@
 package BonAppetit;
 
 import java.awt.Font;
+
 import java.awt.Frame;
 
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.awt.event.ActionEvent;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
-import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,7 +15,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class OptionsChef extends JFrame {
 
@@ -35,33 +28,10 @@ public class OptionsChef extends JFrame {
     	setExtendedState(Frame.MAXIMIZED_BOTH);
     	setUndecorated(true);
     	
-    	connect();
     	
     	initComponents();
         
     }
-    
-    
-    Connection con;
-	PreparedStatement pst;
-	ResultSet rs;
-	
-    
-    
-    public void connect() {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bon_appetit", "root", "");
-		}
-		
-		catch (ClassNotFoundException ex) {
-			
-		}
-		
-		catch (SQLException ex) {
-			
-		}
-	}
     
     private void initComponents() {
 
@@ -69,8 +39,10 @@ public class OptionsChef extends JFrame {
         jPanel1.setBounds(307, 365, 1306, 296);
         jPanel1.setBackground(new Color(31, 34, 50));
         jButtonLogout = new javax.swing.JButton();
+        jButtonLogout.setForeground(new Color(255, 255, 255));
+        jButtonLogout.setBackground(new Color(64, 64, 64));
         jButtonLogout.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        jButtonLogout.setFont(new Font("Tahoma", Font.BOLD, 20));
+        jButtonLogout.setFont(new Font("Century Gothic", Font.PLAIN, 20));
         jButtonLogout.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -80,8 +52,10 @@ public class OptionsChef extends JFrame {
         jButtonLogout.setFocusable(false);
         jButtonLogout.setBounds(455, 200, 395, 50);
         jButtonProfile = new javax.swing.JButton();
+        jButtonProfile.setForeground(new Color(255, 255, 255));
+        jButtonProfile.setBackground(new Color(64, 64, 64));
         jButtonProfile.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        jButtonProfile.setFont(new Font("Tahoma", Font.BOLD, 20));
+        jButtonProfile.setFont(new Font("Century Gothic", Font.PLAIN, 20));
         jButtonProfile.setFocusable(false);
         jButtonProfile.setBounds(455, 20, 395, 50);
         jButtonProfile.addActionListener(new java.awt.event.ActionListener() {
@@ -91,8 +65,10 @@ public class OptionsChef extends JFrame {
             }
         });
         jButton2 = new javax.swing.JButton();
+        jButton2.setForeground(new Color(255, 255, 255));
+        jButton2.setBackground(new Color(64, 64, 64));
         jButton2.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        jButton2.setFont(new Font("Tahoma", Font.BOLD, 20));
+        jButton2.setFont(new Font("Century Gothic", Font.PLAIN, 20));
         jButton2.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -116,7 +92,7 @@ public class OptionsChef extends JFrame {
         jLabel1.setBounds(754, 28, 411, 67);
         jLabel1.setForeground(new Color(255, 255, 255));
         
-                jLabel1.setFont(new Font("Century Gothic", Font.BOLD, 43));
+                jLabel1.setFont(new Font("Century Gothic", Font.BOLD, 60));
                 jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 jLabel1.setText("Bon Appettit");
         Chef = new javax.swing.JLabel();
@@ -130,7 +106,7 @@ public class OptionsChef extends JFrame {
                 Chef.setText("Chef");
         
         lblUserPhoto = new JLabel("");
-        lblUserPhoto.setBounds(872, 100, 175, 175);
+        lblUserPhoto.setBounds(874, 116, 175, 175);
         lblUserPhoto.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Von1.png")));
         jPanel1.setLayout(null);
         jPanel1.add(jButtonLogout);
