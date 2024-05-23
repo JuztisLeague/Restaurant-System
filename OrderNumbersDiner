@@ -1,6 +1,5 @@
 package BonAppetit;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,29 +36,8 @@ import javax.swing.ImageIcon;
 
 public class OrderNumbersDiner extends JFrame {
 
-    private JTextField textFieldOrderNumber;
-    private Connection con;
-    private PreparedStatement pst;
-    private ResultSet rs;
-    private JLabel lblStatus;
-    private JLabel lblRemarks;
-    private JTable table;
-    private boolean allPending;
-    private boolean allCooking;
-    private boolean allComplete;
-    private Timer timer;
-	private JScrollPane scrollPane;
-	private DefaultTableModel model;
-	private DefaultTableCellRenderer centerRenderer;
-	private JTableHeader tableHeader;
-	private DefaultTableCellRenderer renderer;
-	private static DinerPage dinerPage;
-	private static SignInPage signInPage;
-	private static int key = 0;
+	
 
-    /**
-     * Launch the application.
-     */
     public static void main(String[] args) {
     	
     	SwingUtilities.invokeLater(new Runnable() {
@@ -94,23 +72,17 @@ public class OrderNumbersDiner extends JFrame {
         });
     }
 
-    /**
-     * Create the application.
-     */
     public OrderNumbersDiner() {
         setUndecorated(true);
         setExtendedState(Frame.MAXIMIZED_BOTH);
         getContentPane().setPreferredSize(new Dimension(1920, 1080));
         getContentPane().setBounds(new Rectangle(0, 0, 1920, 1080));
         initialize();
-        connect(); // Connect to the database
-        populateTable(); // Populate table with initial data
-        startTimer(); // Start the timer for periodic updates
+        connect(); 
+        populateTable(); 
+        startTimer(); 
     }
 
-    /**
-     * Initialize the contents of the frame.
-     */
     private void initialize() {
         setBounds(100, 100, 1920, 1080);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -311,8 +283,7 @@ public class OrderNumbersDiner extends JFrame {
                 
                 scrollPane = new JScrollPane();
                 scrollPane.setBounds(10, 11, 535, 1014);
-                scrollPane.getViewport().setBackground(new Color(64, 64, 64)); // Set the background color of the viewport
-                //scrollPane.setBackground(new Color(64, 64, 64)); // Set the background color of the scroll pane
+                scrollPane.getViewport().setBackground(new Color(64, 64, 64)); 
                 panelTable.add(scrollPane);
                 
                 table = new JTable();
@@ -327,39 +298,29 @@ public class OrderNumbersDiner extends JFrame {
                 table.setRowHeight(30);
                 scrollPane.setViewportView(table);
                 
-                table.getColumnModel().getColumn(0).setPreferredWidth(80); // Code - for 6 characters
-        		table.getColumnModel().getColumn(1).setPreferredWidth(50); // ID - for 4 characters
-        		table.getColumnModel().getColumn(2).setPreferredWidth(50); // Name - for longer text
+                table.getColumnModel().getColumn(0).setPreferredWidth(80); 
+        		table.getColumnModel().getColumn(1).setPreferredWidth(50); 
+        		table.getColumnModel().getColumn(2).setPreferredWidth(50); 
 
-        		// Center align content in specific columns
         		centerRenderer = new DefaultTableCellRenderer();
         		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-        		table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Code
-        		table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // ID
-        		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer); // Price
+        		table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); 
+        		table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); 
+        		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer); 
 
         		tableHeader = table.getTableHeader();
         		tableHeader.setFont(new Font("Century Gothic", Font.BOLD, 18));
-        		tableHeader.setBackground(new Color(250, 250, 250)); // Set the background color of the table header to dark grey
-
-        		// Center align column headers
+        		tableHeader.setBackground(new Color(250, 250, 250)); 
         		renderer = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
         		renderer.setHorizontalAlignment(JLabel.CENTER);
-
-        		// Set font and size for table cells
         		table.setFont(new Font("Century Gothic", Font.PLAIN, 18));
-
         		table.setOpaque(true);
-                
-                
-                
-                
-                
-                JLabel lblOrderNumbers = new JLabel("ORDER CODES");
-                lblOrderNumbers.setForeground(Color.LIGHT_GRAY);
-                lblOrderNumbers.setFont(new Font("Century Gothic", Font.BOLD, 36));
-                lblOrderNumbers.setBounds(10, 11, 1170, 55);
-                panel.add(lblOrderNumbers);
+        		
+        		JLabel lblDinerOrderStatuses = new JLabel("Diner Order Statuses");
+        		lblDinerOrderStatuses.setForeground(Color.LIGHT_GRAY);
+        		lblDinerOrderStatuses.setFont(new Font("Century Gothic", Font.BOLD, 38));
+        		lblDinerOrderStatuses.setBounds(10, 11, 388, 43);
+        		panel.add(lblDinerOrderStatuses);
                 
                 JLabel lblNewLabel = new JLabel("New label");
                 lblNewLabel.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/mainBG.png")));
@@ -370,7 +331,6 @@ public class OrderNumbersDiner extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (textFieldOrderNumber.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(OrderNumbersDiner.this, "Input your order code first", "Missing Order Code", JOptionPane.WARNING_MESSAGE);
-                    // Set the focus back to the text field
                     textFieldOrderNumber.requestFocusInWindow();
                 } else if (textFieldOrderNumber.getText().length() != 5) {
                     JOptionPane.showMessageDialog(OrderNumbersDiner.this, "Invalid Order Code", "Invalid Code", JOptionPane.WARNING_MESSAGE);
@@ -382,7 +342,6 @@ public class OrderNumbersDiner extends JFrame {
             }
         });
 
-        // Add a timer to refresh the data every 20 seconds
         timer = new Timer(20000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -393,9 +352,6 @@ public class OrderNumbersDiner extends JFrame {
         timer.start();
     }
 
-    /**
-     * Connect to the database.
-     */
     private void connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -407,32 +363,29 @@ public class OrderNumbersDiner extends JFrame {
         }
     }
 
-    /**
-     * Search for the order status based on the order number.
-     */
-    private void searchOrderStatus() {
+    public void searchOrderStatus() {
         String orderNumber = textFieldOrderNumber.getText();
         lblStatus.setVisible(true);
         lblRemarks.setVisible(true);
         try {
-            pst = con.prepareStatement("SELECT status, remarks FROM order_cart WHERE order_code = ?");
+        	pst = con.prepareStatement("SELECT status, remarks FROM order_cart WHERE order_code = ?");
             pst.setString(1, orderNumber);
             rs = pst.executeQuery();
             allPending = true;
             allCooking = true;
-            allComplete = true; // Initialize all flags
+            allComplete = true; 
             StringBuilder remarksBuilder = new StringBuilder();
             while (rs.next()) {
                 String status = rs.getString("status");
                 String remarks = rs.getString("remarks");
-                remarksBuilder.append(remarks).append("\n"); // Append remarks for each row
+                remarksBuilder.append(remarks).append("\n"); 
                 if (!status.equals("pending")) {
                     allPending = false;
                 }
                 if (!status.equals("cooking")) {
                     allCooking = false;
                 }
-                if (!remarks.equals("complete")) { // If any remark is not "complete", set flag to false
+                if (!remarks.equals("complete")) { 
                     allComplete = false;
                 }
             }
@@ -446,7 +399,7 @@ public class OrderNumbersDiner extends JFrame {
             	lblStatus.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Serving.png")));
             	lblStatus_1.setText("Order Code " + orderNumber + " is currently Serving");
             }
-            if (allComplete) { // If all remarks are "complete", set label to "Complete"
+            if (allComplete) { 
             	lblRemarks.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Complete.png")));
             	lblRemarks_1.setText("Order Code " + orderNumber + " is already Complete");
             } else {
@@ -458,12 +411,9 @@ public class OrderNumbersDiner extends JFrame {
         }
     }
 
-    /**
-     * Populate the table with data from the database.
-     */
     private void populateTable() {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0); // Clear existing rows
+        model.setRowCount(0); 
         Set<String> uniqueOrderCodes = new HashSet<>();
         try {
             pst = con.prepareStatement("SELECT order_code, status, remarks FROM order_cart");
@@ -482,11 +432,7 @@ public class OrderNumbersDiner extends JFrame {
         }
     }
 
-    /**
-     * Start the timer for periodic updates.
-     */
     private void startTimer() {
-        // Timer is started in the initialize method above.
     }
     
     public static int menuKey() {
@@ -523,5 +469,25 @@ public class OrderNumbersDiner extends JFrame {
     private static OptionsDiner optionsDiner;
     private JLabel lblStatus_1;
     private JLabel lblRemarks_1;
+    private static final long serialVersionUID = 1L;
+	public JTextField textFieldOrderNumber;
+    private Connection con;
+    private PreparedStatement pst;
+    private ResultSet rs;
+    private JLabel lblStatus;
+    private JLabel lblRemarks;
+    private JTable table;
+    private boolean allPending;
+    private boolean allCooking;
+    private boolean allComplete;
+    private Timer timer;
+	private JScrollPane scrollPane;
+	private DefaultTableModel model;
+	private DefaultTableCellRenderer centerRenderer;
+	private JTableHeader tableHeader;
+	private DefaultTableCellRenderer renderer;
+	private static DinerPage dinerPage;
+	private static SignInPage signInPage;
+	private static int key = 0;
 }
 
