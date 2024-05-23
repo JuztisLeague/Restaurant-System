@@ -1,24 +1,17 @@
 package BonAppetit;
 
 import java.awt.Font;
+
 import java.awt.Frame;
 
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.awt.event.ActionEvent;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
@@ -35,32 +28,10 @@ public class OptionsCashier extends JFrame {
     	setExtendedState(Frame.MAXIMIZED_BOTH);
     	setUndecorated(true);
     	
-    	connect();
-    	
     	initComponents();
         
     }
     
-    
-    Connection con;
-	PreparedStatement pst;
-	ResultSet rs;
-    
-    
-    public void connect() {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bon_appetit", "root", "");
-		}
-		
-		catch (ClassNotFoundException ex) {
-			
-		}
-		
-		catch (SQLException ex) {
-			
-		}
-	}
     
     private void initComponents() {
 
@@ -68,9 +39,11 @@ public class OptionsCashier extends JFrame {
         jPanel1.setBounds(307, 364, 1306, 541);
         jPanel1.setBackground(new Color(31, 34, 50));
         jButtonLogout = new javax.swing.JButton();
+        jButtonLogout.setForeground(new Color(255, 255, 255));
+        jButtonLogout.setBackground(new Color(64, 64, 64));
         jButtonLogout.setBounds(455, 204, 395, 50);
         jButtonLogout.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        jButtonLogout.setFont(new Font("Tahoma", Font.BOLD, 20));
+        jButtonLogout.setFont(new Font("Century Gothic", Font.PLAIN, 20));
         jButtonLogout.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -79,9 +52,11 @@ public class OptionsCashier extends JFrame {
         });
         jButtonLogout.setFocusable(false);
         jButtonProfile = new javax.swing.JButton();
+        jButtonProfile.setForeground(new Color(255, 255, 255));
+        jButtonProfile.setBackground(new Color(64, 64, 64));
         jButtonProfile.setBounds(455, 32, 395, 50);
         jButtonProfile.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        jButtonProfile.setFont(new Font("Tahoma", Font.BOLD, 20));
+        jButtonProfile.setFont(new Font("Century Gothic", Font.PLAIN, 20));
         jButtonProfile.setFocusable(false);
         jButtonProfile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -89,9 +64,11 @@ public class OptionsCashier extends JFrame {
             }
         });
         jButtonPayments = new javax.swing.JButton();
+        jButtonPayments.setForeground(new Color(255, 255, 255));
+        jButtonPayments.setBackground(new Color(64, 64, 64));
         jButtonPayments.setBounds(455, 119, 395, 50);
         jButtonPayments.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        jButtonPayments.setFont(new Font("Tahoma", Font.BOLD, 20));
+        jButtonPayments.setFont(new Font("Century Gothic", Font.PLAIN, 20));
         jButtonPayments.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		jButtonPaymentsActionPerformed(e);
@@ -110,10 +87,10 @@ public class OptionsCashier extends JFrame {
 
         jButtonPayments.setText("Payments");
         jLabel1 = new javax.swing.JLabel();
-        jLabel1.setBounds(787, 29, 345, 67);
+        jLabel1.setBounds(743, 27, 426, 67);
         jLabel1.setForeground(new Color(255, 255, 255));
         
-                jLabel1.setFont(new Font("Century Gothic", Font.BOLD, 43));
+                jLabel1.setFont(new Font("Century Gothic", Font.BOLD, 60));
                 jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 jLabel1.setText("Bon Appettit");
         jLabel2 = new javax.swing.JLabel();
@@ -125,7 +102,7 @@ public class OptionsCashier extends JFrame {
                 jLabel2.setText("Cashier");
         
         lblUserPhoto = new JLabel("");
-        lblUserPhoto.setBounds(872, 105, 175, 175);
+        lblUserPhoto.setBounds(871, 119, 175, 175);
         lblUserPhoto.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Franz1.png")));
         jPanel1.setLayout(null);
         jPanel1.add(jButtonLogout);
