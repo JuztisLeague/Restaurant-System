@@ -1,2184 +1,253 @@
 package BonAppetit;
 
-import java.awt.EventQueue;
-import java.awt.Frame;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Arrays;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
-import javax.swing.JButton;
-import java.awt.Dimension;
-
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.JScrollPane;
+import java.awt.Frame;
 import java.awt.event.ActionListener;
-import javax.swing.border.TitledBorder;
-import javax.swing.plaf.basic.BasicButtonUI;
-import javax.swing.border.EtchedBorder;
-import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
+import java.awt.event.ActionEvent;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Color;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import java.awt.Rectangle;
 import javax.swing.SwingConstants;
-import javax.swing.JSpinner;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-import javax.swing.JRadioButton;
-import java.awt.FlowLayout;
-import javax.swing.border.EmptyBorder;
+public class OptionsDiner extends JFrame {
 
-public class OrderNumbers extends JFrame {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
+	private static int key = 0;
 
 
-	
-	Connection con;
-	PreparedStatement pst;
-	ResultSet rs;
-	ResultSet countResult;
-
-
-	
-	private int totalRows;
-	private int count;
-	private int trueCount;
-	private String searchedCode;
-	private JLabel lblCodeNumbers;
-	private JButton btnView_1;
-	private JLabel lblComboStatus;
-	private SpinnerNumberModel model1;
-	private JSpinner spinnerQuantity;
-	private JRadioButton rdbtnComplete;
-	private ButtonGroup rb1;
-	private ButtonGroup rb2;
-	private String selectedName;
-	private String selectedPrice;
-	private int selectedQuantity;
-	private String selectedStatus;
-	private String selectedRemarks;
-	private String code;
-	private String selectID;
-	private String selectCode;
-	private PreparedStatement pstUpdate;
-	private JScrollPane scrollPane_1;
-	private ButtonGroup rb3;
-	private ButtonGroup rb4;
-	private JButton btnButtonEditQuantity;
-	private JButton btnDone_2;
-	private JButton btnCancel_2;
-	private JButton btnDeleteOrder;
-	private int selectedRow;
-	private JTableHeader tableHeader;
-	private DefaultTableCellRenderer renderer;
-	private DefaultTableCellRenderer centerRenderer;
-	private PersonnelLogin personnelLogin;
-	private MenuAdmin menuAdmin;
-
-
-
-	private JLabel lblBack;
-
-
-
-	private JLabel lblLogout;
-	private static ProfilePage profilePage;
-
-
-
-	
-
-
-    public void connect() {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bon_appetit", "root", "");
-		}
-		
-		catch (ClassNotFoundException ex) {
-			
-		}
-		
-		catch (SQLException ex) {
-			
-		}
-	}
-
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					OrderNumbers window = new OrderNumbers();
-					window.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public OrderNumbers() {
-		
-		
-		getContentPane().setBackground(new Color(240, 240, 240));
-		setExtendedState(Frame.MAXIMIZED_BOTH);
-		setUndecorated(true);
-		getContentPane().setLayout(null);
-		
-		
-		connect();
-		initComponents();
-		JButton[] btns = { jButtonAppetizers, jButtonMenuAdmin, jButtonDrinks, jButtonClose, jButtonBack};
-        for (JButton btn : btns) {
-            btn.setBackground(new Color(21,25,28));
-            btn.setUI(new BasicButtonUI());
-            btn.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    // TODO Auto-generated method stub
-
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    // TODO Auto-generated method stub
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    // TODO Auto-generated method stub
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    btn.setBackground(new Color(0,0,0));
-//                    btn.setPreferredSize(new Dimension(100, 100));
-
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    btn.setBackground(new Color(21,25,28));
-//                    btn.setPreferredSize(new Dimension(64, 64));
-
-
-                }
-            });
-        }
-		initialize();
-		
-		
-		
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		
-		setBounds(0, 0, 1920, 1080);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		connect();
-		
-	}
-	
-	private void initComponents() {
-		panelLeft = new JPanel();
-		panelLeft.setBounds(new Rectangle(0, 11, 103, 1058));
-		panelLeft.setBackground(new Color(21, 25, 28));
-		panelLeft.setBounds(0, 11, 103, 1058);
-		getContentPane().add(panelLeft);
-		panelLeft.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 30));
-		
-		lblMenu = new JLabel("MENU");
-		lblMenu.setForeground(Color.LIGHT_GRAY);
-		lblMenu.setFont(new Font("Century Gothic", Font.BOLD, 20));
-		panelLeft.add(lblMenu);
-		
-		jButtonAppetizers = new JButton("");
-		jButtonAppetizers.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				jButtonProfileActionPerformed(e);
-			}
-		});
-		jButtonAppetizers.setForeground(new Color(29, 33, 34));
-		jButtonAppetizers.setBorder(new EmptyBorder(0, 0, 0, 0));
-		jButtonAppetizers.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/user.png")));
-		jButtonAppetizers.setPreferredSize(new Dimension(64, 64));
-		jButtonAppetizers.setBackground(Color.BLACK);
-		panelLeft.add(jButtonAppetizers);
-		
-		jButtonDrinks = new JButton("");
-		jButtonDrinks.setOpaque(false);
-		jButtonDrinks.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				jButtonLogOutActionPerformed( e);
-			}
-		});
-		
-		lblProfile = new JLabel("Profile");
-		lblProfile.setForeground(new Color(255, 255, 255));
-		lblProfile.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		panelLeft.add(lblProfile);
-		jButtonDrinks.setForeground(new Color(29, 33, 34));
-		jButtonDrinks.setBorder(new EmptyBorder(0, 0, 0, 0));
-		jButtonDrinks.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/log-out.png")));
-		jButtonDrinks.setPreferredSize(new Dimension(64, 64));
-		jButtonDrinks.setBackground(new Color(100, 149, 237));
-		panelLeft.add(jButtonDrinks);
-		
-		lblLogout = new JLabel("Logout");
-		lblLogout.setForeground(Color.WHITE);
-		lblLogout.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		panelLeft.add(lblLogout);
-		
-		jButtonBack = new JButton("");
-		jButtonBack.setForeground(new Color(29, 33, 34));
-		jButtonBack.setBorder(new EmptyBorder(0, 0, 0, 0));
-		jButtonBack.setPreferredSize(new Dimension(64, 64));
-		jButtonBack.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/left-arrow.png")));
-		jButtonBack.setBackground(new Color(27, 32, 33));
-		panelLeft.add(jButtonBack);
-		
-		lblBack = new JLabel(" Back");
-		lblBack.setForeground(Color.WHITE);
-		lblBack.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		panelLeft.add(lblBack);
-		
-		
-		
-		
-		jButtonMenuAdmin = new JButton("");
-		jButtonMenuAdmin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				jButtonMenuActionPerformed(e);
-			}
-		});
-		jButtonMenuAdmin.setForeground(new Color(29, 33, 34));
-		jButtonMenuAdmin.setBorder(new EmptyBorder(0, 0, 0, 0));
-		jButtonMenuAdmin.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/menu.png")));
-		jButtonMenuAdmin.setPreferredSize(new Dimension(64, 64));
-		jButtonMenuAdmin.setBackground(Color.BLACK);
-		panelLeft.add(jButtonMenuAdmin);
-		
-		
-		
-		
-		
-		lblMenuAdmin = new JLabel("Menu Admin");
-		lblMenuAdmin.setForeground(Color.WHITE);
-		lblMenuAdmin.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		panelLeft.add(lblMenuAdmin);
-		jButtonBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				jButtonBackActionPerformed(e);
-			}
-		});
-		
-		if (PersonnelLogin.storedPersonnelID() == 2) {
-			jButtonMenuAdmin.setVisible(false);
-			lblMenuAdmin.setVisible(false);
-		}
-		
-		panelMiddle = new JPanel();
-		panelMiddle.setBackground(new Color(21, 25, 28));
-		panelMiddle.setBounds(109, 11, 1801, 1058);
-		getContentPane().add(panelMiddle);
-		panelMiddle.setLayout(null);
-		
-		lblOrderNumbers = new JLabel("ORDER NUMBERS");
-		lblOrderNumbers.setForeground(Color.LIGHT_GRAY);
-		lblOrderNumbers.setFont(new Font("Century Gothic", Font.BOLD, 36));
-		lblOrderNumbers.setBounds(10, 11, 307, 55);
-		panelMiddle.add(lblOrderNumbers);
-		
-		panel_Data = new JPanel();
-		panel_Data.setBackground(new Color(29, 33, 34));
-		panel_Data.setBounds(10, 86, 600, 961);
-		panelMiddle.add(panel_Data);
-		panel_Data.setLayout(null);
-		
-		panel_1 = new JPanel();
-		panel_1.setBackground(new Color(29, 33, 34));
-		panel_1.setBounds(0, 0, 600, 60);
-		panel_Data.add(panel_1);
-		panel_1.setLayout(null);
-		
-		lblCodeNumbers = new JLabel("CODES");
-		lblCodeNumbers.setBounds(32, 20, 56, 21);
-		panel_1.add(lblCodeNumbers);
-		lblCodeNumbers.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		lblCodeNumbers.setForeground(new Color(255, 255, 255));
-		
-		lblOrderList = new JLabel("ORDER LIST");
-		lblOrderList.setBounds(152, 20, 87, 21);
-		panel_1.add(lblOrderList);
-		lblOrderList.setForeground(Color.WHITE);
-		lblOrderList.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		lblStatus = new JLabel("STATUS");
-		lblStatus.setBounds(311, 20, 56, 21);
-		panel_1.add(lblStatus);
-		lblStatus.setForeground(Color.WHITE);
-		lblStatus.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		lblRemarks = new JLabel("REMARKS");
-		lblRemarks.setBounds(473, 20, 74, 21);
-		panel_1.add(lblRemarks);
-		lblRemarks.setForeground(Color.WHITE);
-		lblRemarks.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		panel_2 = new JPanel();
-		panel_2.setBackground(new Color(29, 33, 34));
-		panel_2.setBounds(0, 59, 600, 60);
-		panel_Data.add(panel_2);
-		panel_2.setLayout(null);
-		
-		lblCode_1 = new JLabel("");
-		lblCode_1.setBounds(37, 20, 78, 35);
-		lblCode_1.setPreferredSize(new Dimension(78, 35));
-		panel_2.add(lblCode_1);
-		lblCode_1.setForeground(Color.WHITE);
-		lblCode_1.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		btnView_1 = new JButton("");
-		btnView_1.setBorder(new EmptyBorder(0, 0, 0, 0));
-		btnView_1.setBackground(new Color(29, 33, 34));
-		btnView_1.setBounds(176, 20, 32, 32);
-		btnView_1.setPreferredSize(new Dimension(32, 32));
-		panel_2.add(btnView_1);
-		btnView_1.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/view.png")));
-		
-		lblStatus_1 = new JLabel("sample");
-		lblStatus_1.setBounds(283, 20, 147, 18);
-		panel_2.add(lblStatus_1);
-		lblStatus_1.setForeground(Color.WHITE);
-		lblStatus_1.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		lblRemarks_1 = new JLabel("remarks");
-		lblRemarks_1.setBounds(466, 20, 124, 18);
-		panel_2.add(lblRemarks_1);
-		lblRemarks_1.setVisible(false);
-		lblRemarks_1.setForeground(Color.WHITE);
-		lblRemarks_1.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		panel_3 = new JPanel();
-		panel_3.setBackground(new Color(29, 33, 34));
-		panel_3.setBounds(0, 117, 600, 60);
-		panel_Data.add(panel_3);
-		panel_3.setLayout(null);
-		
-		lblCode_2 = new JLabel("");
-		lblCode_2.setBounds(37, 20, 78, 35);
-		panel_3.add(lblCode_2);
-		lblCode_2.setForeground(Color.WHITE);
-		lblCode_2.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		btnView_2 = new JButton("");
-		btnView_2.setBorder(new EmptyBorder(0, 0, 0, 0));
-		btnView_2.setBackground(new Color(29, 33, 34));
-		btnView_2.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/view.png")));
-		btnView_2.setBounds(176, 20, 32, 32);
-		panel_3.add(btnView_2);
-		
-		lblStatus_2 = new JLabel("sample");
-		lblStatus_2.setBounds(283, 20, 147, 18);
-		panel_3.add(lblStatus_2);
-		lblStatus_2.setVisible(false);
-		lblStatus_2.setForeground(Color.WHITE);
-		lblStatus_2.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		lblRemarks_2 = new JLabel("remarks");
-		lblRemarks_2.setBounds(466, 20, 124, 18);
-		panel_3.add(lblRemarks_2);
-		lblRemarks_2.setVisible(false);
-		lblRemarks_2.setForeground(Color.WHITE);
-		lblRemarks_2.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		panel_4 = new JPanel();
-		panel_4.setBackground(new Color(29, 33, 34));
-		panel_4.setBounds(0, 176, 600, 60);
-		panel_Data.add(panel_4);
-		panel_4.setLayout(null);
-		
-		lblCode_3 = new JLabel("");
-		lblCode_3.setBounds(37, 20, 78, 35);
-		panel_4.add(lblCode_3);
-		lblCode_3.setForeground(Color.WHITE);
-		lblCode_3.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		btnView_3 = new JButton("");
-		btnView_3.setBorder(new EmptyBorder(0, 0, 0, 0));
-		btnView_3.setBackground(new Color(29, 33, 34));
-		btnView_3.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/view.png")));
-		btnView_3.setBounds(176, 20, 32, 32);
-		panel_4.add(btnView_3);
-		
-		lblStatus_3 = new JLabel("sample");
-		lblStatus_3.setBounds(283, 20, 147, 18);
-		panel_4.add(lblStatus_3);
-		lblStatus_3.setVisible(false);
-		lblStatus_3.setForeground(Color.WHITE);
-		lblStatus_3.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		lblRemarks_3 = new JLabel("remarks");
-		lblRemarks_3.setBounds(466, 20, 124, 18);
-		panel_4.add(lblRemarks_3);
-		lblRemarks_3.setVisible(false);
-		lblRemarks_3.setForeground(Color.WHITE);
-		lblRemarks_3.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		panel_5 = new JPanel();
-		panel_5.setBackground(new Color(29, 33, 34));
-		panel_5.setBounds(0, 235, 600, 60);
-		panel_Data.add(panel_5);
-		panel_5.setLayout(null);
-		
-		lblCode_4 = new JLabel("");
-		lblCode_4.setBounds(37, 20, 78, 35);
-		panel_5.add(lblCode_4);
-		lblCode_4.setForeground(Color.WHITE);
-		lblCode_4.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		btnView_4 = new JButton("");
-		btnView_4.setBorder(new EmptyBorder(0, 0, 0, 0));
-		btnView_4.setBackground(new Color(29, 33, 34));
-		btnView_4.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/view.png")));
-		btnView_4.setBounds(176, 20, 32, 32);
-		panel_5.add(btnView_4);
-		
-		lblStatus_4 = new JLabel("sample");
-		lblStatus_4.setBounds(283, 20, 147, 18);
-		panel_5.add(lblStatus_4);
-		lblStatus_4.setVisible(false);
-		lblStatus_4.setForeground(Color.WHITE);
-		lblStatus_4.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		lblRemarks_4 = new JLabel("remarks");
-		lblRemarks_4.setBounds(466, 20, 124, 18);
-		lblRemarks_4.setVisible(false);
-		panel_5.add(lblRemarks_4);
-		lblRemarks_4.setForeground(Color.WHITE);
-		lblRemarks_4.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		panel_6 = new JPanel();
-		panel_6.setBackground(new Color(29, 33, 34));
-		panel_6.setBounds(0, 293, 600, 60);
-		panel_Data.add(panel_6);
-		panel_6.setLayout(null);
-		
-		lblCode_5 = new JLabel("");
-		lblCode_5.setBounds(37, 20, 78, 35);
-		panel_6.add(lblCode_5);
-		lblCode_5.setForeground(Color.WHITE);
-		lblCode_5.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		btnView_5 = new JButton("");
-		btnView_5.setBorder(new EmptyBorder(0, 0, 0, 0));
-		btnView_5.setBackground(new Color(29, 33, 34));
-		btnView_5.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/view.png")));
-		btnView_5.setBounds(176, 20, 32, 32);
-		panel_6.add(btnView_5);
-		
-		lblStatus_5 = new JLabel("sample");
-		lblStatus_5.setBounds(283, 20, 147, 18);
-		panel_6.add(lblStatus_5);
-		lblStatus_5.setVisible(false);
-		lblStatus_5.setForeground(Color.WHITE);
-		lblStatus_5.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		lblRemarks_5 = new JLabel("remarks");
-		lblRemarks_5.setBounds(468, 20, 124, 18);
-		panel_6.add(lblRemarks_5);
-		lblRemarks_5.setVisible(false);
-		lblRemarks_5.setForeground(Color.WHITE);
-		lblRemarks_5.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		panel_7 = new JPanel();
-		panel_7.setBackground(new Color(29, 33, 34));
-		panel_7.setBounds(0, 352, 600, 60);
-		panel_Data.add(panel_7);
-		panel_7.setLayout(null);
-		
-		lblCode_6 = new JLabel("");
-		lblCode_6.setBounds(37, 20, 78, 35);
-		panel_7.add(lblCode_6);
-		lblCode_6.setForeground(Color.WHITE);
-		lblCode_6.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		btnView_6 = new JButton("");
-		btnView_6.setBorder(new EmptyBorder(0, 0, 0, 0));
-		btnView_6.setBackground(new Color(29, 33, 34));
-		btnView_6.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/view.png")));
-		btnView_6.setBounds(176, 20, 32, 32);
-		panel_7.add(btnView_6);
-		
-		lblStatus_6 = new JLabel("sample");
-		lblStatus_6.setBounds(283, 20, 147, 18);
-		panel_7.add(lblStatus_6);
-		lblStatus_6.setVisible(false);
-		lblStatus_6.setForeground(Color.WHITE);
-		lblStatus_6.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		lblRemarks_6 = new JLabel("remarks");
-		lblRemarks_6.setBounds(468, 20, 124, 18);
-		panel_7.add(lblRemarks_6);
-		lblRemarks_6.setVisible(false);
-		lblRemarks_6.setForeground(Color.WHITE);
-		lblRemarks_6.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		panel_8 = new JPanel();
-		panel_8.setBackground(new Color(29, 33, 34));
-		panel_8.setBounds(0, 410, 600, 60);
-		panel_Data.add(panel_8);
-		panel_8.setLayout(null);
-		
-		lblCode_7 = new JLabel("");
-		lblCode_7.setBounds(37, 20, 78, 35);
-		panel_8.add(lblCode_7);
-		lblCode_7.setForeground(Color.WHITE);
-		lblCode_7.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		btnView_7 = new JButton("");
-		btnView_7.setBorder(new EmptyBorder(0, 0, 0, 0));
-		btnView_7.setBackground(new Color(29, 33, 34));
-		btnView_7.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/view.png")));
-		btnView_7.setBounds(176, 20, 32, 32);
-		panel_8.add(btnView_7);
-		
-		lblStatus_7 = new JLabel("sample");
-		lblStatus_7.setBounds(283, 20, 147, 18);
-		panel_8.add(lblStatus_7);
-		lblStatus_7.setVisible(false);
-		lblStatus_7.setForeground(Color.WHITE);
-		lblStatus_7.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		lblRemarks_7 = new JLabel("remarks");
-		lblRemarks_7.setBounds(468, 20, 124, 18);
-		panel_8.add(lblRemarks_7);
-		lblRemarks_7.setVisible(false);
-		lblRemarks_7.setForeground(Color.WHITE);
-		lblRemarks_7.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		panel_9 = new JPanel();
-		panel_9.setBackground(new Color(29, 33, 34));
-		panel_9.setBounds(0, 469, 600, 60);
-		panel_Data.add(panel_9);
-		panel_9.setLayout(null);
-		
-		lblCode_8 = new JLabel("");
-		lblCode_8.setBounds(37, 20, 78, 35);
-		panel_9.add(lblCode_8);
-		lblCode_8.setForeground(Color.WHITE);
-		lblCode_8.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		btnView_8 = new JButton("");
-		btnView_8.setBorder(new EmptyBorder(0, 0, 0, 0));
-		btnView_8.setBackground(new Color(29, 33, 34));
-		btnView_8.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/view.png")));
-		btnView_8.setBounds(176, 20, 32, 32);
-		panel_9.add(btnView_8);
-		
-		lblStatus_8 = new JLabel("sample");
-		lblStatus_8.setBounds(283, 20, 147, 18);
-		panel_9.add(lblStatus_8);
-		lblStatus_8.setVisible(false);
-		lblStatus_8.setForeground(Color.WHITE);
-		lblStatus_8.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		lblRemarks_8 = new JLabel("remarks");
-		lblRemarks_8.setBounds(468, 20, 124, 18);
-		panel_9.add(lblRemarks_8);
-		lblRemarks_8.setVisible(false);
-		lblRemarks_8.setForeground(Color.WHITE);
-		lblRemarks_8.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		panel_10 = new JPanel();
-		panel_10.setBackground(new Color(29, 33, 34));
-		panel_10.setBounds(0, 528, 600, 60);
-		panel_Data.add(panel_10);
-		panel_10.setLayout(null);
-		
-		lblCode_9 = new JLabel("");
-		lblCode_9.setBounds(37, 20, 78, 35);
-		panel_10.add(lblCode_9);
-		lblCode_9.setForeground(Color.WHITE);
-		lblCode_9.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		btnView_9 = new JButton("");
-		btnView_9.setBorder(new EmptyBorder(0, 0, 0, 0));
-		btnView_9.setBackground(new Color(29, 33, 34));
-		btnView_9.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/view.png")));
-		btnView_9.setBounds(176, 20, 32, 32);
-		panel_10.add(btnView_9);
-		
-		lblStatus_9 = new JLabel("sample");
-		lblStatus_9.setBounds(283, 20, 147, 18);
-		panel_10.add(lblStatus_9);
-		lblStatus_9.setVisible(false);
-		lblStatus_9.setForeground(Color.WHITE);
-		lblStatus_9.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		lblRemarks_9 = new JLabel("remarks");
-		lblRemarks_9.setBounds(468, 20, 124, 18);
-		panel_10.add(lblRemarks_9);
-		lblRemarks_9.setVisible(false);
-		lblRemarks_9.setForeground(Color.WHITE);
-		lblRemarks_9.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		panel_11 = new JPanel();
-		panel_11.setBackground(new Color(29, 33, 34));
-		panel_11.setBounds(0, 586, 600, 60);
-		panel_Data.add(panel_11);
-		panel_11.setLayout(null);
-		
-		lblCode_10 = new JLabel("");
-		lblCode_10.setBounds(37, 20, 78, 35);
-		panel_11.add(lblCode_10);
-		lblCode_10.setForeground(Color.WHITE);
-		lblCode_10.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		btnView_10 = new JButton("");
-		btnView_10.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/view.png")));
-		btnView_10.setBounds(176, 20, 32, 32);
-		panel_11.add(btnView_10);
-		
-		lblStatus_10 = new JLabel("sample");
-		lblStatus_10.setBounds(283, 20, 147, 18);
-		panel_11.add(lblStatus_10);
-		lblStatus_10.setVisible(false);
-		lblStatus_10.setForeground(Color.WHITE);
-		lblStatus_10.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		
-		lblRemarks_10 = new JLabel("remarks");
-		lblRemarks_10.setBounds(468, 20, 124, 18);
-		panel_11.add(lblRemarks_10);
-		lblRemarks_10.setVisible(false);
-		lblRemarks_10.setForeground(Color.WHITE);
-		lblRemarks_10.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-		btnView_10.setVisible(false);
-		btnView_10.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				tableRefresh();
-				jViewButtonActionPerformed(e, 10);
-			}
-		});
-		btnView_9.setVisible(false);
-		btnView_9.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				tableRefresh();
-				jViewButtonActionPerformed(e, 9);
-			}
-		});
-		btnView_8.setVisible(false);
-		btnView_8.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				tableRefresh();
-				jViewButtonActionPerformed(e, 8);
-			}
-		});
-		btnView_7.setVisible(false);
-		btnView_7.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				tableRefresh();
-				jViewButtonActionPerformed(e, 7);
-			}
-		});
-		btnView_6.setVisible(false);
-		btnView_6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				tableRefresh();
-				jViewButtonActionPerformed(e, 6);
-			}
-		});
-		btnView_5.setVisible(false);
-		btnView_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				tableRefresh();
-				jViewButtonActionPerformed(e, 5);
-			}
-		});
-		btnView_4.setVisible(false);
-		btnView_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				tableRefresh();
-				jViewButtonActionPerformed(e, 4);
-			}
-		});
-		btnView_3.setVisible(false);
-		btnView_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				tableRefresh();
-				jViewButtonActionPerformed(e, 3);
-			}
-		});
-		btnView_2.setVisible(false);
-		btnView_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				tableRefresh();
-				jViewButtonActionPerformed(e, 2);
-			}
-		});
-		btnView_1.setVisible(false);
-		btnView_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				tableRefresh();
-				jViewButtonActionPerformed(e, 1);
-				
-			}
-		});
-		
-		
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setEnabled(true);
-		scrollPane.setBounds(635, 86, 1156, 506);
-		scrollPane.setBackground(new Color(64, 64, 64));
-		panelMiddle.add(scrollPane);
-
-		table = new JTable();
-		table.setBackground(new Color(64, 64, 64)); // Set the table background color to dark grey
-		table.setForeground(Color.WHITE);
-		table.setName("");
-		model = new DefaultTableModel();
-		Object[] column = {"Code","ID","Name","Price","Quantity","Status","Remarks"};
-		model.setColumnIdentifiers(column);
-		table.setModel(model);
-		table.addMouseListener(new MouseAdapter() {
-		    @Override
-		    public void mouseClicked(MouseEvent e) {
-		        dataSelected(PersonnelLogin.storedPersonnelID());
-		    }
-		});
-		scrollPane.setViewportView(table);
-
-		// Adjusting column widths
-		table.getColumnModel().getColumn(0).setPreferredWidth(80); // Code - for 6 characters
-		table.getColumnModel().getColumn(1).setPreferredWidth(60); // ID - for 4 characters
-		table.getColumnModel().getColumn(2).setPreferredWidth(180); // Name - for longer text
-		table.getColumnModel().getColumn(5).setPreferredWidth(120); // Status - for longer text
-		table.getColumnModel().getColumn(6).setPreferredWidth(90); // Remarks - for longer text
-
-		// Center align content in specific columns
-		centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-		table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer); // Code
-		table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer); // ID
-		table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer); // Price
-		table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer); // Quantity
-		table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer); // Status
-		table.getColumnModel().getColumn(6).setCellRenderer(centerRenderer); // Remarks
-
-		tableHeader = table.getTableHeader();
-		tableHeader.setFont(new Font("Century Gothic", Font.BOLD, 12));
-		tableHeader.setBackground(new Color(64, 64, 64)); // Set the background color of the table header to dark grey
-
-		// Center align column headers
-		renderer = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
-		renderer.setHorizontalAlignment(JLabel.CENTER);
-
-		// Set font and size for table cells
-		table.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-
-		table.setOpaque(true);
-		
-		jButtonClose = new JButton("");
-		jButtonClose.setBounds(1727, 11, 64, 64);
-		panelMiddle.add(jButtonClose);
-		jButtonClose.setForeground(new Color(21, 25, 28));
-		jButtonClose.setBorder(new EmptyBorder(0, 0, 0, 0));
-		jButtonClose.setOpaque(false);
-		jButtonClose.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				jButtonCloseActionPerformed(e);
-			}
-		});
-		jButtonClose.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/cancel.png")));
-		jButtonClose.setPreferredSize(new Dimension(64, 64));
-		jButtonClose.setBackground(new Color(21, 25, 28));
-		
-		lblEditStatus = new JLabel("Customize Data");
-		lblEditStatus.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEditStatus.setBounds(635, 603, 1156, 26);
-		panelMiddle.add(lblEditStatus);
-		lblEditStatus.setForeground(Color.LIGHT_GRAY);
-		lblEditStatus.setFont(new Font("Century Gothic", Font.BOLD, 28));
-		
-		panel = new JPanel();
-		panel.setBounds(635, 638, 616, 409);
-		panelMiddle.add(panel);
-		panel.setForeground(new Color(255, 255, 255));
-		panel.setBackground(new Color(29, 33, 34));
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(21, 25, 28)), "Chef Edit Status", TitledBorder.LEADING, TitledBorder.TOP, new Font("Century Gothic", Font.BOLD, 18), Color.WHITE)); // Set the font size for the title and the border color to white
-		panel.setLayout(null);
-		
-		lblName = new JLabel("Dish Name");
-		lblName.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		lblName.setForeground(new Color(255, 255, 255));
-		lblName.setBounds(132, 32, 89, 38);
-		panel.add(lblName);
-		
-		lblPrice = new JLabel("Price");
-		lblPrice.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		lblPrice.setForeground(new Color(255, 255, 255));
-		lblPrice.setBounds(357, 31, 89, 38);
-		panel.add(lblPrice);
-		
-		lblQuantity = new JLabel("Quantity");
-		lblQuantity.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		lblQuantity.setForeground(new Color(255, 255, 255));
-		lblQuantity.setBounds(502, 33, 89, 38);
-		panel.add(lblQuantity);
-		
-		txtDishName = new JTextField();
-		txtDishName.setEnabled(false);
-		txtDishName.setBounds(132, 80, 215, 37);
-		panel.add(txtDishName);
-		txtDishName.setColumns(10);
-		
-		txtPrice = new JTextField();
-		txtPrice.setEnabled(false);
-		txtPrice.setColumns(10);
-		txtPrice.setBounds(357, 80, 135, 37);
-		panel.add(txtPrice);
-		
-		lblComboStatus = new JLabel("Status");
-		lblComboStatus.setFont(new Font("Century Gothic", Font.BOLD, 18));
-		lblComboStatus.setForeground(new Color(255, 255, 255));
-		lblComboStatus.setBounds(10, 142, 89, 38);
-		panel.add(lblComboStatus);
-		
-		lblComborRemarks = new JLabel("Remarks");
-		lblComborRemarks.setFont(new Font("Century Gothic", Font.BOLD, 18));
-		lblComborRemarks.setForeground(new Color(255, 255, 255));
-		lblComborRemarks.setBounds(10, 258, 89, 38);
-		panel.add(lblComborRemarks);
-		
-		model1 = new SpinnerNumberModel(1, 1, 10, 1);
-		spinnerQuantity = new JSpinner(model1);
-		spinnerQuantity.setEnabled(false);
-		spinnerQuantity.setBounds(502, 80, 89, 36);
-		panel.add(spinnerQuantity);
-		
-		lblId = new JLabel("ID");
-		lblId.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		lblId.setForeground(new Color(255, 255, 255));
-		lblId.setBounds(78, 33, 44, 38);
-		panel.add(lblId);
-		
-		txtID = new JTextField();
-		txtID.setEnabled(false);
-		txtID.setColumns(10);
-		txtID.setBounds(78, 81, 44, 37);
-		panel.add(txtID);
-		
-		rdbtnComplete = new JRadioButton("Complete");
-		rdbtnComplete.setForeground(new Color(255, 255, 255));
-		rdbtnComplete.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		rdbtnComplete.setBackground(new Color(29, 33, 34));
-		rdbtnComplete.setEnabled(false);
-		rdbtnComplete.setBounds(31, 303, 109, 23);
-		panel.add(rdbtnComplete);
-		
-		rdbtnIncomplete = new JRadioButton("Incomplete");
-		rdbtnIncomplete.setForeground(new Color(255, 255, 255));
-		rdbtnIncomplete.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		rdbtnIncomplete.setBackground(new Color(29, 33, 34));
-		rdbtnIncomplete.setEnabled(false);
-		rdbtnIncomplete.setBounds(167, 303, 109, 23);
-		panel.add(rdbtnIncomplete);
-		
-		rb1 = new ButtonGroup();
-		rb1.add(rdbtnComplete);
-		rb1.add(rdbtnIncomplete);
-		
-		rdbtnPending = new JRadioButton("Pending");
-		rdbtnPending.setForeground(new Color(255, 255, 255));
-		rdbtnPending.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		rdbtnPending.setBackground(new Color(29, 33, 34));
-		rdbtnPending.setEnabled(false);
-		rdbtnPending.setBounds(31, 187, 120, 23);
-		panel.add(rdbtnPending);
-		
-		rdbtnCooking = new JRadioButton("Cooking");
-		rdbtnCooking.setForeground(new Color(255, 255, 255));
-		rdbtnCooking.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		rdbtnCooking.setBackground(new Color(29, 33, 34));
-		rdbtnCooking.setEnabled(false);
-		rdbtnCooking.setBounds(167, 187, 86, 23);
-		panel.add(rdbtnCooking);
-		
-		rdbtnReadyToServe = new JRadioButton("Ready to Serve");
-		rdbtnReadyToServe.setForeground(new Color(255, 255, 255));
-		rdbtnReadyToServe.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		rdbtnReadyToServe.setBackground(new Color(29, 33, 34));
-		rdbtnReadyToServe.setEnabled(false);
-		rdbtnReadyToServe.setBounds(279, 187, 131, 23);
-		panel.add(rdbtnReadyToServe);
-		
-		rb2 = new ButtonGroup();
-		rb2.add(rdbtnPending);
-		rb2.add(rdbtnCooking);
-		rb2.add(rdbtnReadyToServe);
-		
-		btnButtonStatusEdit = new JButton("Edit Status");
-		btnButtonStatusEdit.setBackground(new Color(128, 128, 128));
-		btnButtonStatusEdit.setForeground(new Color(255, 255, 255));
-		btnButtonStatusEdit.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		btnButtonStatusEdit.setVisible(false);
-		btnButtonStatusEdit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				jButtonStatusEditActionPerformed(e);
-			}
-		});
-		btnButtonStatusEdit.setBounds(67, 148, 120, 30);
-		panel.add(btnButtonStatusEdit);
-		
-		btnButtonRemarksEdit = new JButton("Edit Remarks");
-		btnButtonRemarksEdit.setBackground(new Color(128, 128, 128));
-		btnButtonRemarksEdit.setForeground(new Color(255, 255, 255));
-		btnButtonRemarksEdit.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		btnButtonRemarksEdit.setVisible(false);
-		btnButtonRemarksEdit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				jButtonRemarksEditActionPerformed(e);
-			}
-		});
-		btnButtonRemarksEdit.setBounds(101, 264, 120, 30);
-		panel.add(btnButtonRemarksEdit);
-		
-		btnStatusDone = new JButton("Done");
-		btnStatusDone.setBackground(new Color(128, 255, 128));
-		btnStatusDone.setForeground(new Color(255, 255, 255));
-		btnStatusDone.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		btnStatusDone.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				jButtonStatusDoneActionPerformed(e, 1);
-			}
-		});
-		btnStatusDone.setVisible(false);
-		btnStatusDone.setBounds(180, 228, 95, 30);
-		panel.add(btnStatusDone);
-		
-		
-		
-		btnRemarksDone = new JButton("");
-		
-		
-		btnRemarksDone.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/confirm.png")));
-		btnRemarksDone.setBackground(new Color(255, 255, 255));
-		btnRemarksDone.setForeground(new Color(255, 255, 255));
-		btnRemarksDone.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		btnRemarksDone.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				jButtonRemarksDoneActionPerformed(e, 2);
-			}
-		});
-		btnRemarksDone.setVisible(false);
-		btnRemarksDone.setBounds(315, 299, 66, 60);
-		panel.add(btnRemarksDone);
-		
-		lblCode = new JLabel("Code");
-		lblCode.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		lblCode.setForeground(new Color(255, 255, 255));
-		lblCode.setBounds(10, 33, 44, 38);
-		panel.add(lblCode);
-		
-		txtCode = new JTextField();
-		txtCode.setEnabled(false);
-		txtCode.setColumns(10);
-		txtCode.setBounds(10, 81, 58, 37);
-		panel.add(txtCode);
-		
-		btnCancelStatus = new JButton("Cancel");
-		btnCancelStatus.setBackground(new Color(255, 128, 128));
-		btnCancelStatus.setForeground(new Color(255, 255, 255));
-		btnCancelStatus.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		btnCancelStatus.setVisible(false);
-		btnCancelStatus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				jButtonCancelStatusActionPerformed(e);
-			}
-		});
-		btnCancelStatus.setBounds(308, 228, 89, 30);
-		panel.add(btnCancelStatus);
-		
-		btnCancelRemarks = new JButton("");
-		btnCancelRemarks.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/cancel.png")));
-		btnCancelRemarks.setBackground(new Color(255, 255, 255));
-		btnCancelRemarks.setForeground(new Color(255, 255, 255));
-		btnCancelRemarks.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		btnCancelRemarks.setVisible(false);
-		btnCancelRemarks.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				jButtonCancelRemarksActionPerformed(e);
-			}
-		});
-		btnCancelRemarks.setBounds(427, 299, 66, 60);
-		panel.add(btnCancelRemarks);
-		
-		panel_AdminEdit = new JPanel();
-		panel_AdminEdit.setBounds(1279, 640, 512, 211);
-		panelMiddle.add(panel_AdminEdit);
-		panel_AdminEdit.setBackground(new Color(29, 33, 34));
-		panel_AdminEdit.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.RAISED, new Color(255, 255, 255), new Color(21, 25, 28)), "Admin Edit", TitledBorder.LEFT, TitledBorder.TOP, new Font("Century Gothic", Font.BOLD, 18), new Color(255, 255, 255)));
-		panel_AdminEdit.setLayout(null);
-		
-		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(224, 21, 2, 2);
-		panel_AdminEdit.add(scrollPane_1);
-		
-		btnDone_2 = new JButton("Done");
-		btnDone_2.setForeground(new Color(255, 255, 255));
-		btnDone_2.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		btnDone_2.setBackground(new Color(50, 205, 50));
-		btnDone_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				jButtonbtnDone_2ActionPerformed(e);
-			}
-		});
-		btnDone_2.setVisible(false);
-		btnDone_2.setBounds(69, 149, 129, 30);
-		panel_AdminEdit.add(btnDone_2);
-		
-		btnButtonEditQuantity = new JButton("Edit Quantity");
-		btnButtonEditQuantity.setVisible(false);
-		btnButtonEditQuantity.setForeground(new Color(255, 255, 255));
-		btnButtonEditQuantity.setBackground(new Color(128, 128, 128));
-		btnButtonEditQuantity.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		btnButtonEditQuantity.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				jButtonEditQuantityActionPerformed(e);
-				
-			}
-		});
-		btnButtonEditQuantity.setBounds(69, 69, 129, 30);
-		panel_AdminEdit.add(btnButtonEditQuantity);
-		
-		btnCancel_2 = new JButton("Cancel");
-		btnCancel_2.setForeground(new Color(255, 255, 255));
-		btnCancel_2.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		btnCancel_2.setBackground(new Color(255, 128, 128));
-		btnCancel_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				jButtonCancel_2ActionPerformed(e);
-			}
-		});
-		btnCancel_2.setVisible(false);
-		btnCancel_2.setBounds(307, 149, 129, 30);
-		panel_AdminEdit.add(btnCancel_2);
-		
-		btnDeleteOrder = new JButton("Delete Order");
-		btnDeleteOrder.setVisible(false);
-		btnDeleteOrder.setForeground(new Color(255, 255, 255));
-		btnDeleteOrder.setBackground(new Color(128, 128, 128));
-		btnDeleteOrder.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		btnDeleteOrder.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				jButtonDeleteOrderActionPerformed(e);
-			}
-		});
-		btnDeleteOrder.setBounds(307, 69, 129, 30);
-		panel_AdminEdit.add(btnDeleteOrder);
-		scrollPane.getViewport().setBackground(new Color(64, 64, 64));
-		
-		rb1 = new ButtonGroup(); 
-		
-		rb2 = new ButtonGroup();
-		
-		rb3 = new ButtonGroup();
-		rb4 = new ButtonGroup();
-		
-		
-		lblBackground = new JLabel("New label");
-		lblBackground.setIcon(new ImageIcon(OrderNumbers.class.getResource("/images/mainBG.png")));
-		lblBackground.setBackground(new Color(0, 0, 0));
-		lblBackground.setBounds(0, 0, 1920, 1080);
-		getContentPane().add(lblBackground);
-		
-		codesData();
-		implementStatuses();
-		
-	}
-	
-	public void codesData() {
+	public OptionsDiner() {
+		getContentPane().setBackground(new Color(31, 34, 50));
+        
+    	setExtendedState(Frame.MAXIMIZED_BOTH);
+    	setUndecorated(true);
     	
-    	System.out.println("Performed");
-    			
-		try {
-			
-			pst = con.prepareStatement("SELECT COUNT(*) FROM order_cart");
-	        countResult = pst.executeQuery();
-	        countResult.next();
-	        totalRows = countResult.getInt(1); // Total number of rows in the ResultSet
-	        int limit = totalRows;
-			
-	        //String id = Integer.toString(count);
-	        
-	        pst = con.prepareStatement("select order_code, order_number, status from order_cart");
-	        rs = pst.executeQuery();
-	        //JOptionPane.showMessageDialog(null, "Codes Printed!!!!!");
-	        
-	        int count = 0;
-	        while (rs.next() && count < limit) {
-	        	code = rs.getString(1);
-	        	//String status = rs.getString(3);
-	        	int number = Integer.valueOf(rs.getString(2));
-	        	if (codeChecker(number)) {
-	        		switch(trueCount) {
-	        		case 1:{
-	        			
-			        	lblCode_1.setText(code);
-			        	btnView_1.setVisible(true);
-			        	lblStatus_1.setVisible(true);
-			        	lblRemarks_1.setVisible(true);
-			        	break;
-			        }
-	        		case 2:{
-	        			
-			        	lblCode_2.setText(code);
-			        	btnView_2.setVisible(true);
-			        	lblStatus_2.setVisible(true);
-			        	lblRemarks_2.setVisible(true);
-			        	break;
-			        }
-		        	case 3:{
-		        		
-		        		lblCode_3.setText(code);
-		        		btnView_3.setVisible(true);
-		        		lblStatus_3.setVisible(true);
-		        		lblRemarks_3.setVisible(true);
-			        	break;
-		        	}
-		        	case 4:{
-		        		
-		        		lblCode_4.setText(code);
-		        		btnView_4.setVisible(true);
-		        		lblStatus_4.setVisible(true);
-		        		lblRemarks_4.setVisible(true);
-			        	break;
-		        	}
-		        	case 5:{
-		        		
-		        		lblCode_5.setText(code);
-		        		btnView_5.setVisible(true);
-		        		lblStatus_5.setVisible(true);
-		        		lblRemarks_5.setVisible(true);
-			        	break;
-		        	}
-		        	case 6:{
-		        		
-		        		lblCode_6.setText(code);
-		        		btnView_6.setVisible(true);
-		        		lblStatus_6.setVisible(true);
-		        		lblRemarks_6.setVisible(true);
-			        	break;
-		        	}
-		        	case 7:{
-		        		
-		        		lblCode_7.setText(code);
-		        		btnView_7.setVisible(true);
-		        		lblStatus_7.setVisible(true);
-		        		lblRemarks_7.setVisible(true);
-			        	break;
-		        	}
-		        	case 8:{
-		        		
-		        		lblCode_8.setText(code);
-		        		btnView_8.setVisible(true);
-		        		lblStatus_8.setVisible(true);
-		        		lblRemarks_8.setVisible(true);
-			        	break;
-		        	}
-		        	case 9:{
-		        		
-		        		lblCode_9.setText(code);
-		        		btnView_9.setVisible(true);
-		        		lblStatus_9.setVisible(true);
-		        		lblRemarks_9.setVisible(true);
-			        	break;
-		        	}
-		        	case 10:{
-		        		
-		        		lblCode_10.setText(code);
-		        		btnView_10.setVisible(true);
-		        		lblStatus_10.setVisible(true);
-		        		lblRemarks_10.setVisible(true);
-			        	break;
-		        	}
-	        	}
-	        	
-	        	
-	        	}
-	        	
-	        	count++;
-	        }
-	        
-	       }
-	    catch (SQLException e1) 
-	        {            
-	    		e1.printStackTrace();
-	        }
-		
-		pressedCount++;
     	
+    	initComponents();
+        
     }
-	
-	private boolean codeChecker(int number) {
-		
-		if ( number == 1) {
-			trueCount++;
-			return true;
-		}
-		return false;
-		
-	}
-	
-	
-	public String numberIDChecker() {
-    	
-    	String id;
-    	
-    	if (row[0] == null) {
-    		id = "1";
-    	}
-    	
-    	else{
-    		dishCount++;
-    		id = String.valueOf(dishCount);
-    	}
-    	
-    	return id;
-    }
-	
-	
-	public void jViewButtonActionPerformed(ActionEvent e, int value) {
-	    
-	    if (pressedCount()) {
-	        try {
-	            // Retrieve total number of rows in the order_cart table
-	            pst = con.prepareStatement("SELECT COUNT(*) FROM order_cart");
-	            countResult = pst.executeQuery();
-	            countResult.next();
-	            totalRows = countResult.getInt(1); // Total number of rows in the ResultSet
-	            
-	            //System.out.println("Total rows: " + totalRows);
+    
+    private void initComponents() {
 
-	            // Retrieve data from the order_cart table
-	            pst = con.prepareStatement("SELECT * FROM order_cart");
-	            rs = pst.executeQuery();
-
-	            while (rs.next()) {
-	                searchedCode = rs.getString("order_code");
-	                
-
-	                if (codeCheck1(value)) {
-	                    //System.out.print(selectedID);
-	                    
-	                    // Add retrieved data to the table model
-	                    row[0] = searchedCode;
-	                    row[1] = rs.getString("order_number");
-	                    row[2] = rs.getString("dish_name");
-	                    row[3] = rs.getString("price");
-	                    row[4] = rs.getString("quantity");
-	                    row[5] = rs.getString("status");
-	                    row[6] = rs.getString("remarks");
-
-	                    model.addRow(row);
-	                }
-	                count++;
-	            }
-	        } catch (SQLException ex) {
-	            ex.printStackTrace();
-	        }
-	        pressedCount++;
-	    }
-	}
-	
-
-	
-	private boolean codeCheck1(int value) {
-		
-		String label = null;
-		
-		switch(value) {
-		case 1:{
-			label = lblCode_1.getText();break;
-		}
-		case 2:{
-			label = lblCode_2.getText();break;
-		}
-		case 3:{
-			label = lblCode_3.getText();break;
-		}
-		case 4:{
-			label = lblCode_4.getText();break;
-		}
-		case 5:{
-			label = lblCode_5.getText();break;
-		}
-		case 6:{
-			label = lblCode_6.getText();break;
-		}
-		case 7:{
-			label = lblCode_7.getText();break;
-		}
-		case 8:{
-			label = lblCode_8.getText();break;
-		}
-		case 9:{
-			label = lblCode_9.getText();break;
-		}
-		case 10:{
-			label = lblCode_10.getText();break;
-		}
-			
-		}
-		
-		if ( label.equals(searchedCode)) {
-			return true;
-		}
-		
-		return false;
-	}
-	
-	
-	private boolean pressedCount() {
-		if (pressedCount > 1) {
-			return false;
-		}
-		
-		return true;
-	}
-	
-	public void tableRefresh() {
-		
-		int rowCount = model.getRowCount();
-		//Remove rows one by one from the end of the table
-		for (int i = rowCount - 1; i >= 0; i--) {
-		    model.removeRow(i);
-		}
-		
-		pressedCount = 0;
-	}
-	
-	public void jButtonBackActionPerformed(ActionEvent e) {
-		
-		int user = PersonnelLogin.storedPersonnelID();
-		
-		switch(user) {
-		case 1:{
-			OptionsAdmin optionsAdmin = new OptionsAdmin();
-			optionsAdmin.setVisible(true);
-			this.dispose();
-			break;
-		}
-		case 2:{
-			OptionsChef optionsChef = new OptionsChef();
-			optionsChef.setVisible(true);
-			this.dispose();
-		}
-		}
-		
-		
-	}
-	
-	public void jButtonCloseActionPerformed(ActionEvent e) {
-		System.exit(0);
-	}
-	
-	public void dataSelected(int passID) {
-		    selectedRow = table.getSelectedRow();
-		    
-		    btnButtonStatusEdit.setVisible(true);
-		    btnButtonRemarksEdit.setVisible(true);
-		    btnButtonEditQuantity.setVisible(true);
-		    
-		    switch (passID) {
-		        case 1:{
-		            panel_AdminEdit.setVisible(true);
-		            btnButtonEditQuantity.setVisible(true);
-		            btnDeleteOrder.setVisible(true);
-		            btnButtonEditQuantity.setEnabled(true);
-		            btnDeleteOrder.setEnabled(true);
-		            break; // Added break statement
-		        }
-		        case 2:{
-		            // Code for case 2
-		        	panel_AdminEdit.setVisible(true);
-		        	panel_AdminEdit.setEnabled(false);
-		        	btnButtonEditQuantity.setVisible(true);
-		            btnDeleteOrder.setVisible(true);
-		            btnButtonEditQuantity.setEnabled(false);
-		            btnDeleteOrder.setEnabled(false);
-		            break; // Added break statement
-		        }
-		    }
-		    
-		    // Check if a row is selected
-		    if (selectedRow != -1) {
-		        selectCode = table.getModel().getValueAt(selectedRow, 0).toString();
-		        selectID = table.getModel().getValueAt(selectedRow, 1).toString();
-		        selectedName = table.getModel().getValueAt(selectedRow, 2).toString();
-		        selectedPrice = table.getModel().getValueAt(selectedRow, 3).toString();
-		        selectedQuantity = Integer.parseInt(table.getModel().getValueAt(selectedRow, 4).toString());
-		        selectedStatus = table.getModel().getValueAt(selectedRow, 5).toString();
-		        selectedRemarks = table.getModel().getValueAt(selectedRow, 6).toString();
-		        
-		        txtCode.setText(selectCode);
-		        txtID.setText(selectID);
-		        txtDishName.setText(selectedName);
-		        txtPrice.setText(selectedPrice);
-		        spinnerQuantity.setValue(selectedQuantity);
-		        wordStatusCheck(selectedStatus);
-		        wordRemarksCheck(selectedRemarks);
-		    }
-	}
-	
-	public void wordStatusCheck(String status) {
-		if (status.equals("Pending")) {
-			rdbtnPending.setSelected(true);
-		}
-		else if(status.equals("Cooking")) {
-			rdbtnCooking.setSelected(true);
-		}
-		else {
-			rdbtnReadyToServe.setSelected(true);
-		}
-	}
-	
-	public void wordRemarksCheck(String remarks) {
-		
-		if (remarks.equals("complete")) {
-			rdbtnComplete.setSelected(true);
-		}
-		else {
-			rdbtnIncomplete.setSelected(true);
-		}
-	}
-	
-	public void implementStatuses() {
-		
-		for (int i = 1; i <= trueCount; i++) {
-			statusAssign(i);
-		}
-		
-	}
-	
-	
-	public void statusAssign(int value) {
-	    Statement statement = null;
-	    ResultSet rs = null;
-	    
-	    try {
-	        // Ensure the connection is not null
-	        if (con == null || con.isClosed()) {
-	            throw new SQLException("Database connection is not established.");
-	        }
-	        
-	        statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-	        rs = statement.executeQuery("SELECT * FROM order_cart WHERE FIND_IN_SET('" + stringConverter(value) + "', order_code)");
-
-	        // Check if ResultSet is empty
-	        if (!rs.isBeforeFirst()) { // No rows in ResultSet
-	            System.out.println("No data found for value: " + value);
-	            assignStatus("No Data", value); // Handle as needed
-	            assignRemarks("No Data", value); // Handle as needed
-	            return;
-	        }
-
-	        int countSimilarOrderCodes = 0; // Initialize count of similar order codes
-	        while (rs.next()) {
-	            countSimilarOrderCodes++; // Increment count for each matching order code
-	        }
-
-	        // Debug statement for count
-	        System.out.println("Count of similar order codes: " + countSimilarOrderCodes);
-
-	        // Initialize arrays based on count
-	        String[] stringsStatus = new String[countSimilarOrderCodes];
-	        String[] stringsRemarks = new String[countSimilarOrderCodes];
-
-	        rs.beforeFirst(); // Reset result set cursor
-	        int index = 0; // Initialize index for storing statuses in the array
-	        while (rs.next()) {
-	            stringsStatus[index] = rs.getString("status");
-	            stringsRemarks[index] = rs.getString("remarks");
-	            index++;
-	        }
-
-	        // Debug statements for array contents
-	        System.out.println("Statuses: " + Arrays.toString(stringsStatus));
-	        System.out.println("Remarks: " + Arrays.toString(stringsRemarks));
-
-	        if (allStringsEqual(stringsStatus)) {
-	            assignStatus(stringsStatus[0], value); // Assign the status to the correct label
-	        } else {
-	            assignStatus("Different Statuses", value); // Assign "Different Statuses" to the correct label
-	        }
-
-	        if (allStringsEqual(stringsRemarks)) {
-	            assignRemarks(stringsRemarks[0], value); // Assign the status to the correct label
-	        } else {
-	            assignRemarks("Incomplete", value); // Assign "Different Statuses" to the correct label
-	        }
-	    } catch (SQLException e1) {            
-	        e1.printStackTrace();
-	    } finally {
-	        // Ensure resources are closed
-	        if (rs != null) {
-	            try {
-	                rs.close();
-	            } catch (SQLException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	        if (statement != null) {
-	            try {
-	                statement.close();
-	            } catch (SQLException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	    }
-	}
-	
-	public static boolean allStringsEqual(String[] strings) {
-        for (int i = 1; i < strings.length; i++) {
-            if (!strings[i].equals(strings[0])) {
-                return false;
+        OptionsHolder = new javax.swing.JPanel();
+        OptionsHolder.setBackground(new Color(31, 34, 50));
+        jButtonHome = new javax.swing.JButton();
+        jButtonHome.setForeground(new Color(255, 255, 255));
+        jButtonHome.setBackground(new Color(64, 64, 64));
+        jButtonHome.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        jButtonHome.setFont(new Font("Century Gothic", Font.PLAIN, 30));
+        jButtonHome.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		jButtonHomeActionPerformed(e);
+        	}
+        });
+        jButtonHome.setFocusable(false);
+        jButtonHome.setBounds(442, 82, 422, 54);
+        jButtonMenuAdd = new javax.swing.JButton();
+        jButtonMenuAdd.setForeground(new Color(255, 255, 255));
+        jButtonMenuAdd.setBackground(new Color(64, 64, 64));
+        jButtonMenuAdd.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        jButtonMenuAdd.setFont(new Font("Century Gothic", Font.PLAIN, 30));
+        jButtonMenuAdd.setFocusable(false);
+        jButtonMenuAdd.setBounds(442, 173, 422, 54);
+        jButtonMenuAdd.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	jButtonMenuAddActionPerformed(e);
             }
+        });
+        jButtonOrderStatus = new javax.swing.JButton();
+        jButtonOrderStatus.setForeground(new Color(255, 255, 255));
+        jButtonOrderStatus.setBackground(new Color(64, 64, 64));
+        jButtonOrderStatus.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        jButtonOrderStatus.setFont(new Font("Century Gothic", Font.PLAIN, 30));
+        jButtonOrderStatus.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		jButtonOrderStatusActionPerformed(e);
+        	}
+        });
+        jButtonOrderStatus.setFocusable(false);
+        jButtonOrderStatus.setBounds(442, 259, 422, 54);
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1920, 1080));
+
+        OptionsHolder.setPreferredSize(new java.awt.Dimension(207, 501));
+
+        jButtonHome.setText("Home");
+
+        jButtonMenuAdd.setText("Menu");
+
+        jButtonOrderStatus.setText("Order Status");
+        jLabel1 = new javax.swing.JLabel();
+        jLabel1.setForeground(new Color(255, 255, 255));
+        
+                jLabel1.setFont(new Font("Century Gothic", Font.BOLD, 60));
+                jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                jLabel1.setText("Bon Appettit");
+        Diner = new javax.swing.JLabel();
+        Diner.setForeground(new Color(255, 255, 255));
+        
+                Diner.setFont(new Font("Century Gothic", Font.PLAIN, 30)); 
+                Diner.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                Diner.setText("Diner");
+        
+        lblUserPhoto = new JLabel("");
+        lblUserPhoto.setIcon(new ImageIcon(OrderNumbersDiner.class.getResource("/images/Jahleel.png")));
+        lblUserPhoto.setHorizontalAlignment(SwingConstants.CENTER);
+        lblUserPhoto.setBounds(new Rectangle(0, 0, 150, 150));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        layout.setHorizontalGroup(
+        	layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap(751, Short.MAX_VALUE)
+        			.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 425, GroupLayout.PREFERRED_SIZE)
+        			.addGap(744))
+        		.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+        			.addGap(307)
+        			.addComponent(OptionsHolder, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(307, Short.MAX_VALUE))
+        		.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+        			.addGap(315)
+        			.addComponent(Diner, GroupLayout.PREFERRED_SIZE, 1286, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(319, Short.MAX_VALUE))
+        		.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+        			.addGap(873)
+        			.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(872, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addGap(22)
+        			.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+        			.addGap(27)
+        			.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(Diner, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
+        			.addGap(18)
+        			.addComponent(OptionsHolder, GroupLayout.PREFERRED_SIZE, 360, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(343, Short.MAX_VALUE))
+        );
+        OptionsHolder.setLayout(null);
+        OptionsHolder.add(jButtonHome);
+        OptionsHolder.add(jButtonOrderStatus);
+        OptionsHolder.add(jButtonMenuAdd);
+        getContentPane().setLayout(layout);
+        
+        jButtonClose = new JButton("");
+        jButtonClose.setBackground(new Color(31, 34, 50));
+        jButtonClose.setIcon(new ImageIcon(OptionsDiner.class.getResource("/images/cancel.png")));
+        jButtonClose.setBorder(null);
+        jButtonClose.setFocusable(false);
+        jButtonClose.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		System.exit(0);
+        	}
+        });
+        jButtonClose.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        jButtonClose.setBounds(1840, 20, 64, 64);
+        getContentPane().add(jButtonClose);
+
+        pack();
+    }            
+
+    public static void main(String args[]) {
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                signInPage = new SignInPage();
+                signInPage.setVisible(false); 
+            }
+        });
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                orderNumbersDiner = new OrderNumbersDiner();
+                orderNumbersDiner.setVisible(false); 
+            }
+        });
+    	SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                dinerPage = new DinerPage();
+                dinerPage.setVisible(false); 
+            }
+        });
+    	
+    	
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(OptionsDiner.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(OptionsDiner.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(OptionsDiner.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(OptionsDiner.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        return true;
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new OptionsDiner().setVisible(true);
+            }
+        });
     }
-	
-	public int stringConverter(int value) {
-		int digit = 0;
-		switch(value) {
-		case 1:{
-			digit = Integer.parseInt(lblCode_1.getText().toString());break;
-		}
-		case 2:{
-			digit = Integer.parseInt(lblCode_2.getText().toString());break;
-		}
-		case 3:{
-			digit = Integer.parseInt(lblCode_3.getText().toString());break;
-		}
-		case 4:{
-			digit = Integer.parseInt(lblCode_4.getText().toString());break;
-		}
-		case 5:{
-			digit = Integer.parseInt(lblCode_5.getText().toString());break;
-		}
-		case 6:{
-			digit = Integer.parseInt(lblCode_6.getText().toString());break;
-		}
-		case 7:{
-			digit = Integer.parseInt(lblCode_7.getText().toString());break;
-		}
-		case 8:{
-			digit = Integer.parseInt(lblCode_8.getText().toString());break;
-		}
-		case 9:{
-			digit = Integer.parseInt(lblCode_9.getText().toString());break;
-		}
-		case 10:{
-			digit = Integer.parseInt(lblCode_10.getText().toString());break;
-		}
-		}
-		
-		return digit;
-	}
-	
-	public void assignStatus(String status, int value) {
-		switch(value) {
-		case 1:{
-			lblStatus_1.setText(status);break;
-		}
-		case 2:{
-			lblStatus_2.setText(status);break;
-		}
-		case 3:{
-			lblStatus_3.setText(status);break;
-		}
-		case 4:{
-			lblStatus_4.setText(status);break;
-		}
-		case 5:{
-			lblStatus_5.setText(status);break;
-		}
-		case 6:{
-			lblStatus_6.setText(status);break;
-		}
-		case 7:{
-			lblStatus_7.setText(status);break;
-		}
-		case 8:{
-			lblStatus_8.setText(status);break;
-		}
-		case 9:{
-			lblStatus_9.setText(status);break;
-		}
-		case 10:{
-			lblStatus_10.setText(status);break;
-		}
-		}
-	}
-	
-	public void assignRemarks(String remarks, int value) {
-		switch(value) {
-		case 1:{
-			lblRemarks_1.setText(remarks);break;
-		}
-		case 2:{
-			lblRemarks_2.setText(remarks);break;
-		}
-		case 3:{
-			lblRemarks_3.setText(remarks);break;
-		}
-		case 4:{
-			lblRemarks_4.setText(remarks);break;
-		}
-		case 5:{
-			lblRemarks_5.setText(remarks);break;
-		}
-		case 6:{
-			lblRemarks_6.setText(remarks);break;
-		}
-		case 7:{
-			lblRemarks_7.setText(remarks);break;
-		}
-		case 8:{
-			lblRemarks_8.setText(remarks);break;
-		}
-		case 9:{
-			lblRemarks_9.setText(remarks);break;
-		}
-		case 10:{
-			lblRemarks_10.setText(remarks);break;
-		}
-		}
-	}
-	
-	public void jButtonStatusEditActionPerformed (ActionEvent e) {
-		rdbtnPending.setEnabled(true);
-		rdbtnCooking.setEnabled(true);
-		rdbtnReadyToServe.setEnabled(true);
-		btnStatusDone.setVisible(true);
-		btnCancelStatus.setVisible(true);
-		
-	}
-	
-	public void jButtonRemarksEditActionPerformed (ActionEvent e) {
-		rdbtnComplete.setEnabled(true);
-		rdbtnIncomplete.setEnabled(true);
-		btnRemarksDone.setVisible(true);
-		btnCancelRemarks.setVisible(true);
-	}
-	
-	public void jButtonEditQuantityActionPerformed(ActionEvent e){
-		spinnerQuantity.setEnabled(true);
-		btnDone_2.setVisible(true);
-		btnCancel_2.setVisible(true);
-	}
-	
-	
-	public void jButtonStatusDoneActionPerformed(ActionEvent e, int value) {
-	    try {
-	        pst = con.prepareStatement("SELECT * FROM order_cart WHERE FIND_IN_SET(?, order_code)");
-	        pst.setInt(1, Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
-	        rs = pst.executeQuery();
-
-	        System.out.println("Selected Code: " + Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
-	        
-	        int limit = 0;
-
-	        while (rs.next() && limit < count ) {
-	            String id = rs.getString("id");
-	            String orderNumber = rs.getString("order_number");
-	            String orderCode = rs.getString("order_code");
-	            System.out.println("Found record: " + id);
-	            
-	            if (Integer.valueOf(orderNumber).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 1).toString())) && Integer.valueOf(orderCode).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()))) {
-	                pstUpdate = con.prepareStatement("UPDATE order_cart SET status = ? WHERE id = ? ");
-	                pstUpdate.setString(1, selectedButton(value));
-	                pstUpdate.setString(2, id);
-	                System.out.print("Data Printed: " + id);
-	                pstUpdate.executeUpdate();
-	                
-	                JOptionPane.showMessageDialog(null, "Record Updated!");
-	                while(model.getRowCount() > 0)
- 		            {
- 		                model.removeRow(0);
- 		            }
-	                break;
-	            }limit++;
-	        }
-	        
-	        limit = 0;
-	        count =0;
-	        
-	        rdbtnComplete.setEnabled(false);
-			rdbtnIncomplete.setEnabled(false);
-			btnRemarksDone.setVisible(false);
-			btnButtonRemarksEdit.setVisible(false);
-			btnButtonStatusEdit.setVisible(false);
-			btnCancelRemarks.setVisible(false);
-			btnStatusDone.setVisible(false);
-			btnCancelStatus.setVisible(false);
-
-	    } catch (SQLException ex) {
-	        ex.printStackTrace();
-	    } catch (NumberFormatException ex) {
-	        System.err.println("Error parsing selectedCode to integer: " + ex.getMessage());
-	    } finally {
-	        try {
-	            if (pstUpdate != null) {
-	                pstUpdate.close();
-	            }
-	        } catch (SQLException ex) {
-	            ex.printStackTrace();
-	        }
-	    }
-	    implementStatuses();
-	}
-	
-	public void jButtonRemarksDoneActionPerformed(ActionEvent e, int value) {
-		try {
-	        pst = con.prepareStatement("SELECT * FROM order_cart WHERE FIND_IN_SET(?, order_code)");
-	        pst.setInt(1, Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
-	        rs = pst.executeQuery();
-
-	        System.out.println("Selected Code: " + Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
-	        
-	        int limit = 0;
-
-	        while (rs.next() && limit < count ) {
-	            String id = rs.getString("id");
-	            String orderNumber = rs.getString("order_number");
-	            String orderCode = rs.getString("order_code");
-	            System.out.println("Found record: " + id);
-	            
-	            if (Integer.valueOf(orderNumber).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 1).toString())) && Integer.valueOf(orderCode).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()))) {
-	                pstUpdate = con.prepareStatement("UPDATE order_cart SET remarks = ? WHERE id = ? ");
-	                pstUpdate.setString(1, selectedButton(value));
-	                pstUpdate.setString(2, id);
-	                System.out.print("Data Printed: " + id);
-	                pstUpdate.executeUpdate();
-	                
-	                JOptionPane.showMessageDialog(null, "Record Updated!");
-	                while(model.getRowCount() > 0)
- 		            {
- 		                model.removeRow(0);
- 		            }
-	                break;
-	            }limit++;
-	        }
-	        
-	        limit = 0;
-	        count =0;
-	        rdbtnComplete.setEnabled(false);
-			rdbtnIncomplete.setEnabled(false);
-			btnRemarksDone.setVisible(false);
-			btnButtonRemarksEdit.setVisible(false);
-			btnButtonStatusEdit.setVisible(false);
-			btnCancelRemarks.setVisible(false);
-			btnStatusDone.setVisible(false);
-			btnCancelStatus.setVisible(false);
-			
-
-	        /*if (!recordFound) {
-	            JOptionPane.showMessageDialog(null, "Record not found!");
-	        }*/
-	    } catch (SQLException ex) {
-	        ex.printStackTrace(); // Print the stack trace for debugging
-	    } catch (NumberFormatException ex) {
-	        System.err.println("Error parsing selectedCode to integer: " + ex.getMessage());
-	    } finally {
-	        try {
-	            if (pstUpdate != null) {
-	                pstUpdate.close();
-	            }
-	        } catch (SQLException ex) {
-	            ex.printStackTrace(); // Print the stack trace for debugging
-	        }
-	    }
-	    implementStatuses();
-	}
-	
-	
-	public void jButtonbtnDone_2ActionPerformed(ActionEvent e) {
-		try {
-	        pst = con.prepareStatement("SELECT * FROM order_cart WHERE FIND_IN_SET(?, order_code)");
-	        pst.setInt(1, Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
-	        rs = pst.executeQuery();
-
-	        System.out.println("Selected Code: " + Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
-	        
-	        int limit = 0;
-
-	        while (rs.next() && limit < count ) {
-	            String id = rs.getString("id");
-	            String orderNumber = rs.getString("order_number");
-	            String orderCode = rs.getString("order_code");
-	            System.out.println("Found record: " + id);
-	            
-	            if (Integer.valueOf(orderNumber).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 1).toString())) && Integer.valueOf(orderCode).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()))) {
-	                pstUpdate = con.prepareStatement("UPDATE order_cart SET quantity = ? WHERE id = ? ");
-	                pstUpdate.setString(1, spinnerQuantity.getValue().toString());
-	                pstUpdate.setString(2, id);
-	                System.out.print("Data Printed: " + id);
-	                pstUpdate.executeUpdate();
-	                
-	                JOptionPane.showMessageDialog(null, "Record Updated!");
-	                while(model.getRowCount() > 0)
- 		            {
- 		                model.removeRow(0);
- 		            }
-	                break;
-	            }limit++;
-	        }
-	        
-	        limit = 0;
-	        count =0;
-	        rdbtnComplete.setEnabled(false);
-			rdbtnIncomplete.setEnabled(false);
-			btnRemarksDone.setVisible(false);
-			btnButtonRemarksEdit.setVisible(false);
-			btnButtonStatusEdit.setVisible(false);
-			btnCancelRemarks.setVisible(false);
-
-
-	        /*if (!recordFound) {
-	            JOptionPane.showMessageDialog(null, "Record not found!");
-	        }*/
-	    } catch (SQLException ex) {
-	        ex.printStackTrace(); // Print the stack trace for debugging
-	    } catch (NumberFormatException ex) {
-	        System.err.println("Error parsing selectedCode to integer: " + ex.getMessage());
-	    } finally {
-	        try {
-	            if (pstUpdate != null) {
-	                pstUpdate.close();
-	            }
-	        } catch (SQLException ex) {
-	            ex.printStackTrace(); // Print the stack trace for debugging
-	        }
-	    }
-		implementStatuses();
-		
-	}
-	
-
-	public String selectedButton(int value) {
-	    String string = "";
-	    switch (value) {
-	        case 1: {
-	            if (rdbtnPending.isSelected()) {
-	                string = "Pending";
-	            } else if (rdbtnCooking.isSelected()) {
-	                string = "Cooking";
-	            } else {
-	                string = "Ready to Serve";
-	            }
-	            break;
-	        }
-	        case 2:{
-	        	if (rdbtnComplete.isSelected()) {
-	                string = "Complete";
-	        	}
-	        	else {
-	        		string = "Incomplete";
-	        	}
-	        	break;
-	        }
-	    }
-	    return string;
-	    
-	}
-	
-	public void jButtonCancelStatusActionPerformed(ActionEvent e){
-		
-		btnButtonStatusEdit.setVisible(false);
-		btnButtonRemarksEdit.setVisible(false);
-		btnStatusDone.setVisible(false);
-		rdbtnPending.setEnabled(false);
-		rdbtnCooking.setEnabled(false);
-		rdbtnReadyToServe.setEnabled(false);
-		btnCancelStatus.setVisible(false);
-		btnCancelRemarks.setVisible(false);
-		rb2.clearSelection();
-		rb1.clearSelection();
-		
-	}
-	
-	public void jButtonCancelRemarksActionPerformed(ActionEvent e){
-		btnButtonStatusEdit.setVisible(false);
-		btnButtonRemarksEdit.setVisible(false);
-		btnStatusDone.setVisible(false);
-		btnRemarksDone.setVisible(false);
-		rdbtnComplete.setEnabled(false);
-		rdbtnIncomplete.setEnabled(false);
-		btnCancelStatus.setVisible(false);
-		btnCancelRemarks.setVisible(false);
-		rb2.clearSelection();
-		rb1.clearSelection();
-	}
-	
-	public void jButtonCancel_2ActionPerformed(ActionEvent e){
-		btnButtonStatusEdit.setVisible(false);
-		btnButtonRemarksEdit.setVisible(false);
-		btnStatusDone.setVisible(false);
-		btnRemarksDone.setVisible(false);
-		rdbtnComplete.setEnabled(false);
-		rdbtnIncomplete.setEnabled(false);
-		btnCancelStatus.setVisible(false);
-		btnCancelRemarks.setVisible(false);
-		
-		
-		txtCode.setEnabled(false);
-		txtID.setEnabled(false);
-		txtDishName.setEnabled(false);
-		txtPrice.setEnabled(false);
-		spinnerQuantity.setEnabled(false);
-		btnDone_2.setVisible(false);
-		btnCancel_2.setVisible(false);
-		txtCode.setText("");
-		txtID.setText("");
-		txtDishName.setText("");
-		txtPrice.setText("");
-		spinnerQuantity.setValue(1);
-		btnButtonEditQuantity.setVisible(false);
-		btnDeleteOrder.setVisible(false);
-		rb2.clearSelection();
-		rb1.clearSelection();
-	}	
-	
-	public void jButtonDeleteOrderActionPerformed(ActionEvent e) {
-	    int confirmDelete = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this record?", "Confirm Deletion", JOptionPane.OK_CANCEL_OPTION);
-	    
-	    if (confirmDelete == JOptionPane.OK_OPTION) {
-	        try {
-	            pst = con.prepareStatement("SELECT * FROM order_cart WHERE FIND_IN_SET(?, order_code)");
-	            pst.setInt(1, Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
-	            rs = pst.executeQuery();
-
-	            System.out.println("Selected Code: " + Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()));
-
-	            int limit = 0;
-
-	            while (rs.next() && limit < count) {
-	                String id = rs.getString("id");
-	                String orderNumber = rs.getString("order_number");
-	                String orderCode = rs.getString("order_code");
-	                System.out.println("Found record: " + id);
-
-	                if (Integer.valueOf(orderNumber).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 1).toString())) && Integer.valueOf(orderCode).equals(Integer.valueOf(table.getModel().getValueAt(selectedRow, 0).toString()))) {
-	                    PreparedStatement deleteStatement = con.prepareStatement("DELETE FROM order_cart where id = ?");
-	                    deleteStatement.setString(1, id.toString());
-	                    deleteStatement.executeUpdate();
-	                    JOptionPane.showMessageDialog(null, "Record deleted successfully.");
-	                    while (model.getRowCount() > 0) {
-	                        model.removeRow(0);
-	                    }
-	                    break;
-	                }
-	                limit++;
-	            }
-
-	            limit = 0;
-	            count = 0;
-
-	        } catch (SQLException ex) {
-	            ex.printStackTrace();
-	        } catch (NumberFormatException ex) {
-	            System.err.println("Error parsing selectedCode to integer: " + ex.getMessage());
-	        } finally {
-	            try {
-	                if (pstUpdate != null) {
-	                    pstUpdate.close();
-	                }
-	            } catch (SQLException ex) {
-	                ex.printStackTrace();
-	            }
-	        }
-	    }
-	}
-	
-	public void jButtonProfileActionPerformed(ActionEvent e){
-    	if (profilePage == null) {
-    		profilePage = new ProfilePage(); 
+    
+    public static int menuKey() {
+    	return key;
+    }
+    
+    public void jButtonMenuAddActionPerformed(ActionEvent e){
+    	if (dinerPage == null) {
+    		dinerPage = new DinerPage(); 
         }
-    	profilePage.setVisible(true); 
+    	dinerPage.setVisible(true); 
         dispose();
     }
-	
-	private void jButtonLogOutActionPerformed(ActionEvent e) {                                         
+    
+    public void jButtonHomeActionPerformed(ActionEvent e) {                                         
         
-		if (personnelLogin == null) {
-			personnelLogin = new PersonnelLogin(); 
+    	if (signInPage == null) {
+    		signInPage = new SignInPage(); 
         }
-		personnelLogin.setVisible(true); 
+    	signInPage.setVisible(true); 
         dispose();
        
    }
-	
-	private void jButtonMenuActionPerformed(java.awt.event.ActionEvent evt) {                                         
-		if (menuAdmin == null) {
-			menuAdmin = new MenuAdmin(); 
-        }
-		menuAdmin.setVisible(true); 
-        dispose();
-        
-       
-   }   
-	
-	
-	
-	private final Object[] row = new Object[8];
-	private DefaultTableModel model;
-	private JPanel panelLeft;
-	private JLabel lblMenu;
-	private JButton jButtonAppetizers;
-	private JButton jButtonMenuAdmin;
-	private JButton jButtonDrinks;
-	private JPanel panelMiddle;
-	private JLabel lblOrderNumbers;
-	private JLabel lblEditStatus;
-	private JLabel lblBackground;
-	private int dishCount;
-	private int pressedCount;
-	private JPanel panel_Data;
-	private JLabel lblCode_1;
-	private JLabel lblCode_2;
-	private JLabel lblCode_3;
-	private JLabel lblCode_4;
-	private JLabel lblCode_5;
-	private JLabel lblCode_6;
-	private JLabel lblCode_7;
-	private JLabel lblCode_8;
-	private JLabel lblCode_9;
-	private JLabel lblCode_10;
-	private JTable table;
-	private JScrollPane scrollPane;
-	private JLabel lblOrderList;
-	private JButton btnView_2;
-	private JButton btnView_3;
-	private JButton btnView_4;
-	private JButton btnView_5;
-	private JButton btnView_6;
-	private JButton btnView_7;
-	private JButton btnView_8;
-	private JButton btnView_10;
-	private JButton btnView_9;
-	private JLabel lblStatus;
-	private JPanel panel;
-	private JButton jButtonClose;
-	private JButton jButtonBack;
-	private JLabel lblName;
-	private JLabel lblPrice;
-	private JLabel lblQuantity;
-	private JTextField txtDishName;
-	private JTextField txtPrice;
-	private JLabel lblComborRemarks;
-	private JLabel lblId;
-	private JTextField txtID;
-	private JRadioButton rdbtnIncomplete;
-	private JRadioButton rdbtnPending;
-	private JRadioButton rdbtnCooking;
-	private JRadioButton rdbtnReadyToServe;
-	private JLabel lblStatus_1;
-	private JLabel lblStatus_2;
-	private JLabel lblStatus_3;
-	private JLabel lblStatus_4;
-	private JLabel lblStatus_5;
-	private JLabel lblStatus_6;
-	private JLabel lblStatus_7;
-	private JLabel lblStatus_8;
-	private JLabel lblStatus_9;
-	private JLabel lblStatus_10;
-	private JLabel lblRemarks_1;
-	private JLabel lblRemarks;
-	private JLabel lblRemarks_2;
-	private JLabel lblRemarks_3;
-	private JLabel lblRemarks_4;
-	private JLabel lblRemarks_5;
-	private JLabel lblRemarks_6;
-	private JLabel lblRemarks_7;
-	private JLabel lblRemarks_8;
-	private JLabel lblRemarks_9;
-	private JLabel lblRemarks_10;
-	private JButton btnButtonStatusEdit;
-	private JButton btnButtonRemarksEdit;
-	private JPanel panel_AdminEdit;
-	private JButton btnStatusDone;
-	private JButton btnRemarksDone;
-	private JLabel lblCode;
-	private JTextField txtCode;
-	private JButton btnCancelStatus;
-	private JButton btnCancelRemarks;
-	private JPanel panel_1;
-	private JPanel panel_2;
-	private JPanel panel_3;
-	private JPanel panel_4;
-	private JPanel panel_5;
-	private JPanel panel_6;
-	private JPanel panel_7;
-	private JPanel panel_8;
-	private JPanel panel_9;
-	private JPanel panel_10;
-	private JPanel panel_11;
-	private JLabel lblProfile;
-	private JLabel lblMenuAdmin;
+    
+   public void jButtonOrderStatusActionPerformed(ActionEvent e) {
+	   if (orderNumbersDiner == null) {
+		   orderNumbersDiner = new OrderNumbersDiner(); 
+       }
+	   orderNumbersDiner.setVisible(true); 
+       dispose();
+   }
+   
+    
+   private static DinerPage dinerPage;
+   private static SignInPage signInPage;
+   private static OrderNumbersDiner orderNumbersDiner;
+    private JButton jButtonOrderStatus;
+    private JButton jButtonMenuAdd;
+    private JButton jButtonHome;
+    private JLabel jLabel1;
+    private JLabel Diner;
+    private JPanel OptionsHolder;
+    private JButton jButtonClose;
+    private JLabel lblUserPhoto;
 }
