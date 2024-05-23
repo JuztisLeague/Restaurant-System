@@ -2,13 +2,7 @@ package BonAppetit;
 
 import java.awt.Font;
 import java.awt.Frame;
-
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
@@ -38,40 +32,20 @@ public class OptionsDiner extends JFrame {
     	setExtendedState(Frame.MAXIMIZED_BOTH);
     	setUndecorated(true);
     	
-    	connect();
     	
     	initComponents();
         
     }
-    
-    
-    Connection con;
-	PreparedStatement pst;
-	ResultSet rs;
-    
-    
-    public void connect() {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bon_appetit", "root", "");
-		}
-		
-		catch (ClassNotFoundException ex) {
-			
-		}
-		
-		catch (SQLException ex) {
-			
-		}
-	}
     
     private void initComponents() {
 
         OptionsHolder = new javax.swing.JPanel();
         OptionsHolder.setBackground(new Color(31, 34, 50));
         jButtonHome = new javax.swing.JButton();
+        jButtonHome.setForeground(new Color(255, 255, 255));
+        jButtonHome.setBackground(new Color(64, 64, 64));
         jButtonHome.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        jButtonHome.setFont(new Font("Tahoma", Font.BOLD, 20));
+        jButtonHome.setFont(new Font("Century Gothic", Font.PLAIN, 30));
         jButtonHome.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -81,8 +55,10 @@ public class OptionsDiner extends JFrame {
         jButtonHome.setFocusable(false);
         jButtonHome.setBounds(442, 82, 422, 54);
         jButtonMenuAdd = new javax.swing.JButton();
+        jButtonMenuAdd.setForeground(new Color(255, 255, 255));
+        jButtonMenuAdd.setBackground(new Color(64, 64, 64));
         jButtonMenuAdd.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        jButtonMenuAdd.setFont(new Font("Tahoma", Font.BOLD, 20));
+        jButtonMenuAdd.setFont(new Font("Century Gothic", Font.PLAIN, 30));
         jButtonMenuAdd.setFocusable(false);
         jButtonMenuAdd.setBounds(442, 173, 422, 54);
         jButtonMenuAdd.addActionListener(new ActionListener() {
@@ -91,8 +67,10 @@ public class OptionsDiner extends JFrame {
             }
         });
         jButtonOrderStatus = new javax.swing.JButton();
+        jButtonOrderStatus.setForeground(new Color(255, 255, 255));
+        jButtonOrderStatus.setBackground(new Color(64, 64, 64));
         jButtonOrderStatus.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        jButtonOrderStatus.setFont(new Font("Tahoma", Font.BOLD, 20));
+        jButtonOrderStatus.setFont(new Font("Century Gothic", Font.PLAIN, 30));
         jButtonOrderStatus.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		jButtonOrderStatusActionPerformed(e);
@@ -114,7 +92,7 @@ public class OptionsDiner extends JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel1.setForeground(new Color(255, 255, 255));
         
-                jLabel1.setFont(new Font("Century Gothic", Font.BOLD, 43));
+                jLabel1.setFont(new Font("Century Gothic", Font.BOLD, 60));
                 jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 jLabel1.setText("Bon Appettit");
         Diner = new javax.swing.JLabel();
@@ -131,34 +109,35 @@ public class OptionsDiner extends JFrame {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
-        	layout.createParallelGroup(Alignment.LEADING)
+        	layout.createParallelGroup(Alignment.TRAILING)
         		.addGroup(layout.createSequentialGroup()
-        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(788)
-        					.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 345, GroupLayout.PREFERRED_SIZE))
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(873)
-        					.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE))
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(317)
-        					.addComponent(Diner, GroupLayout.PREFERRED_SIZE, 1286, GroupLayout.PREFERRED_SIZE))
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(307)
-        					.addComponent(OptionsHolder, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE)))
+        			.addContainerGap(751, Short.MAX_VALUE)
+        			.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 425, GroupLayout.PREFERRED_SIZE)
+        			.addGap(744))
+        		.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+        			.addGap(307)
+        			.addComponent(OptionsHolder, GroupLayout.PREFERRED_SIZE, 1306, GroupLayout.PREFERRED_SIZE)
         			.addContainerGap(307, Short.MAX_VALUE))
+        		.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+        			.addGap(315)
+        			.addComponent(Diner, GroupLayout.PREFERRED_SIZE, 1286, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(319, Short.MAX_VALUE))
+        		.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+        			.addGap(873)
+        			.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(872, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addGap(29)
+        			.addGap(22)
         			.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-        			.addGap(11)
+        			.addGap(27)
         			.addComponent(lblUserPhoto, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
-        			.addGap(4)
+        			.addPreferredGap(ComponentPlacement.RELATED)
         			.addComponent(Diner, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-        			.addGap(11)
-        			.addComponent(OptionsHolder, GroupLayout.PREFERRED_SIZE, 378, GroupLayout.PREFERRED_SIZE)
+        			.addGap(18)
+        			.addComponent(OptionsHolder, GroupLayout.PREFERRED_SIZE, 360, GroupLayout.PREFERRED_SIZE)
         			.addContainerGap(343, Short.MAX_VALUE))
         );
         OptionsHolder.setLayout(null);
@@ -258,6 +237,7 @@ public class OptionsDiner extends JFrame {
 	   orderNumbersDiner.setVisible(true); 
        dispose();
    }
+   
     
    private static DinerPage dinerPage;
    private static SignInPage signInPage;
